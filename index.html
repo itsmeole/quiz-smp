@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Uji pemahaman analisis data — statistik, populasi, sampel, skala pengukuran, dan teknik sampling.">
+<title>Uji Pemahaman · Analisis Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:          #F7F6F2;
+    --surface:     #FFFFFF;
+    --ink:         #1A1A18;
+    --muted:       #76756E;
+    --line:        #E2E0D6;
+    --accent:      #1A6B60;
+    --accent-soft: #EAF3F1;
+    --good:        #1E7845;
+    --good-soft:   #E8F4ED;
+    --bad:         #B03A25;
+    --bad-soft:    #FAE9E5;
+    --panel:       #1C1C19;
+    --panel-ink:   #E8E6DE;
+    --radius:      8px;
+    --z-overlay:   100;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+  }
+
+  /* ── Layout ── */
+  .wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 52px 24px 96px;
+  }
+
+  header.top {
+    margin-bottom: 36px;
+  }
+
+  .quiz-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  h1.title {
+    font-family: 'Geist', sans-serif;
+    font-size: clamp(22px, 4.5vw, 28px);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  p.sub {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.65;
+    margin: 10px 0 32px;
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+
+  /* ── Progress ── */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 2px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+    min-width: 6ch;
+    text-align: right;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+
+  /* ── Type badge ── */
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Question text ── */
+  .question-text {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.55;
+    margin: 0 0 24px;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  /* ── Code panel ── */
+  .code-panel {
+    background: var(--panel);
+    color: var(--panel-ink);
+    border-radius: 6px;
+    padding: 16px 20px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.75;
+    overflow-x: auto;
+    margin: 0 0 24px;
+    white-space: pre;
+  }
+  .code-panel .tg { color: #7EC1B8; }
+  .code-panel .at { color: #C9A15A; }
+  .code-panel .st { color: #B98BC9; }
+  .code-panel .pr { color: #7EC1B8; }
+  .code-panel .vl { color: #C9A15A; }
+  .code-panel .cm { color: #666; }
+
+  /* ── Sentence fill panel ── */
+  .sentence-panel {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px 22px;
+    font-size: 15.5px;
+    line-height: 1.9;
+    margin: 0 0 22px;
+  }
+
+  /* ── Options ── */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .opt-btn {
+    text-align: left;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: var(--radius);
+    font-size: 14.5px;
+    font-family: inherit;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .opt-btn .k {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    flex-shrink: 0;
+    width: 1.6em;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .opt-btn:active:not(:disabled) { transform: scale(0.99); }
+  .opt-btn:disabled { cursor: default; }
+
+  .opt-btn.correct {
+    border-color: var(--good);
+    background: var(--good-soft);
+    color: var(--good);
+    font-weight: 500;
+  }
+
+  .opt-btn.incorrect {
+    border-color: var(--bad);
+    background: var(--bad-soft);
+    color: var(--bad);
+    font-weight: 500;
+  }
+
+  /* ── True/False ── */
+  .tf-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .tf-row .opt-btn {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* ── Fill input ── */
+  .blank-input {
+    font-family: 'Geist Mono', monospace;
+    font-weight: 600;
+    font-size: 15px;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--accent);
+    color: var(--ink);
+    padding: 2px 6px;
+    border-radius: 0;
+    min-width: 8ch;
+    outline: none;
+    text-align: center;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .blank-input:focus {
+    background: var(--accent-soft);
+    border-radius: 3px 3px 0 0;
+  }
+
+  .blank-input:disabled { opacity: 1; }
+
+  /* ── Feedback ── */
+  .check-row { margin-bottom: 4px; }
+
+  .feedback {
+    margin-top: 20px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+    display: none;
+    border-left: 3px solid transparent;
+  }
+
+  .feedback.show { display: block; }
+
+  .feedback.good {
+    background: var(--good-soft);
+    color: #14562E;
+    border-left-color: var(--good);
+  }
+
+  .feedback.bad {
+    background: var(--bad-soft);
+    color: #832B1A;
+    border-left-color: var(--bad);
+  }
+
+  /* ── Buttons ── */
+  .next-row {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, background 0.2s ease, transform 0.1s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .btn-primary:hover { background: var(--accent); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  /* ── Result ── */
+  .result {
+    text-align: center;
+    padding: 16px 0 8px;
+  }
+
+  .score-big {
+    font-family: 'Geist Mono', monospace;
+    font-size: 72px;
+    font-weight: 600;
+    line-height: 1;
+    margin: 12px 0 6px;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .score-of {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+  }
+
+  .result-msg {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .result-sub {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 38ch;
+    margin: 0 auto 28px;
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  /* ── Student info ── */
+  .student-info {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 24px;
+    margin: 0 0 24px;
+    text-align: left;
+  }
+
+  .student-info .si-group { display: flex; flex-direction: column; gap: 2px; }
+
+  .student-info .label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .student-info .value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ── Form ── */
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--surface);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* ── Recap ── */
+  .recap {
+    text-align: left;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    margin-top: 8px;
+  }
+
+  .recap-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 7px 0;
+    font-size: 13px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .recap-item:last-child { border-bottom: none; }
+
+  .recap-item .mark {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    width: 2ch;
+  }
+
+  .recap-item .mark.ok { color: var(--good); }
+  .recap-item .mark.no { color: var(--bad); }
+
+  .btn-restart {
+    margin-top: 28px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+
+  .btn-restart:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* ── Anti-Curang ── */
+  #cheat-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 24, 0.88);
+    z-index: var(--z-overlay);
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  #cheat-overlay.show { display: flex; }
+
+  #cheat-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 36px 32px;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+  }
+
+  #cheat-box h2 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  #cheat-box p {
+    margin: 0 0 20px;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  #cheat-countdown {
+    font-family: 'Geist Mono', monospace;
+    font-size: 52px;
+    font-weight: 600;
+    color: var(--bad);
+    line-height: 1;
+    margin-bottom: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #cheat-warning-count {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 36px 18px 72px; }
+    .card { padding: 24px 20px; }
+    .student-info { flex-direction: column; gap: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="quiz-label">Analisis Data</p>
+    <h1 class="title">Uji Pemahaman</h1>
+    <p class="sub" id="intro-sub">Statistik dasar, populasi &amp; sampel, skala pengukuran, teknik sampling, dan penyajian data.</p>
+  </header>
+
+  <div class="progress-row" id="progress-row" style="display:none;">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label mono" id="progress-label">1</div>
+  </div>
+
+  <div class="card" id="card"></div>
+</div>
+
+<div id="cheat-overlay">
+  <div id="cheat-box">
+    <h2 id="cheat-title">Tab berpindah terdeteksi</h2>
+    <p id="cheat-msg">Kuis dikunci sementara. Tunggu hingga hitungan selesai.</p>
+    <div id="cheat-countdown">30</div>
+    <div id="cheat-warning-count"></div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    type: "mcq",
+    q: "Menurut Rahim (2013), statistika berhubungan dengan cara mengumpulkan, menabulasi, menggolong-golongkan, dan menganalisis data yang berupa bilangan agar dapat…",
+    options: [
+      "Ditarik suatu kesimpulan atau keputusan tertentu",
+      "Disimpan dalam database tanpa diolah",
+      "Dihapus setelah dipakai sekali",
+      "Dijual kembali sebagai produk"
+    ],
+    answer: 0,
+    explain: "Tujuan akhir dari pengumpulan dan pengolahan data secara statistik adalah agar bisa ditarik suatu kesimpulan atau keputusan tertentu."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Data yang dikumpulkan langsung oleh peneliti melalui observasi, wawancara, atau kuesioner disebut data ",
+    after: ".",
+    accepted: ["primer", "data primer"],
+    explain: "Data yang dikumpulkan langsung oleh peneliti disebut data primer, sedangkan data yang diperoleh dari sumber lain (buku, jurnal, laporan) disebut data sekunder."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Data yang diperoleh dari sumber lain seperti buku, jurnal, atau laporan (bukan dikumpulkan sendiri oleh peneliti) disebut data ",
+    after: ".",
+    accepted: ["sekunder", "data sekunder"],
+    explain: "Data sekunder diperoleh dari sumber yang sudah ada sebelumnya, berbeda dengan data primer yang dikumpulkan langsung oleh peneliti."
+  },
+  {
+    type: "mcq",
+    q: "Contoh data kualitatif/kategorikal adalah…",
+    options: ["Tinggi badan", "Jumlah penjualan", "Baik/buruk", "Jarak tempuh"],
+    answer: 2,
+    explain: "Baik/buruk termasuk data kualitatif (kategorikal) karena berupa kategori, bukan angka hasil pengukuran seperti tinggi, jarak, atau penjualan."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang hanya digunakan untuk pengelompokan, tanpa ada urutan tingkatan, disebut skala ",
+    after: ".",
+    accepted: ["nominal", "skala nominal"],
+    explain: "Skala nominal hanya mengelompokkan data (misalnya warna favorit) tanpa ada makna urutan di antara kategorinya."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang sudah memiliki urutan, tetapi jarak antar datanya tidak diketahui secara pasti, disebut skala ",
+    after: ".",
+    accepted: ["ordinal", "skala ordinal"],
+    explain: "Contohnya tingkat kepuasan (Sangat Puas, Puas, Tidak Puas) — ada urutan, tapi selisih antar tingkatannya tidak terukur."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang memiliki urutan dan jarak yang tetap, tetapi tidak memiliki nol mutlak (misalnya suhu dalam °C), disebut skala ",
+    after: ".",
+    accepted: ["interval", "skala interval"],
+    explain: "Skala interval punya jarak antar nilai yang konsisten, namun angka nol pada skala ini tidak berarti 'tidak ada sama sekali'."
+  },
+  {
+    type: "tf",
+    code: null,
+    claim: "Skala interval memiliki nol mutlak, sama seperti skala rasio.",
+    answer: false,
+    explain: "Salah. Hanya skala rasio yang memiliki nol mutlak (misalnya berat badan 0 kg berarti benar-benar tidak ada berat). Skala interval tidak memiliki nol mutlak."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang memiliki urutan, jarak tetap, dan nol mutlak (misalnya berat badan) disebut skala ",
+    after: ".",
+    accepted: ["rasio", "skala rasio"],
+    explain: "Skala rasio adalah skala paling lengkap: bisa diurutkan, bisa dihitung selisihnya, dan memiliki nol mutlak."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Seluruh kumpulan individu, objek, atau peristiwa yang memiliki karakteristik tertentu dan menjadi subjek dari suatu penelitian disebut ",
+    after: ".",
+    accepted: ["populasi"],
+    explain: "Populasi adalah keseluruhan elemen yang ingin kita pelajari atau ambil kesimpulannya."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Sebagian kecil anggota dari populasi yang dipilih untuk dianalisis, dengan tujuan agar hasilnya bisa mewakili populasi secara keseluruhan, disebut ",
+    after: ".",
+    accepted: ["sampel"],
+    explain: "Sampel diambil agar penelitian tidak perlu memeriksa seluruh populasi, namun tetap bisa menggambarkan populasi secara keseluruhan."
+  },
+  {
+    type: "mcq",
+    q: "Populasi yang jumlahnya dapat dihitung secara pasti disebut populasi…",
+    options: ["Homogen", "Takterbatas", "Terbatas", "Heterogen"],
+    answer: 2,
+    explain: "Populasi terbatas adalah populasi yang jumlahnya dapat dihitung, sedangkan populasi takterbatas tidak bisa dihitung secara pasti."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan syarat sampel yang tepat.",
+    before: "Salah satu syarat sampel yang baik adalah harus bersifat ",
+    after: " agar hasil penelitian bisa digeneralisasi ke seluruh populasi.",
+    accepted: ["representatif"],
+    explain: "Sampel yang representatif mencerminkan karakteristik penting dari populasi, sehingga hasilnya bisa diterapkan ke seluruh populasi."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
+    before: "Teknik sampling di mana populasi dibagi dulu ke dalam beberapa strata berdasarkan karakteristik tertentu (misalnya jenis kelamin atau jurusan), lalu sampel diambil secara acak dari setiap strata, disebut ",
+    after: " sampling.",
+    accepted: ["stratified"],
+    explain: "Stratified sampling memastikan setiap kelompok/strata dalam populasi terwakili dalam sampel."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
+    before: "Teknik sampling di mana populasi dibagi ke dalam beberapa klaster (misalnya berdasarkan lokasi atau kelas), lalu beberapa klaster dipilih secara acak dan seluruh anggotanya dijadikan sampel, disebut ",
+    after: " sampling.",
+    accepted: ["cluster"],
+    explain: "Pada cluster sampling, yang dipilih secara acak adalah kelompoknya (klaster), bukan individunya satu per satu."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
+    before: "Teknik sampling dengan mengambil sampel berdasarkan interval tertentu, misalnya mengambil setiap orang ke-10 dari daftar urut populasi, disebut ",
+    after: " sampling.",
+    accepted: ["systematic"],
+    explain: "Systematic sampling mengambil sampel berdasarkan interval/jarak tertentu dalam daftar populasi, bukan murni acak sepenuhnya."
+  },
+  {
+    type: "tf",
+    code: null,
+    claim: "Pada simple random sampling, setiap anggota populasi memiliki peluang yang sama untuk dipilih sebagai sampel.",
+    answer: true,
+    explain: "Benar. Tujuannya adalah menghindari bias dalam pemilihan sampel, misalnya dengan undian, aplikasi acak, atau tabel angka random."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah jenis grafik yang tepat.",
+    before: "Grafik berupa lingkaran yang dibagi menjadi beberapa irisan, di mana ukuran setiap irisan mewakili persentase suatu kategori, disebut ",
+    after: " chart.",
+    accepted: ["pie"],
+    explain: "Pie chart cocok untuk menunjukkan proporsi/persentase setiap kategori terhadap keseluruhan data."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Tampilan data yang mengelompokkan nilai ke dalam kelompok (batang) dan nilai-nilai dalam kelompok tersebut bercabang ke kanan (daun) disebut tampilan ",
+    after: ".",
+    accepted: ["stem & leaf", "stem and leaf", "stem-leaf", "batang dan daun", "batang-daun"],
+    explain: "Tampilan stem & leaf (batang-dan-daun) berguna untuk melihat sebaran data sekaligus urutan nilainya."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah jenis grafik yang tepat.",
+    before: "Grafik untuk data numerik berpasangan dari dua variabel, di mana satu variabel diukur pada sumbu vertikal dan variabel lainnya pada sumbu horizontal, disebut ",
+    after: " plot.",
+    accepted: ["scatter"],
+    explain: "Scatter plot digunakan untuk melihat hubungan atau pola antara dua variabel numerik, misalnya volume produksi terhadap biaya per hari."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Elemen dekoratif berlebihan pada grafik (misalnya gambar-gambar yang tidak perlu) yang tidak menambah informasi dan justru mengaburkan data disebut chart ",
+    after: ".",
+    accepted: ["junk"],
+    explain: "Chart junk membuat grafik sulit dibaca karena perhatian teralihkan ke dekorasi, bukan ke data itu sendiri."
+  },
+  {
+    type: "tf",
+    code: null,
+    claim: "Semakin besar ukuran sampel, umumnya semakin akurat hasil penelitiannya, meski tetap tergantung kebutuhan dan sumber daya yang tersedia.",
+    answer: true,
+    explain: "Benar. Ukuran sampel yang cukup adalah salah satu syarat sampel yang baik, meskipun perlu dipertimbangkan terhadap keterbatasan sumber daya."
+  }
+];
+
+let current = 0;
+let score = 0;
+let locked = false;
+let studentName = "";
+let studentClass = "";
+const recap = [];
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+const card = document.getElementById("card");
+const progressRow = document.getElementById("progress-row");
+const progressFill = document.getElementById("progress-fill");
+const progressLabel = document.getElementById("progress-label");
+const introSub = document.getElementById("intro-sub");
+
+function renderStart() {
+  const fillCount = QUESTIONS.filter(q => q.type === "fill").length;
+  card.innerHTML = `
+    <div>
+      <p style="margin:0 0 24px; font-size:15px; color:var(--muted); line-height:1.6;">
+        Sebelum memulai, silakan isi data diri Anda terlebih dahulu.
+      </p>
+      <div class="form-group">
+        <label for="name-input">Nama Lengkap</label>
+        <input type="text" id="name-input" placeholder="Masukkan nama Anda">
+      </div>
+      <div class="form-group">
+        <label for="class-input">Kelas</label>
+        <input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)">
+      </div>
+      <p style="margin:16px 0 20px; font-size:15px; color:var(--muted); line-height:1.6;">
+        Kamu akan menjawab ${QUESTIONS.length} soal seputar analisis data —
+        mulai dari konsep dasar statistik, data, populasi &amp; sampel, skala
+        pengukuran, teknik sampling, sampai penyajian data. ${fillCount} di
+        antaranya adalah soal isian: lengkapi kata atau istilah yang kosong
+        pada kalimat.
+      </p>
+      <button class="btn-primary show" id="start-btn">Mulai kuis</button>
+    </div>
+  `;
+  document.getElementById("start-btn").addEventListener("click", () => {
+    const nameInput = document.getElementById("name-input");
+    const classInput = document.getElementById("class-input");
+    
+    if (!nameInput.value.trim() || !classInput.value.trim()) {
+      alert("Mohon isi nama dan kelas terlebih dahulu.");
+      return;
+    }
+    
+    studentName = nameInput.value.trim();
+    studentClass = classInput.value.trim();
+    
+    introSub.style.display = "none";
+    progressRow.style.display = "flex";
+    renderQuestion();
+  });
+}
+
+function renderQuestion() {
+  locked = false;
+  const q = QUESTIONS[current];
+  progressFill.style.width = `${(current / QUESTIONS.length) * 100}%`;
+  progressLabel.textContent = `Soal ${current + 1}/${QUESTIONS.length}`;
+
+  if (q.type === "fill") {
+    renderFillQuestion(q);
+    return;
+  }
+
+  let optionsHtml = "";
+  if (q.type === "mcq") {
+    optionsHtml = `<div class="options">` + q.options.map((opt, i) =>
+      `<button class="opt-btn" data-i="${i}"><span class="k mono">${String.fromCharCode(65+i)}</span>${esc(opt)}</button>`
+    ).join("") + `</div>`;
+  } else {
+    optionsHtml = `<div class="tf-row">
+      <button class="opt-btn" data-i="true">Benar</button>
+      <button class="opt-btn" data-i="false">Salah</button>
+    </div>`;
+  }
+
+  card.innerHTML = `
+    <span class="tag">${q.type === "mcq" ? "Pilihan Ganda" : "Benar / Salah"}</span>
+    <p class="question-text">${q.type === "mcq" ? q.q : "Perhatikan pernyataan berikut:"}</p>
+    ${q.type === "tf" ? `<p class="question-text" style="font-size:15.5px; font-weight:500;">${q.claim}</p>` : ""}
+    ${optionsHtml}
+    <div class="feedback" id="feedback"></div>
+    <div class="next-row"><button class="btn-primary" id="next-btn">${current === QUESTIONS.length - 1 ? "Lihat hasil" : "Lanjut"}</button></div>
+  `;
+
+  const buttons = card.querySelectorAll(".opt-btn");
+  buttons.forEach(btn => btn.addEventListener("click", () => handleAnswer(btn, buttons, q)));
+}
+
+function renderFillQuestion(q) {
+  const widthCh = Math.max(8, (q.accepted[0].length || 8) + 2);
+
+  card.innerHTML = `
+    <span class="tag">Isian: Lengkapi Kalimat</span>
+    <p class="question-text">${q.prompt}</p>
+    <div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…" style="width:${widthCh}ch">${esc(q.after)}</div>
+    <div class="next-row check-row" style="justify-content:flex-start;">
+      <button class="btn-primary show" id="check-btn">Periksa jawaban</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="next-row"><button class="btn-primary" id="next-btn">${current === QUESTIONS.length - 1 ? "Lihat hasil" : "Lanjut"}</button></div>
+  `;
+
+  const input = document.getElementById("blank-input");
+  input.focus();
+  input.addEventListener("input", () => {
+    input.style.width = Math.max(widthCh, input.value.length + 2) + "ch";
+  });
+
+  document.getElementById("check-btn").addEventListener("click", () => {
+    if (locked) return;
+    locked = true;
+
+    const normalized = input.value.trim().toLowerCase().replace(/[.;]$/, "");
+    const isCorrect = q.accepted.map(a => a.toLowerCase()).includes(normalized);
+
+    input.disabled = true;
+    input.style.borderBottomColor = isCorrect ? "var(--good)" : "var(--bad)";
+    document.getElementById("check-btn").classList.remove("show");
+
+    if (isCorrect) score++;
+    recap.push({ ok: isCorrect, text: q.prompt });
+
+    const feedback = document.getElementById("feedback");
+    feedback.classList.add("show", isCorrect ? "good" : "bad");
+    feedback.innerHTML = `<strong>${isCorrect ? "Tepat." : "Belum tepat."}</strong> ${q.explain}`;
+
+    document.getElementById("next-btn").classList.add("show");
+    document.getElementById("next-btn").addEventListener("click", () => {
+      current++;
+      if (current < QUESTIONS.length) {
+        renderQuestion();
+      } else {
+        renderResult();
+      }
+    }, { once: true });
+  }, { once: true });
+}
+
+function handleAnswer(btn, allButtons, q) {
+  if (locked) return;
+  locked = true;
+
+  let isCorrect;
+  if (q.type === "mcq") {
+    isCorrect = parseInt(btn.dataset.i, 10) === q.answer;
+    allButtons.forEach(b => {
+      const i = parseInt(b.dataset.i, 10);
+      if (i === q.answer) b.classList.add("correct");
+      else if (b === btn) b.classList.add("incorrect");
+      b.disabled = true;
+    });
+  } else {
+    const chosen = btn.dataset.i === "true";
+    isCorrect = chosen === q.answer;
+    allButtons.forEach(b => {
+      const val = b.dataset.i === "true";
+      if (val === q.answer) b.classList.add("correct");
+      else if (b === btn) b.classList.add("incorrect");
+      b.disabled = true;
+    });
+  }
+
+  if (isCorrect) score++;
+  recap.push({ ok: isCorrect, text: q.type === "mcq" ? q.q : q.claim });
+
+  const feedback = document.getElementById("feedback");
+  feedback.classList.add("show", isCorrect ? "good" : "bad");
+  feedback.innerHTML = `<strong>${isCorrect ? "Tepat." : "Belum tepat."}</strong> ${q.explain}`;
+
+  document.getElementById("next-btn").classList.add("show");
+  document.getElementById("next-btn").addEventListener("click", () => {
+    current++;
+    if (current < QUESTIONS.length) {
+      renderQuestion();
+    } else {
+      renderResult();
+    }
+  }, { once: true });
+}
+
+function renderResult() {
+  progressFill.style.width = "100%";
+  progressLabel.textContent = `Soal ${QUESTIONS.length}/${QUESTIONS.length}`;
+
+  const total = QUESTIONS.length;
+  const pct = score / total;
+  let msg, sub;
+  if (pct >= 0.9) {
+    msg = "Luar biasa!";
+    sub = "Pemahaman kamu tentang analisis data sudah sangat solid.";
+  } else if (pct >= 0.7) {
+    msg = "Kerja bagus!";
+    sub = "Fondasinya sudah kuat, tinggal perhalus beberapa istilah.";
+  } else if (pct >= 0.5) {
+    msg = "Cukup baik.";
+    sub = "Sudah paham sebagian besar konsep, coba tinjau lagi bagian yang meleset.";
+  } else {
+    msg = "Terus berlatih.";
+    sub = "Tidak apa — coba baca ulang materi tentang data, populasi, sampel, dan skala pengukuran, lalu ulangi kuisnya.";
+  }
+
+  const recapHtml = recap.map(r =>
+    `<div class="recap-item"><span class="mark ${r.ok ? "ok" : "no"}">${r.ok ? "OK" : "X"}</span><span>${r.text}</span></div>`
+  ).join("");
+
+  card.innerHTML = `
+    <div class="result">
+      <div class="tag">Selesai</div>
+      <div class="student-info">
+        <div class="si-group">
+          <span class="label">Nama</span>
+          <span class="value">${esc(studentName)}</span>
+        </div>
+        <div class="si-group">
+          <span class="label">Kelas</span>
+          <span class="value">${esc(studentClass)}</span>
+        </div>
+      </div>
+      <div class="score-big mono">${score}/${total}</div>
+      <div class="score-of">jawaban benar</div>
+      <div class="result-msg">${msg}</div>
+      <p class="result-sub">${sub}</p>
+      <div class="recap">${recapHtml}</div>
+      <button class="btn-restart" id="restart-btn">Ulangi kuis</button>
+    </div>
+  `;
+
+  document.getElementById("restart-btn").addEventListener("click", () => {
+    current = 0;
+    score = 0;
+    recap.length = 0;
+    studentName = "";
+    studentClass = "";
+    progressFill.style.width = "0%";
+    progressLabel.textContent = `1/${QUESTIONS.length}`;
+    introSub.style.display = "block";
+    progressRow.style.display = "none";
+    renderStart();
+  });
+}
+
+renderStart();
+
+/* ── Anti-Curang Logic ── */
+(function() {
+  const MAX_VIOLATIONS = 3;
+  const SUSPEND_SECS   = 30;
+
+  let violations     = 0;
+  let suspendTimer   = null;
+  let quizStarted    = false;  // aktif setelah klik "Mulai kuis"
+  let quizDone       = false;
+  let suspended      = false;
+
+  const overlay    = document.getElementById('cheat-overlay');
+  const title      = document.getElementById('cheat-title');
+  const msg        = document.getElementById('cheat-msg');
+  const countdown  = document.getElementById('cheat-countdown');
+  const warnCount  = document.getElementById('cheat-warning-count');
+
+  // Tandai kuis sudah dimulai saat start-btn diklik
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'start-btn') {
+      quizStarted = true;
+    }
+  }, true);
+
+  function triggerViolation() {
+    if (!quizStarted || quizDone || suspended) return;
+
+    violations++;
+
+    if (violations > MAX_VIOLATIONS) {
+      // Sudah melebihi batas — akhiri quiz
+      endQuizByCheat();
+      return;
+    }
+
+    suspended = true;
+    overlay.classList.add('show');
+
+    if (violations === MAX_VIOLATIONS) {
+      title.textContent = 'Peringatan terakhir';
+      msg.textContent   = 'Pelanggaran ke-' + violations + '. Jika terdeteksi lagi, kuis langsung diakhiri.';
+    } else {
+      title.textContent = 'Tab berpindah terdeteksi';
+      msg.textContent   = 'Kuis dikunci sementara. Tunggu hingga hitungan selesai.';
+    }
+
+    warnCount.textContent = 'Pelanggaran: ' + violations + ' / ' + MAX_VIOLATIONS;
+
+    let secs = SUSPEND_SECS;
+    countdown.textContent = secs;
+
+    suspendTimer = setInterval(function() {
+      secs--;
+      countdown.textContent = secs;
+      if (secs <= 0) {
+        clearInterval(suspendTimer);
+        overlay.classList.remove('show');
+        suspended = false;
+      }
+    }, 1000);
+  }
+
+  function endQuizByCheat() {
+    quizDone = true;
+    suspended = false;
+    clearInterval(suspendTimer);
+    overlay.classList.remove('show');
+    // Paksa render hasil dengan score saat ini
+    renderResult();
+    // Tambahkan banner info di atas hasil
+    const resultDiv = card.querySelector('.result');
+    if (resultDiv) {
+      const banner = document.createElement('div');
+      banner.style.cssText = 'background:var(--bad-soft);border:1px solid var(--bad);color:var(--bad);border-radius:6px;padding:12px 16px;font-size:14px;margin-bottom:20px;line-height:1.5;';
+      banner.innerHTML = '<strong>Kuis Diakhiri Otomatis.</strong> Kamu terdeteksi keluar tab sebanyak ' + violations + ' kali. Nilai dihitung berdasarkan soal yang sudah dijawab.';
+      resultDiv.prepend(banner);
+    }
+  }
+
+  // Deteksi pindah tab (Page Visibility API)
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) triggerViolation();
+  });
+
+  // Deteksi pindah window / minimize (blur)
+  window.addEventListener('blur', function() {
+    triggerViolation();
+  });
+
+  // Tandai kuis selesai secara normal
+  // (patch renderResult agar quizDone = true)
+  const _origRenderResult = renderResult;
+  window.renderResult = function() {
+    quizDone = true;
+    _origRenderResult();
+  };
+
+})();
+</script>
+</body>
+</html>
