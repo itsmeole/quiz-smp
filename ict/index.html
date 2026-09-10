@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Uji pemahaman dasar HTML dan CSS melalui latihan melengkapi kode secara langsung.">
+<title>Uji Pemahaman &middot; ICT Dasar HTML &amp; CSS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:          #F7F6F2;
+    --surface:     #FFFFFF;
+    --ink:         #1A1A18;
+    --muted:       #76756E;
+    --line:        #E2E0D6;
+    --accent:      #1A6B60;
+    --accent-soft: #EAF3F1;
+    --good:        #1E7845;
+    --good-soft:   #E8F4ED;
+    --bad:         #B03A25;
+    --bad-soft:    #FAE9E5;
+    --panel:       #1C1C19;
+    --panel-ink:   #E8E6DE;
+    --radius:      8px;
+    --z-overlay:   100;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: 'Geist Mono', ui-monospace, monospace; }
+  .wrap { max-width: 600px; margin: 0 auto; padding: 52px 24px 96px; }
+  header.top { margin-bottom: 36px; }
+  .quiz-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  h1.title { font-family: 'Geist', sans-serif; font-size: clamp(22px,4.5vw,28px); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0; color: var(--ink); text-wrap: balance; }
+  p.sub { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 10px 0 32px; max-width: 52ch; text-wrap: pretty; }
+  .progress-row { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .progress-track { flex: 1; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .progress-label { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; min-width: 6ch; text-align: right; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 3px 8px; border-radius: 4px; margin-bottom: 20px; }
+  .question-text { font-size: 17px; font-weight: 500; line-height: 1.55; margin: 0 0 24px; text-wrap: pretty; }
+  .code-panel { background: var(--panel); color: var(--panel-ink); border-radius: 6px; padding: 20px 22px; font-family: 'Geist Mono', monospace; font-size: 13.5px; line-height: 1.9; overflow-x: auto; margin: 0 0 24px; white-space: pre; }
+  .blank-code { font-family: 'Geist Mono', monospace; font-weight: 600; font-size: 13.5px; background: rgba(255,255,255,0.10); border: none; border-bottom: 1.5px solid #7EC1B8; color: #E8E6DE; padding: 0 5px; min-width: 5ch; outline: none; text-align: center; vertical-align: baseline; border-radius: 2px 2px 0 0; transition: background 0.2s ease, border-color 0.2s ease; white-space: normal; }
+  .blank-code:focus { background: rgba(126,193,184,0.18); }
+  .blank-code:disabled { opacity: 1; }
+  .blank-code.ok { border-bottom-color: #6BC98E; background: rgba(107,201,142,0.18); }
+  .blank-code.no { border-bottom-color: #E05A40; background: rgba(224,90,64,0.18); }
+  .sentence-panel { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px; font-size: 15.5px; line-height: 1.9; margin: 0 0 22px; }
+  .blank-input { font-family: 'Geist Mono', monospace; font-weight: 600; font-size: 15px; background: transparent; border: none; border-bottom: 1.5px solid var(--accent); color: var(--ink); padding: 2px 6px; border-radius: 0; min-width: 8ch; outline: none; text-align: center; transition: background 0.2s ease, border-color 0.2s ease; }
+  .blank-input:focus { background: var(--accent-soft); border-radius: 3px 3px 0 0; }
+  .blank-input:disabled { opacity: 1; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-btn { text-align: left; padding: 12px 16px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius); font-size: 14.5px; font-family: inherit; color: var(--ink); cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s ease; display: flex; align-items: baseline; gap: 10px; }
+  .opt-btn .k { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; color: var(--muted); flex-shrink: 0; width: 1.6em; }
+  .opt-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+  .opt-btn:active:not(:disabled) { transform: scale(0.99); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { border-color: var(--good); background: var(--good-soft); color: var(--good); font-weight: 500; }
+  .opt-btn.incorrect { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); font-weight: 500; }
+  .tf-row { display: flex; gap: 10px; }
+  .tf-row .opt-btn { flex: 1; justify-content: center; text-align: center; }
+  .claim-box { font-size: 15px; line-height: 1.6; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; margin-bottom: 20px; }
+  .check-row { margin-bottom: 4px; }
+  .feedback { margin-top: 20px; padding: 12px 16px; border-radius: 6px; font-size: 14px; line-height: 1.6; display: none; border-left: 3px solid transparent; }
+  .feedback.show { display: block; }
+  .feedback.good { background: var(--good-soft); color: #14562E; border-left-color: var(--good); }
+  .feedback.bad  { background: var(--bad-soft);  color: #832B1A; border-left-color: var(--bad); }
+  .next-row { margin-top: 24px; display: flex; justify-content: flex-end; }
+  .btn-primary { background: var(--ink); color: var(--bg); border: none; padding: 10px 22px; border-radius: var(--radius); font-size: 14px; font-family: inherit; font-weight: 500; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, background 0.2s ease, transform 0.1s ease; letter-spacing: 0.01em; }
+  .btn-primary.show { opacity: 1; pointer-events: auto; }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-primary:active { transform: scale(0.98); }
+  .result { text-align: center; padding: 16px 0 8px; }
+  .score-big { font-family: 'Geist Mono', monospace; font-size: 72px; font-weight: 600; line-height: 1; margin: 12px 0 6px; color: var(--ink); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .score-of { color: var(--muted); font-size: 13px; letter-spacing: 0.02em; margin-bottom: 28px; }
+  .result-msg { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .result-sub { color: var(--muted); font-size: 14px; max-width: 38ch; margin: 0 auto 28px; line-height: 1.65; text-wrap: pretty; }
+  .student-info { display: flex; gap: 32px; justify-content: center; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 24px; margin: 0 0 24px; text-align: left; }
+  .student-info .si-group { display: flex; flex-direction: column; gap: 2px; }
+  .student-info .label { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+  .student-info .value { font-size: 15px; font-weight: 500; color: var(--ink); }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--muted); }
+  .form-group input { width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius); font-size: 15px; font-family: inherit; color: var(--ink); background: var(--surface); transition: border-color 0.2s ease, background 0.2s ease; }
+  .form-group input:focus { outline: none; border-color: var(--accent); background: var(--accent-soft); }
+  .recap { text-align: left; border-top: 1px solid var(--line); padding-top: 20px; margin-top: 8px; }
+  .recap-item { display: flex; align-items: baseline; gap: 12px; padding: 7px 0; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--line); }
+  .recap-item:last-child { border-bottom: none; }
+  .recap-item .mark { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; flex-shrink: 0; width: 2ch; }
+  .recap-item .mark.ok { color: var(--good); }
+  .recap-item .mark.no { color: var(--bad); }
+  .btn-restart { margin-top: 28px; background: transparent; color: var(--muted); border: 1px solid var(--line); padding: 10px 22px; border-radius: var(--radius); font-size: 14px; font-family: inherit; font-weight: 500; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
+  .btn-restart:hover { border-color: var(--ink); color: var(--ink); }
+  #cheat-overlay { display: none; position: fixed; inset: 0; background: rgba(26,26,24,0.88); z-index: var(--z-overlay); align-items: center; justify-content: center; padding: 32px; }
+  #cheat-overlay.show { display: flex; }
+  #cheat-box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 36px 32px; max-width: 340px; width: 100%; text-align: center; }
+  #cheat-box h2 { margin: 0 0 8px; font-size: 17px; font-weight: 600; color: var(--ink); }
+  #cheat-box p { margin: 0 0 20px; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+  #cheat-countdown { font-family: 'Geist Mono', monospace; font-size: 52px; font-weight: 600; color: var(--bad); line-height: 1; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  #cheat-warning-count { font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
+  @media (max-width: 480px) { .wrap { padding: 36px 18px 72px; } .card { padding: 24px 20px; } .student-info { flex-direction: column; gap: 12px; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="quiz-label">ICT &middot; Dasar HTML &amp; CSS</p>
+    <h1 class="title">Uji Pemahaman</h1>
+    <p class="sub" id="intro-sub">Tag HTML, atribut, selektor CSS, dan properti &mdash; sebagian besar berupa melengkapi kode secara langsung.</p>
+  </header>
+  <div class="progress-row" id="progress-row" style="display:none;">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label mono" id="progress-label">1</div>
+  </div>
+  <div class="card" id="card"></div>
+</div>
+<div id="cheat-overlay">
+  <div id="cheat-box">
+    <h2 id="cheat-title">Tab berpindah terdeteksi</h2>
+    <p id="cheat-msg">Kuis dikunci sementara. Tunggu hingga hitungan selesai.</p>
+    <div id="cheat-countdown">30</div>
+    <div id="cheat-warning-count"></div>
+  </div>
+</div>
+<script>
+const QUESTIONS=[
+  {type:"fill",isCode:true,prompt:"Lengkapi deklarasi tipe dokumen HTML5 di baris pertama.",before:"<!DOCTYPE ",after:">",accepted:["html"],explain:"&lt;!DOCTYPE html&gt; wajib ditulis di baris pertama agar browser tahu dokumen ini menggunakan HTML5."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag yang menghubungkan file CSS eksternal ke halaman HTML.",before:"<",after:' rel="stylesheet" href="style.css">',accepted:["link"],explain:"Tag &lt;link&gt; ditulis di dalam &lt;head&gt; untuk menghubungkan file CSS eksternal. rel=&quot;stylesheet&quot; menyatakan jenis hubungannya."},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan URL tujuan pada sebuah tautan.",before:'<a ',after:'="https://example.com">Klik di sini</a>',accepted:["href"],explain:"Atribut href (Hypertext Reference) pada tag &lt;a&gt; menentukan URL halaman yang akan dibuka saat tautan diklik."},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan lokasi file gambar.",before:"<img ",after:'="foto.jpg" alt="Foto profil">',accepted:["src"],explain:"Atribut src (source) pada &lt;img&gt; menentukan path atau URL file gambar yang akan ditampilkan."},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut teks alternatif pada gambar (penting untuk aksesibilitas).",before:'<img src="logo.png" ',after:'="Logo perusahaan">',accepted:["alt"],explain:"Atribut alt menyediakan teks pengganti jika gambar gagal dimuat, dan dibaca oleh screen reader."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag heading terbesar dalam HTML.",before:"<",after:">Selamat Datang</h1>",accepted:["h1"],explain:"&lt;h1&gt; adalah heading terbesar. HTML menyediakan enam level heading: &lt;h1&gt; hingga &lt;h6&gt;."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat blok paragraf teks.",before:"<",after:">Ini adalah sebuah paragraf.</p>",accepted:["p"],explain:"Tag &lt;p&gt; membuat blok paragraf. Browser otomatis menambahkan jarak atas dan bawah pada elemen &lt;p&gt;."},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut untuk memberikan nama kelas CSS pada elemen.",before:'<div ',after:'="card">Konten kartu</div>',accepted:["class"],explain:"Atribut class mengelompokkan elemen agar bisa diberi gaya dengan selektor .nama-kelas di CSS."},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang memberikan identitas unik pada elemen.",before:'<section ',after:'="hero">Hero Section</section>',accepted:["id"],explain:"Atribut id harus unik per halaman. Digunakan untuk menargetkan elemen spesifik via CSS (#id) atau JavaScript."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag item di dalam daftar berikut.",before:"<ul>\n  <",after:">Apel</li>\n  <li>Mangga</li>\n</ul>",accepted:["li"],explain:"Tag &lt;li&gt; (list item) digunakan untuk setiap item di dalam daftar &lt;ul&gt; maupun &lt;ol&gt;."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat daftar bernomor (ordered list).",before:"<",after:">\n  <li>Langkah 1</li>\n  <li>Langkah 2</li>\n</ol>",accepted:["ol"],explain:"&lt;ol&gt; membuat daftar bernomor otomatis. Berbeda dengan &lt;ul&gt; yang menggunakan simbol/poin."},
+  {type:"fill",isCode:true,prompt:"Lengkapi nilai type pada tombol agar bisa mengirimkan formulir.",before:'<button type="',after:'">Kirim</button>',accepted:["submit"],explain:'type="submit" membuat tombol mengirimkan data formulir. Tipe lain: button (tidak submit) dan reset.'},
+  {type:"fill",isCode:true,prompt:"Lengkapi type input agar karakter yang diketik tersembunyi (kata sandi).",before:'<input type="',after:'" name="pass" placeholder="Kata sandi">',accepted:["password"],explain:'type="password" menyembunyikan karakter yang diketik dengan titik/bintang untuk menjaga kerahasiaan.'},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan metode pengiriman data formulir.",before:'<form ',after:'="post" action="/login">\n  ...\n</form>',accepted:["method"],explain:"Atribut method menentukan cara pengiriman: GET (data terlihat di URL) atau POST (data tersembunyi di body)."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk menyematkan konten dari URL lain (misalnya video atau peta).",before:"<",after:' src="https://maps.google.com/" width="600" height="400"></iframe>',accepted:["iframe"],explain:"&lt;iframe&gt; (inline frame) menyematkan konten dari URL lain, seperti embed YouTube atau Google Maps."},
+  {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengubah warna teks.",before:"p {\n  ",after:": #333333;\n}",accepted:["color"],explain:"Properti color mengubah warna teks. Nilainya bisa nama warna (red), hex (#ff0000), atau rgb(255,0,0)."},
+  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur warna latar belakang.",before:"body {\n  background-",after:": #f5f5f5;\n}",accepted:["color"],explain:"background-color mengatur warna latar belakang elemen. Berbeda dengan background yang juga mencakup gambar latar."},
+  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur ukuran huruf.",before:"h1 {\n  font-",after:": 32px;\n}",accepted:["size"],explain:"font-size mengatur ukuran teks. Satuan umum: px, em (relatif ke parent), rem (relatif ke root), % (persentase)."},
+  {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengatur jarak di luar elemen (ruang antar elemen).",before:".card {\n  ",after:": 16px;\n}",accepted:["margin"],explain:"margin mengatur ruang di luar border elemen. padding mengatur ruang di dalam border."},
+  {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengatur jarak di dalam elemen (antara konten dan border).",before:"nav {\n  ",after:": 12px 24px;\n}",accepted:["padding"],explain:"padding: 12px 24px berarti 12px atas-bawah dan 24px kiri-kanan."},
+  {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk menambahkan garis tepi pada elemen.",before:"img {\n  ",after:": 2px solid #cccccc;\n}",accepted:["border"],explain:"Properti border shorthand: tebal, jenis (solid/dashed/dotted), warna."},
+  {type:"fill",isCode:true,prompt:"Lengkapi nilai display untuk mengaktifkan tata letak Flexbox.",before:".container {\n  display: ",after:";\n}",accepted:["flex"],explain:"display: flex mengaktifkan Flexbox. Elemen anak tersusun horizontal secara default."},
+  {type:"fill",isCode:true,prompt:"Lengkapi nilai untuk menengahkan teks secara horizontal.",before:"h2 {\n  text-align: ",after:";\n}",accepted:["center"],explain:"text-align mengatur perataan teks: left, right, center, atau justify."},
+  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur jenis huruf.",before:"body {\n  font-",after:": 'Geist', sans-serif;\n}",accepted:["family"],explain:"font-family menentukan jenis huruf. Selalu sertakan font generik (sans-serif, serif, monospace) sebagai fallback."},
+  {type:"mcq",q:"HTML adalah singkatan dari…",options:["HyperText Markup Language","High Transfer Markup Language","HyperText Machine Language","Home Tool Markup Language"],answer:0,explain:"HTML = HyperText Markup Language. 'HyperText' = teks yang saling terhubung, 'Markup' = penggunaan tag untuk menandai struktur konten."},
+  {type:"mcq",q:"Tag HTML yang digunakan untuk membuat tabel adalah…",options:["&lt;tbl&gt;","&lt;table&gt;","&lt;tb&gt;","&lt;grid&gt;"],answer:1,explain:"Tag &lt;table&gt; untuk tabel. Di dalamnya: &lt;tr&gt; untuk baris, &lt;th&gt; untuk sel header, &lt;td&gt; untuk sel data."},
+  {type:"mcq",q:"Cara penulisan komentar yang benar di dalam HTML adalah…",options:["// ini komentar","/* ini komentar */","&lt;!-- ini komentar --&gt;","# ini komentar"],answer:2,explain:"Komentar HTML ditulis dengan &lt;!-- komentar --&gt; dan tidak tampil di browser. CSS pakai /* */, JavaScript pakai //."},
+  {type:"mcq",q:"Selektor CSS yang tepat untuk menargetkan elemen dengan class 'box' adalah…",options:["#box { }",".box { }","*box { }","box: { }"],answer:1,explain:"Selektor class menggunakan titik (.): .box menargetkan semua elemen ber-class 'box'. Selektor id menggunakan # : #box."},
+  {type:"tf",claim:"Tag &lt;br&gt; memerlukan tag penutup seperti &lt;/br&gt;.",answer:false,explain:"Salah. &lt;br&gt; adalah void element (self-closing) yang tidak butuh tag penutup. Contoh lain: &lt;img&gt;, &lt;input&gt;, &lt;hr&gt;, &lt;link&gt;."},
+  {type:"tf",claim:"Dalam satu halaman HTML, nilai atribut id harus unik &mdash; tidak boleh ada dua elemen dengan id yang sama.",answer:true,explain:"Benar. id harus unik per halaman. Untuk mengelompokkan banyak elemen dengan nama yang sama, gunakan class."}
+];
+
+let current=0,score=0,locked=false,studentName="",studentClass="";
+const recap=[];
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+const card=document.getElementById("card");
+const progressRow=document.getElementById("progress-row");
+const progressFill=document.getElementById("progress-fill");
+const progressLabel=document.getElementById("progress-label");
+const introSub=document.getElementById("intro-sub");
+
+function renderStart(){
+  card.innerHTML=`<div>
+    <p style="margin:0 0 24px;font-size:14px;color:var(--muted);line-height:1.65;">Isi data diri terlebih dahulu sebelum memulai.</p>
+    <div class="form-group"><label for="name-input">Nama Lengkap</label><input type="text" id="name-input" placeholder="Masukkan nama Anda"></div>
+    <div class="form-group"><label for="class-input">Kelas</label><input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)"></div>
+    <p style="margin:16px 0 20px;font-size:13.5px;color:var(--muted);line-height:1.65;">${QUESTIONS.length} soal &middot; dasar HTML &amp; CSS &middot; sebagian besar melengkapi kode langsung.</p>
+    <button class="btn-primary show" id="start-btn">Mulai kuis</button>
+  </div>`;
+  document.getElementById("start-btn").addEventListener("click",()=>{
+    const n=document.getElementById("name-input"),c=document.getElementById("class-input");
+    if(!n.value.trim()||!c.value.trim()){alert("Mohon isi nama dan kelas terlebih dahulu.");return;}
+    studentName=n.value.trim();studentClass=c.value.trim();
+    introSub.style.display="none";progressRow.style.display="flex";renderQuestion();
+  });
+}
+
+function renderQuestion(){
+  locked=false;
+  const q=QUESTIONS[current];
+  progressFill.style.width=`${(current/QUESTIONS.length)*100}%`;
+  progressLabel.textContent=`${current+1}/${QUESTIONS.length}`;
+  if(q.type==="fill"){renderFillQuestion(q);return;}
+  let opts="";
+  if(q.type==="mcq"){
+    opts=`<div class="options">`+q.options.map((o,i)=>`<button class="opt-btn" data-i="${i}"><span class="k mono">${String.fromCharCode(65+i)}</span>${o}</button>`).join("")+`</div>`;
+  } else {
+    opts=`<div class="tf-row"><button class="opt-btn" data-i="true">Benar</button><button class="opt-btn" data-i="false">Salah</button></div>`;
+  }
+  const isLast=current===QUESTIONS.length-1;
+  card.innerHTML=`
+    <span class="tag">${q.type==="mcq"?"Pilihan Ganda":"Benar / Salah"}</span>
+    <p class="question-text">${q.type==="mcq"?q.q:"Perhatikan pernyataan berikut:"}</p>
+    ${q.type==="tf"?`<div class="claim-box">${q.claim}</div>`:""}
+    ${opts}
+    <div class="feedback" id="feedback"></div>
+    <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
+  card.querySelectorAll(".opt-btn").forEach(btn=>btn.addEventListener("click",()=>handleAnswer(btn,card.querySelectorAll(".opt-btn"),q)));
+}
+
+function renderFillQuestion(q){
+  const wCh=Math.max(5,(q.accepted[0].length||5)+2);
+  const isCode=q.isCode===true;
+  const isLast=current===QUESTIONS.length-1;
+  const inputHtml=isCode
+    ?`<input type="text" id="blank-input" class="blank-code" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="___" style="width:${wCh}ch">`
+    :`<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="&hellip;" style="width:${wCh}ch">`;
+  const panel=isCode
+    ?`<div class="code-panel">${esc(q.before)}${inputHtml}${esc(q.after)}</div>`
+    :`<div class="sentence-panel">${esc(q.before)}${inputHtml}${esc(q.after)}</div>`;
+  card.innerHTML=`
+    <span class="tag">${isCode?"Lengkapi Kode":"Isian: Lengkapi Kalimat"}</span>
+    <p class="question-text">${q.prompt}</p>
+    ${panel}
+    <div class="next-row check-row" style="justify-content:flex-start;"><button class="btn-primary show" id="check-btn">Periksa jawaban</button></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
+  const input=document.getElementById("blank-input");
+  input.focus();
+  input.addEventListener("input",()=>{input.style.width=Math.max(wCh,input.value.length+2)+"ch";});
+  input.addEventListener("keydown",(e)=>{if(e.key==="Enter"&&!locked)document.getElementById("check-btn").click();});
+  document.getElementById("check-btn").addEventListener("click",()=>{
+    if(locked)return;locked=true;
+    const norm=input.value.trim().toLowerCase().replace(/[.;]$/,"");
+    const ok=q.accepted.map(a=>a.toLowerCase()).includes(norm);
+    input.disabled=true;
+    if(isCode){input.classList.add(ok?"ok":"no");}
+    else{input.style.borderBottomColor=ok?"var(--good)":"var(--bad)";}
+    document.getElementById("check-btn").classList.remove("show");
+    if(ok)score++;
+    recap.push({ok,text:q.prompt});
+    const fb=document.getElementById("feedback");
+    fb.classList.add("show",ok?"good":"bad");
+    fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}`;
+    document.getElementById("next-btn").classList.add("show");
+    document.getElementById("next-btn").addEventListener("click",()=>{current++;current<QUESTIONS.length?renderQuestion():renderResult();},{once:true});
+  },{once:true});
+}
+
+function handleAnswer(btn,allButtons,q){
+  if(locked)return;locked=true;
+  let ok;
+  if(q.type==="mcq"){
+    ok=parseInt(btn.dataset.i,10)===q.answer;
+    allButtons.forEach(b=>{if(parseInt(b.dataset.i,10)===q.answer)b.classList.add("correct");else if(b===btn)b.classList.add("incorrect");b.disabled=true;});
+  } else {
+    const chosen=btn.dataset.i==="true";ok=chosen===q.answer;
+    allButtons.forEach(b=>{if((b.dataset.i==="true")===q.answer)b.classList.add("correct");else if(b===btn)b.classList.add("incorrect");b.disabled=true;});
+  }
+  if(ok)score++;
+  recap.push({ok,text:q.type==="mcq"?q.q:q.claim});
+  const fb=document.getElementById("feedback");
+  fb.classList.add("show",ok?"good":"bad");
+  fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}`;
+  document.getElementById("next-btn").classList.add("show");
+  document.getElementById("next-btn").addEventListener("click",()=>{current++;current<QUESTIONS.length?renderQuestion():renderResult();},{once:true});
+}
+
+function renderResult(){
+  progressFill.style.width="100%";
+  progressLabel.textContent=`${QUESTIONS.length}/${QUESTIONS.length}`;
+  const total=QUESTIONS.length,pct=score/total;
+  let msg,sub;
+  if(pct>=0.9){msg="Luar biasa!";sub="Pemahaman HTML dan CSS kamu sudah sangat solid.";}
+  else if(pct>=0.7){msg="Kerja bagus!";sub="Fondasinya sudah kuat, tinggal perhalus beberapa detail.";}
+  else if(pct>=0.5){msg="Cukup baik.";sub="Sudah paham sebagian besar konsep, coba tinjau yang meleset.";}
+  else{msg="Terus berlatih.";sub="Baca ulang materi dasar HTML dan CSS, lalu coba lagi.";}
+  const recapHtml=recap.map(r=>`<div class="recap-item"><span class="mark ${r.ok?"ok":"no"}">${r.ok?"OK":"X"}</span><span>${r.text}</span></div>`).join("");
+  card.innerHTML=`
+    <div class="result">
+      <div class="tag">Selesai</div>
+      <div class="student-info">
+        <div class="si-group"><span class="label">Nama</span><span class="value">${esc(studentName)}</span></div>
+        <div class="si-group"><span class="label">Kelas</span><span class="value">${esc(studentClass)}</span></div>
+      </div>
+      <div class="score-big mono">${score}/${total}</div>
+      <div class="score-of">jawaban benar</div>
+      <div class="result-msg">${msg}</div>
+      <p class="result-sub">${sub}</p>
+      <div class="recap">${recapHtml}</div>
+      <button class="btn-restart" id="restart-btn">Ulangi kuis</button>
+    </div>`;
+  document.getElementById("restart-btn").addEventListener("click",()=>{
+    current=0;score=0;recap.length=0;studentName="";studentClass="";
+    progressFill.style.width="0%";progressLabel.textContent=`1/${QUESTIONS.length}`;
+    introSub.style.display="block";progressRow.style.display="none";renderStart();
+  });
+}
+
+renderStart();
+
+(function(){
+  const MAX=3,SECS=30;
+  let viol=0,timer=null,started=false,done=false,sus=false;
+  const ov=document.getElementById("cheat-overlay");
+  const ti=document.getElementById("cheat-title");
+  const ms=document.getElementById("cheat-msg");
+  const co=document.getElementById("cheat-countdown");
+  const wn=document.getElementById("cheat-warning-count");
+  document.addEventListener("click",e=>{if(e.target&&e.target.id==="start-btn")started=true;},true);
+  function trigger(){
+    if(!started||done||sus)return;viol++;
+    if(viol>MAX){endCheat();return;}
+    sus=true;ov.classList.add("show");
+    if(viol===MAX){ti.textContent="Peringatan terakhir";ms.textContent="Pelanggaran ke-"+viol+". Jika terdeteksi lagi, kuis langsung diakhiri.";}
+    else{ti.textContent="Tab berpindah terdeteksi";ms.textContent="Kuis dikunci sementara. Tunggu hingga hitungan selesai.";}
+    wn.textContent="Pelanggaran: "+viol+" / "+MAX;
+    let s=SECS;co.textContent=s;
+    timer=setInterval(()=>{s--;co.textContent=s;if(s<=0){clearInterval(timer);ov.classList.remove("show");sus=false;}},1000);
+  }
+  function endCheat(){
+    done=true;sus=false;clearInterval(timer);ov.classList.remove("show");
+    renderResult();
+    const rd=card.querySelector(".result");
+    if(rd){const b=document.createElement("div");b.style.cssText="background:var(--bad-soft);border:1px solid var(--bad);border-left:3px solid var(--bad);color:var(--bad);border-radius:6px;padding:12px 16px;font-size:14px;margin-bottom:20px;line-height:1.5;";b.innerHTML="<strong>Kuis diakhiri otomatis.</strong> Terdeteksi keluar tab sebanyak "+viol+" kali.";rd.prepend(b);}
+  }
+  document.addEventListener("visibilitychange",()=>{if(document.hidden)trigger();});
+  window.addEventListener("blur",trigger);
+  const _o=renderResult;window.renderResult=function(){done=true;_o();};
+})();
+</script>
+</body>
+</html>
