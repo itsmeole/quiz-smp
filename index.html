@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Uji pemahaman Informatika Bab 2 — computational thinking, fungsi, himpunan data terstruktur, dan struktur data stack.">
-<title>Uji Pemahaman · Informatika Bab 2</title>
+<meta name="description" content="Uji pemahaman analisis data (statistik, populasi, sampel, skala pengukuran, teknik sampling) serta Informatika Bab 2 (computational thinking, fungsi, himpunan data terstruktur, dan struktur data stack).">
+<title>Uji Pemahaman · Analisis Data & Informatika Bab 2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -543,9 +543,9 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <p class="quiz-label">Informatika · Bab 2</p>
+    <p class="quiz-label">Analisis Data & Informatika Bab 2</p>
     <h1 class="title">Uji Pemahaman</h1>
-    <p class="sub" id="intro-sub">Computational thinking, fungsi, himpunan data terstruktur, dan struktur data stack.</p>
+    <p class="sub" id="intro-sub">Statistik, populasi &amp; sampel, skala pengukuran, teknik sampling, penyajian data, computational thinking, fungsi, himpunan data terstruktur, dan struktur data stack.</p>
   </header>
 
   <div class="progress-row" id="progress-row" style="display:none;">
@@ -567,6 +567,181 @@
 
 <script>
 const QUESTIONS = [
+  {
+    type: "mcq",
+    q: "Menurut Rahim (2013), statistika berhubungan dengan cara mengumpulkan, menabulasi, menggolong-golongkan, dan menganalisis data yang berupa bilangan agar dapat…",
+    options: [
+      "Ditarik suatu kesimpulan atau keputusan tertentu",
+      "Disimpan dalam database tanpa diolah",
+      "Dihapus setelah dipakai sekali",
+      "Dijual kembali sebagai produk"
+    ],
+    answer: 0,
+    explain: "Tujuan akhir dari pengumpulan dan pengolahan data secara statistik adalah agar bisa ditarik suatu kesimpulan atau keputusan tertentu."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Data yang dikumpulkan langsung oleh peneliti melalui observasi, wawancara, atau kuesioner disebut data ",
+    after: ".",
+    accepted: ["primer", "data primer"],
+    explain: "Data yang dikumpulkan langsung oleh peneliti disebut data primer, sedangkan data yang diperoleh dari sumber lain (buku, jurnal, laporan) disebut data sekunder."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Data yang diperoleh dari sumber lain seperti buku, jurnal, atau laporan (bukan dikumpulkan sendiri oleh peneliti) disebut data ",
+    after: ".",
+    accepted: ["sekunder", "data sekunder"],
+    explain: "Data sekunder diperoleh dari sumber yang sudah ada sebelumnya, berbeda dengan data primer yang dikumpulkan langsung oleh peneliti."
+  },
+  {
+    type: "mcq",
+    q: "Contoh data kualitatif/kategorikal adalah…",
+    options: ["Tinggi badan", "Jumlah penjualan", "Baik/buruk", "Jarak tempuh"],
+    answer: 2,
+    explain: "Baik/buruk termasuk data kualitatif (kategorikal) karena berupa kategori, bukan angka hasil pengukuran seperti tinggi, jarak, atau penjualan."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang hanya digunakan untuk pengelompokan, tanpa ada urutan tingkatan, disebut skala ",
+    after: ".",
+    accepted: ["nominal", "skala nominal"],
+    explain: "Skala nominal hanya mengelompokkan data (misalnya warna favorit) tanpa ada makna urutan di antara kategorinya."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang sudah memiliki urutan, tetapi jarak antar datanya tidak diketahui secara pasti, disebut skala ",
+    after: ".",
+    accepted: ["ordinal", "skala ordinal"],
+    explain: "Contohnya tingkat kepuasan (Sangat Puas, Puas, Tidak Puas) — ada urutan, tapi selisih antar tingkatannya tidak terukur."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang memiliki urutan dan jarak yang tetap, tetapi tidak memiliki nol mutlak (misalnya suhu dalam °C), disebut skala ",
+    after: ".",
+    accepted: ["interval", "skala interval"],
+    explain: "Skala interval punya jarak antar nilai yang konsisten, namun angka nol pada skala ini tidak berarti 'tidak ada sama sekali'."
+  },
+  {
+    type: "tf",
+    code: null,
+    claim: "Skala interval memiliki nol mutlak, sama seperti skala rasio.",
+    answer: false,
+    explain: "Salah. Hanya skala rasio yang memiliki nol mutlak (misalnya berat badan 0 kg berarti benar-benar tidak ada berat). Skala interval tidak memiliki nol mutlak."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    before: "Skala pengukuran yang memiliki urutan, jarak tetap, dan nol mutlak (misalnya berat badan) disebut skala ",
+    after: ".",
+    accepted: ["rasio", "skala rasio"],
+    explain: "Skala rasio adalah skala paling lengkap: bisa diurutkan, bisa dihitung selisihnya, dan memiliki nol mutlak."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Seluruh kumpulan individu, objek, atau peristiwa yang memiliki karakteristik tertentu dan menjadi subjek dari suatu penelitian disebut ",
+    after: ".",
+    accepted: ["populasi"],
+    explain: "Populasi adalah keseluruhan elemen yang ingin kita pelajari atau ambil kesimpulannya."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Sebagian kecil anggota dari populasi yang dipilih untuk dianalisis, dengan tujuan agar hasilnya bisa mewakili populasi secara keseluruhan, disebut ",
+    after: ".",
+    accepted: ["sampel"],
+    explain: "Sampel diambil agar penelitian tidak perlu memeriksa seluruh populasi, namun tetap bisa menggambarkan populasi secara keseluruhan."
+  },
+  {
+    type: "mcq",
+    q: "Populasi yang jumlahnya dapat dihitung secara pasti disebut populasi…",
+    options: ["Homogen", "Takterbatas", "Terbatas", "Heterogen"],
+    answer: 2,
+    explain: "Populasi terbatas adalah populasi yang jumlahnya dapat dihitung, sedangkan populasi takterbatas tidak bisa dihitung secara pasti."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan syarat sampel yang tepat.",
+    before: "Salah satu syarat sampel yang baik adalah harus bersifat ",
+    after: " agar hasil penelitian bisa digeneralisasi ke seluruh populasi.",
+    accepted: ["representatif"],
+    explain: "Sampel yang representatif mencerminkan karakteristik penting dari populasi, sehingga hasilnya bisa diterapkan ke seluruh populasi."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
+    before: "Teknik sampling di mana populasi dibagi dulu ke dalam beberapa strata berdasarkan karakteristik tertentu (misalnya jenis kelamin atau jurusan), lalu sampel diambil secara acak dari setiap strata, disebut ",
+    after: " sampling.",
+    accepted: ["stratified"],
+    explain: "Stratified sampling memastikan setiap kelompok/strata dalam populasi terwakili dalam sampel."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
+    before: "Teknik sampling di mana populasi dibagi ke dalam beberapa klaster (misalnya berdasarkan lokasi atau kelas), lalu beberapa klaster dipilih secara acak dan seluruh anggotanya dijadikan sampel, disebut ",
+    after: " sampling.",
+    accepted: ["cluster"],
+    explain: "Pada cluster sampling, yang dipilih secara acak adalah kelompoknya (klaster), bukan individunya satu per satu."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
+    before: "Teknik sampling dengan mengambil sampel berdasarkan interval tertentu, misalnya mengambil setiap orang ke-10 dari daftar urut populasi, disebut ",
+    after: " sampling.",
+    accepted: ["systematic"],
+    explain: "Systematic sampling mengambil sampel berdasarkan interval/jarak tertentu dalam daftar populasi, bukan murni acak sepenuhnya."
+  },
+  {
+    type: "tf",
+    code: null,
+    claim: "Pada simple random sampling, setiap anggota populasi memiliki peluang yang sama untuk dipilih sebagai sampel.",
+    answer: true,
+    explain: "Benar. Tujuannya adalah menghindari bias dalam pemilihan sampel, misalnya dengan undian, aplikasi acak, atau tabel angka random."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah jenis grafik yang tepat.",
+    before: "Grafik berupa lingkaran yang dibagi menjadi beberapa irisan, di mana ukuran setiap irisan mewakili persentase suatu kategori, disebut ",
+    after: " chart.",
+    accepted: ["pie"],
+    explain: "Pie chart cocok untuk menunjukkan proporsi/persentase setiap kategori terhadap keseluruhan data."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Tampilan data yang mengelompokkan nilai ke dalam kelompok (batang) dan nilai-nilai dalam kelompok tersebut bercabang ke kanan (daun) disebut tampilan ",
+    after: ".",
+    accepted: ["stem & leaf", "stem and leaf", "stem-leaf", "batang dan daun", "batang-daun"],
+    explain: "Tampilan stem & leaf (batang-dan-daun) berguna untuk melihat sebaran data sekaligus urutan nilainya."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah jenis grafik yang tepat.",
+    before: "Grafik untuk data numerik berpasangan dari dua variabel, di mana satu variabel diukur pada sumbu vertikal dan variabel lainnya pada sumbu horizontal, disebut ",
+    after: " plot.",
+    accepted: ["scatter"],
+    explain: "Scatter plot digunakan untuk melihat hubungan atau pola antara dua variabel numerik, misalnya volume produksi terhadap biaya per hari."
+  },
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
+    before: "Elemen dekoratif berlebihan pada grafik (misalnya gambar-gambar yang tidak perlu) yang tidak menambah informasi dan justru mengaburkan data disebut chart ",
+    after: ".",
+    accepted: ["junk"],
+    explain: "Chart junk membuat grafik sulit dibaca karena perhatian teralihkan ke dekorasi, bukan ke data itu sendiri."
+  },
+  {
+    type: "tf",
+    code: null,
+    claim: "Semakin besar ukuran sampel, umumnya semakin akurat hasil penelitiannya, meski tetap tergantung kebutuhan dan sumber daya yang tersedia.",
+    answer: true,
+    explain: "Benar. Ukuran sampel yang cukup adalah salah satu syarat sampel yang baik, meskipun perlu dipertimbangkan terhadap keterbatasan sumber daya."
+  },
   {
     type: "mcq",
     q: "Computational Thinking (berpikir komputasional) merupakan metode pemecahan masalah yang bersifat sistematis dan logis, di mana masalah diuraikan dan solusinya dirumuskan agar dapat dijalankan secara efektif oleh…",
@@ -828,10 +1003,12 @@ function renderStart() {
         <input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)">
       </div>
       <p style="margin:16px 0 20px; font-size:15px; color:var(--muted); line-height:1.6;">
-        Kamu akan menjawab ${QUESTIONS.length} soal seputar Informatika Bab 2 —
-        mulai dari computational thinking, fungsi, himpunan data terstruktur,
-        sampai struktur data stack. ${fillCount} di antaranya adalah soal
-        isian: lengkapi kata atau istilah yang kosong pada kalimat.
+        Kamu akan menjawab ${QUESTIONS.length} soal — mulai dari analisis data
+        (konsep dasar statistik, populasi &amp; sampel, skala pengukuran, teknik
+        sampling, penyajian data), sampai Informatika Bab 2 (computational
+        thinking, fungsi, himpunan data terstruktur, dan struktur data stack).
+        ${fillCount} di antaranya adalah soal isian: lengkapi kata atau istilah
+        yang kosong pada kalimat.
       </p>
       <button class="btn-primary show" id="start-btn">Mulai kuis</button>
     </div>
@@ -991,7 +1168,7 @@ function renderResult() {
   let msg, sub;
   if (pct >= 0.9) {
     msg = "Luar biasa!";
-    sub = "Pemahaman kamu tentang computational thinking, fungsi, himpunan, dan stack sudah sangat solid.";
+    sub = "Pemahaman kamu tentang analisis data maupun computational thinking, fungsi, himpunan, dan stack sudah sangat solid.";
   } else if (pct >= 0.7) {
     msg = "Kerja bagus!";
     sub = "Fondasinya sudah kuat, tinggal perhalus beberapa istilah.";
@@ -1000,7 +1177,7 @@ function renderResult() {
     sub = "Sudah paham sebagian besar konsep, coba tinjau lagi bagian yang meleset.";
   } else {
     msg = "Terus berlatih.";
-    sub = "Tidak apa — coba baca ulang materi tentang computational thinking, fungsi, himpunan, dan stack, lalu ulangi kuisnya.";
+    sub = "Tidak apa — coba baca ulang materi analisis data dan Informatika Bab 2, lalu ulangi kuisnya.";
   }
 
   const recapHtml = recap.map(r =>
