@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Uji pemahaman materi IPA SMP: besaran pokok, konversi satuan, sel dan jaringan, sistem pencernaan, nutrisi, dan sistem reproduksi manusia.">
+<title>Uji Pemahaman &middot; IPA SMP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:          #F7F6F2;
+    --surface:     #FFFFFF;
+    --ink:         #1A1A18;
+    --muted:       #76756E;
+    --line:        #E2E0D6;
+    --accent:      #1A6B60;
+    --accent-soft: #EAF3F1;
+    --good:        #1E7845;
+    --good-soft:   #E8F4ED;
+    --bad:         #B03A25;
+    --bad-soft:    #FAE9E5;
+    --panel:       #1C1C19;
+    --panel-ink:   #E8E6DE;
+    --radius:      8px;
+    --z-overlay:   100;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: 'Geist Mono', ui-monospace, monospace; }
+  .wrap { max-width: 600px; margin: 0 auto; padding: 52px 24px 96px; }
+  header.top { margin-bottom: 36px; }
+  .quiz-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  h1.title { font-family: 'Geist', sans-serif; font-size: clamp(22px,4.5vw,28px); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0; color: var(--ink); text-wrap: balance; }
+  p.sub { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 10px 0 32px; max-width: 52ch; text-wrap: pretty; }
+  .progress-row { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .progress-track { flex: 1; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .progress-label { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; min-width: 6ch; text-align: right; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 3px 8px; border-radius: 4px; margin-bottom: 20px; }
+  .question-text { font-size: 17px; font-weight: 500; line-height: 1.55; margin: 0 0 24px; text-wrap: pretty; }
+  .code-panel { background: var(--panel); color: var(--panel-ink); border-radius: 6px; padding: 20px 22px; font-family: 'Geist Mono', monospace; font-size: 13.5px; line-height: 1.9; overflow-x: auto; margin: 0 0 24px; white-space: pre; }
+  .blank-code { font-family: 'Geist Mono', monospace; font-weight: 600; font-size: 13.5px; background: rgba(255,255,255,0.10); border: none; border-bottom: 1.5px solid #7EC1B8; color: #E8E6DE; padding: 0 5px; min-width: 5ch; outline: none; text-align: center; vertical-align: baseline; border-radius: 2px 2px 0 0; transition: background 0.2s ease, border-color 0.2s ease; white-space: normal; }
+  .blank-code:focus { background: rgba(126,193,184,0.18); }
+  .blank-code:disabled { opacity: 1; }
+  .blank-code.ok { border-bottom-color: #6BC98E; background: rgba(107,201,142,0.18); }
+  .blank-code.no { border-bottom-color: #E05A40; background: rgba(224,90,64,0.18); }
+  .sentence-panel { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px; font-size: 15.5px; line-height: 1.9; margin: 0 0 22px; }
+  .blank-input { font-family: 'Geist Mono', monospace; font-weight: 600; font-size: 15px; background: transparent; border: none; border-bottom: 1.5px solid var(--accent); color: var(--ink); padding: 2px 6px; border-radius: 0; min-width: 8ch; outline: none; text-align: center; transition: background 0.2s ease, border-color 0.2s ease; }
+  .blank-input:focus { background: var(--accent-soft); border-radius: 3px 3px 0 0; }
+  .blank-input:disabled { opacity: 1; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-btn { text-align: left; padding: 12px 16px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius); font-size: 14.5px; font-family: inherit; color: var(--ink); cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s ease; display: flex; align-items: baseline; gap: 10px; }
+  .opt-btn .k { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; color: var(--muted); flex-shrink: 0; width: 1.6em; }
+  .opt-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+  .opt-btn:active:not(:disabled) { transform: scale(0.99); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { border-color: var(--good); background: var(--good-soft); color: var(--good); font-weight: 500; }
+  .opt-btn.incorrect { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); font-weight: 500; }
+  .tf-row { display: flex; gap: 10px; }
+  .tf-row .opt-btn { flex: 1; justify-content: center; text-align: center; }
+  .claim-box { font-size: 15px; line-height: 1.6; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; margin-bottom: 20px; }
+  .check-row { margin-bottom: 4px; }
+  .feedback { margin-top: 20px; padding: 12px 16px; border-radius: 6px; font-size: 14px; line-height: 1.6; display: none; border-left: 3px solid transparent; }
+  .feedback.show { display: block; }
+  .feedback.good { background: var(--good-soft); color: #14562E; border-left-color: var(--good); }
+  .feedback.bad  { background: var(--bad-soft);  color: #832B1A; border-left-color: var(--bad); }
+  .next-row { margin-top: 24px; display: flex; justify-content: flex-end; }
+  .btn-primary { background: var(--ink); color: var(--bg); border: none; padding: 10px 22px; border-radius: var(--radius); font-size: 14px; font-family: inherit; font-weight: 500; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, background 0.2s ease, transform 0.1s ease; letter-spacing: 0.01em; }
+  .btn-primary.show { opacity: 1; pointer-events: auto; }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-primary:active { transform: scale(0.98); }
+  .result { text-align: center; padding: 16px 0 8px; }
+  .score-big { font-family: 'Geist Mono', monospace; font-size: 72px; font-weight: 600; line-height: 1; margin: 12px 0 6px; color: var(--ink); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .score-of { color: var(--muted); font-size: 13px; letter-spacing: 0.02em; margin-bottom: 28px; }
+  .result-msg { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .result-sub { color: var(--muted); font-size: 14px; max-width: 38ch; margin: 0 auto 28px; line-height: 1.65; text-wrap: pretty; }
+  .student-info { display: flex; gap: 32px; justify-content: center; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 24px; margin: 0 0 24px; text-align: left; }
+  .student-info .si-group { display: flex; flex-direction: column; gap: 2px; }
+  .student-info .label { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+  .student-info .value { font-size: 15px; font-weight: 500; color: var(--ink); }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--muted); }
+  .form-group input { width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius); font-size: 15px; font-family: inherit; color: var(--ink); background: var(--surface); transition: border-color 0.2s ease, background 0.2s ease; }
+  .form-group input:focus { outline: none; border-color: var(--accent); background: var(--accent-soft); }
+  .recap { text-align: left; border-top: 1px solid var(--line); padding-top: 20px; margin-top: 8px; }
+  .recap-item { display: flex; align-items: baseline; gap: 12px; padding: 7px 0; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--line); }
+  .recap-item:last-child { border-bottom: none; }
+  .recap-item .mark { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; flex-shrink: 0; width: 2ch; }
+  .recap-item .mark.ok { color: var(--good); }
+  .recap-item .mark.no { color: var(--bad); }
+  .btn-restart { margin-top: 28px; background: transparent; color: var(--muted); border: 1px solid var(--line); padding: 10px 22px; border-radius: var(--radius); font-size: 14px; font-family: inherit; font-weight: 500; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
+  .btn-restart:hover { border-color: var(--ink); color: var(--ink); }
+  #cheat-overlay { display: none; position: fixed; inset: 0; background: rgba(26,26,24,0.88); z-index: var(--z-overlay); align-items: center; justify-content: center; padding: 32px; }
+  #cheat-overlay.show { display: flex; }
+  #cheat-box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 36px 32px; max-width: 340px; width: 100%; text-align: center; }
+  #cheat-box h2 { margin: 0 0 8px; font-size: 17px; font-weight: 600; color: var(--ink); }
+  #cheat-box p { margin: 0 0 20px; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+  #cheat-countdown { font-family: 'Geist Mono', monospace; font-size: 52px; font-weight: 600; color: var(--bad); line-height: 1; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  #cheat-warning-count { font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
+  @media (max-width: 480px) { .wrap { padding: 36px 18px 72px; } .card { padding: 24px 20px; } .student-info { flex-direction: column; gap: 12px; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="quiz-label">IPA &middot; SMP</p>
+    <h1 class="title">Uji Pemahaman IPA</h1>
+    <p class="sub" id="intro-sub">50 soal latihan mencakup besaran pokok, konversi satuan, sel &amp; jaringan, sistem pencernaan, kelainan pencernaan, nutrisi makanan, dan sistem reproduksi manusia.</p>
+  </header>
+  <div class="progress-row" id="progress-row" style="display:none;">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label mono" id="progress-label">1</div>
+  </div>
+  <div class="card" id="card"></div>
+</div>
+<div id="cheat-overlay">
+  <div id="cheat-box">
+    <h2 id="cheat-title">Tab berpindah terdeteksi</h2>
+    <p id="cheat-msg">Kuis dikunci sementara. Tunggu hingga hitungan selesai.</p>
+    <div id="cheat-countdown">30</div>
+    <div id="cheat-warning-count"></div>
+  </div>
+</div>
+<script>
+const QUESTIONS=[
+  // ── Topik 1: Besaran Pokok ──
+  {type:"mcq",q:"Besaran pokok yang memiliki satuan Sistem Internasional (SI) Kelvin adalah…",options:["Suhu","Intensitas cahaya","Kuat arus listrik","Jumlah zat"],answer:0,explain:"Suhu memiliki satuan SI Kelvin (K). Intensitas cahaya bersatuan candela (cd), kuat arus listrik bersatuan ampere (A), dan jumlah zat bersatuan mol."},
+  {type:"mcq",q:"Kelompok besaran di bawah ini yang seluruhnya merupakan besaran pokok adalah…",options:["Panjang, massa, dan volume","Panjang, massa, dan waktu","Kecepatan, percepatan, dan gaya","Kuat arus, massa, dan berat"],answer:1,explain:"Tujuh besaran pokok dalam fisika: panjang (m), massa (kg), waktu (s), suhu (K), kuat arus listrik (A), intensitas cahaya (cd), dan jumlah zat (mol). Volume, kecepatan, gaya, dan berat adalah besaran turunan."},
+  {type:"mcq",q:"Satuan Sistem Internasional (SI) untuk besaran kuat arus listrik adalah…",options:["Volt","Ohm","Watt","Ampere"],answer:3,explain:"Satuan SI kuat arus listrik adalah Ampere (A). Volt adalah satuan tegangan, Ohm satuan hambatan, dan Watt satuan daya."},
+  {type:"mcq",q:"Besaran pokok yang digunakan untuk menyatakan banyaknya partikel (atom, molekul, atau ion) dalam suatu zat adalah…",options:["Massa","Jumlah zat","Volume","Massa jenis"],answer:1,explain:"Jumlah zat adalah besaran pokok yang menyatakan banyaknya partikel elementer penyusun zat dengan satuan SI mol."},
+  {type:"mcq",q:"Perhatikan besaran berikut:<br>1. Massa<br>2. Gaya<br>3. Waktu<br>4. Luas<br>5. Suhu<br>Yang termasuk ke dalam kelompok besaran pokok adalah nomor…",options:["1, 2, dan 4","1, 3, dan 5","2, 3, dan 4","3, 4, dan 5"],answer:1,explain:"Massa, waktu, dan suhu adalah besaran pokok. Sedangkan gaya dan luas merupakan besaran turunan."},
+
+  // ── Topik 2: Konversi Satuan ──
+  {type:"mcq",q:"Panjang sebatang pipa adalah 2,5 meter. Jika dinyatakan dalam satuan sentimeter (cm), panjang pipa tersebut adalah…",options:["25 cm","250 cm","2.500 cm","0,25 cm"],answer:1,explain:"1 meter = 100 sentimeter. Jadi 2,5 m = 2,5 × 100 = 250 cm."},
+  {type:"mcq",q:"Massa sekarung beras adalah 3.500 gram. Jika dikonversikan ke satuan kilogram (kg), nilainya setara dengan…",options:["0,35 kg","3,5 kg","35 kg","350 kg"],answer:1,explain:"1 kilogram = 1.000 gram. Maka 3.500 gram = 3.500 / 1.000 = 3,5 kg."},
+  {type:"mcq",q:"Sebuah proses pemanasan larutan berlangsung selama 1,5 jam. Waktu pemanasan tersebut sama dengan berapa sekon?",options:["90 sekon","1.800 sekon","3.600 sekon","5.400 sekon"],answer:3,explain:"1 jam = 3.600 sekon. Maka 1,5 jam = 1,5 × 3.600 = 5.400 sekon."},
+  {type:"mcq",q:"Volume air dalam sebuah bejana terbaca 750 mL. Nilai volume tersebut sama nilainya dengan…",options:["750 cm³","75 cm³","7,5 cm³","0,75 cm³"],answer:0,explain:"1 mL (mililiter) tepat sama dengan 1 cm³ (sentimeter kubik atau cc). Oleh karena itu, 750 mL = 750 cm³."},
+  {type:"mcq",q:"Seorang atlet berlari mengelilingi lapangan sejauh 1,2 kilometer. Jarak tersebut setara dengan berapa meter?",options:["12 meter","120 meter","1.200 meter","12.000 meter"],answer:2,explain:"1 kilometer = 1.000 meter. Jadi 1,2 km = 1,2 × 1.000 = 1.200 meter."},
+
+  // ── Topik 3: Sel Hewan dan Sel Tumbuhan ──
+  {type:"mcq",q:"Organel sel yang hanya ditemukan pada sel tumbuhan dan berfungsi sebagai tempat berlangsungnya fotosintesis adalah…",options:["Mitokondria","Kloroplas","Ribosom","Sentriol"],answer:1,explain:"Kloroplas mengandung pigmen klorofil yang menangkap energi cahaya matahari untuk fotosintesis, organel ini khas pada sel tumbuhan."},
+  {type:"mcq",q:"Bagian sel terluar yang tersusun atas selulosa, berfungsi memberi bentuk kaku dan melindungi sel tumbuhan adalah…",options:["Dinding sel","Membran sel","Kloroplas","Vakuola"],answer:0,explain:"Dinding sel memberikan kekuatan struktural dan bentuk kaku pada sel tumbuhan. Sel hewan tidak memiliki dinding sel."},
+  {type:"mcq",q:"Organel sel yang dijuluki sebagai 'the powerhouse of the cell' karena berfungsi memproduksi energi (ATP) melalui respirasi sel adalah…",options:["Badan Golgi","Retikulum endoplasma","Mitokondria","Lisosom"],answer:2,explain:"Mitokondria berperan dalam respirasi seluler aerob untuk menghasilkan energi berupa molekul ATP."},
+  {type:"mcq",q:"Bagian sel yang berfungsi sebagai pusat pengendali seluruh aktivitas sel dan menyimpan informasi materi genetik (DNA) adalah…",options:["Nukleus (inti sel)","Sitoplasma","Membran plasma","Vakuola"],answer:0,explain:"Nukleus (inti sel) mengatur pembelahan sel, pertumbuhan, metabolisme, serta menyimpan informasi genetik (DNA)."},
+  {type:"mcq",q:"Organel yang berperan penting dalam pembelahan sel dengan membentuk benang spindel dan umumnya hanya ditemukan pada sel hewan adalah…",options:["Sentriol","Plastida","Dinding sel","Vakuola tengah"],answer:0,explain:"Sentriol mengatur pembentukan benang spindel saat pembelahan sel hewan (mitosis/meiosis). Sel tumbuhan tinggi tidak memiliki sentriol."},
+
+  // ── Topik 4: Jaringan Hewan ──
+  {type:"mcq",q:"Jaringan pada tubuh hewan yang tersusun rapat dan berfungsi melapisi permukaan luar tubuh serta membatasi rongga organ dalam adalah…",options:["Jaringan epitel","Jaringan otot","Jaringan ikat","Jaringan saraf"],answer:0,explain:"Jaringan epitel menutupi permukaan tubuh (kulit) dan membatasi rongga tubuh bagian dalam, berfungsi sebagai pelindung, absorpsi, dan sekresi."},
+  {type:"mcq",q:"Jaringan otot yang bekerja secara tidak sadar (involunter), berbentuk gelendong dengan satu inti di tengah, dan menyusun organ dalam seperti lambung dan usus adalah…",options:["Otot lurik","Otot polos","Otot jantung","Otot rangka"],answer:1,explain:"Otot polos bekerja involunter (tanpa disadari), berbentuk gelendong dengan satu inti di tengah, terletak pada dinding saluran pencernaan, pembuluh darah, dan organ dalam lainnya."},
+  {type:"mcq",q:"Sel penyusun jaringan saraf yang bertugas menerima dan menghantarkan impuls rangsang ke seluruh tubuh adalah…",options:["Neuron","Nefron","Eritrosit","Trombosit"],answer:0,explain:"Neuron (sel saraf) adalah unit fungsional sistem saraf yang menghantarkan impuls rangsangan. Nefron adalah penyaring pada ginjal."},
+  {type:"mcq",q:"Jaringan ikat padat yang berfungsi menghubungkan antara otot lurik (rangka) dengan tulang adalah…",options:["Ligamen","Tendon","Kartilago","Jaringan adiposa"],answer:1,explain:"Tendon menghubungkan otot rangka dengan tulang, sedangkan ligamen menghubungkan antartulang pada persendian."},
+  {type:"mcq",q:"Komponen sel darah yang tidak berinti dan berperan utama dalam proses pembekuan darah saat terjadi luka adalah…",options:["Eritrosit","Leukosit","Trombosit","Plasma darah"],answer:2,explain:"Trombosit (keping darah) melepaskan enzim trombokinase untuk memicu pembentukan benang fibrin yang menutup luka saat terjadi pendarahan."},
+
+  // ── Topik 5: Jaringan Tumbuhan ──
+  {type:"mcq",q:"Jaringan tumbuhan yang sel-selnya masih muda, aktif membelah secara mitosis, dan terletak di ujung akar serta pucuk batang adalah…",options:["Jaringan meristem","Jaringan epidermis","Jaringan parenkim","Jaringan kolenkim"],answer:0,explain:"Jaringan meristem (terutama meristem apikal di ujung pucuk dan akar) aktif membelah menghasilkan sel-sel baru untuk pertambahan tinggi/panjang tanaman."},
+  {type:"mcq",q:"Jaringan pengangkut pada tumbuhan yang berfungsi membawa air dan garam mineral dari dalam tanah melalui akar menuju daun adalah…",options:["Xilem (pembuluh kayu)","Floem (pembuluh tapis)","Kambium","Periderm"],answer:0,explain:"Xilem (pembuluh kayu) mengangkut air dan mineral tanah dari akar ke daun. Floem mengangkut hasil fotosintesis ke seluruh tubuh tumbuhan."},
+  {type:"mcq",q:"Jaringan pengangkut yang bertugas mengedarkan zat hasil fotosintesis dari daun ke seluruh organ tumbuhan adalah…",options:["Xilem","Floem","Kolenkim","Sklerenkim"],answer:1,explain:"Floem (pembuluh tapis) mengangkut fotosintat (seperti sukrosa) dari daun ke organ penyimpanan atau jaringan yang membutuhkan."},
+  {type:"mcq",q:"Modifikasi jaringan epidermis pada permukaan daun yang berfungsi sebagai celah pertukaran gas (O₂ dan CO₂) serta penguapan air adalah…",options:["Trikoma","Stomata","Kutikula","Lentisel"],answer:1,explain:"Stomata (mulut daun) diapit oleh dua sel penjaga dan berfungsi sebagai jalur keluar-masuknya gas CO₂, O₂, dan transpirasi uap air."},
+  {type:"mcq",q:"Jaringan dasar yang menyusun sebagian besar organ tumbuhan dan berfungsi sebagai tempat cadangan makanan serta fotosintesis (mesofil) adalah…",options:["Jaringan parenkim","Jaringan sklerenkim","Jaringan epidermis","Jaringan gabus"],answer:0,explain:"Jaringan parenkim adalah jaringan dasar serbaguna; pada daun berfungsi untuk fotosintesis (palisade dan bunga karang), serta pada umbi/batang untuk menyimpan cadangan makanan."},
+
+  // ── Topik 6: Organ Sistem Pencernaan Manusia ──
+  {type:"mcq",q:"Urutan saluran pencernaan makanan pada manusia dari awal masuk hingga sisa makanan dikeluarkan yang benar adalah…",options:["Mulut → Lambung → Kerongkongan → Usus halus → Usus besar → Anus","Mulut → Kerongkongan → Lambung → Usus halus → Usus besar → Anus","Mulut → Kerongkongan → Lambung → Usus besar → Usus halus → Anus","Mulut → Tenggorokan → Lambung → Usus halus → Usus besar → Anus"],answer:1,explain:"Saluran cerna berurutan: mulut → kerongkongan (esofagus) → lambung (ventrikulus) → usus halus → usus besar (kolon) → anus. (Tenggorokan adalah saluran pernapasan)."},
+  {type:"mcq",q:"Kelenjar pencernaan terbesar dalam tubuh manusia yang menghasilkan cairan empedu untuk mengemulsikan lemak adalah…",options:["Pankreas","Hati (hepar)","Lambung","Kelenjar ludah"],answer:1,explain:"Hati menghasilkan cairan empedu yang disimpan di kantung empedu lalu disalurkan ke usus dua belas jari untuk memecah partikel lemak (emulsi lemak)."},
+  {type:"mcq",q:"Gerakan meremas dan mendorong bolus makanan secara bergelombang di sepanjang kerongkongan menuju lambung disebut gerak…",options:["Peristaltik","Brown","Siklosistis","Refleks"],answer:0,explain:"Gerak peristaltik adalah kontraksi ritmis otot dinding kerongkongan dan saluran pencernaan yang mendorong makanan maju ke organ berikutnya."},
+  {type:"mcq",q:"Bagian dari usus halus yang berfungsi utama sebagai tempat penyerapan sari-sari makanan dengan bantuan tonjolan vili (jonjot usus) adalah…",options:["Duodenum (usus 12 jari)","Jejunum (usus kosong)","Ileum (usus penyerapan)","Apendiks (usus buntu)"],answer:2,explain:"Ileum (usus penyerapan) dilengkapi lipatan dan vili yang sangat banyak untuk memperluas bidang penyerapan nutrisi ke dalam sirkulasi darah dan limfa."},
+  {type:"mcq",q:"Organ pencernaan yang berfungsi utama menyerap kembali kelebihan air dan mineral serta menjadi tempat pembusukan sisa makanan oleh bakteri E. coli adalah…",options:["Lambung","Usus halus","Usus besar (kolon)","Kerongkongan"],answer:2,explain:"Usus besar (kolon) mengatur kadar air feses melalui reabsorpsi air dan dibantu bakteri Escherichia coli dalam pembusukan sisa makanan serta pembentukan vitamin K."},
+
+  // ── Topik 7: Kelainan Pencernaan ──
+  {type:"mcq",q:"Peradangan pada umbai cacing akibat infeksi bakteri atau sumbatan yang menimbulkan rasa nyeri di perut bagian kanan bawah disebut…",options:["Apendisitis","Ulkus peptikum","Gastritis","Hemoroid"],answer:0,explain:"Apendisitis adalah peradangan pada apendiks (umbai cacing) yang jika tidak segera ditangani dapat pecah dan menimbulkan infeksi rongga perut (peritonitis)."},
+  {type:"mcq",q:"Gangguan pencernaan yang ditandai dengan buang air besar cair berulang kali karena penyerapan air di usus besar terganggu disebut…",options:["Konstipasi","Diare","Xerostomia","Karies gigi"],answer:1,explain:"Diare timbul karena infeksi mikroorganisme atau racun makanan yang memicu peningkatan gerak peristaltik sehingga penyerapan air di usus besar sangat berkurang."},
+  {type:"mcq",q:"Kondisi sulit buang air besar karena feses menjadi sangat keras dan kering akibat penyerapan air yang berlebihan di usus besar disebut…",options:["Konstipasi (sembelit)","Diare","Disentri","Apendisitis"],answer:0,explain:"Konstipasi (sembelit) terjadi akibat kurangnya konsumsi serat dan air, serta kebiasaan menunda buang air besar sehingga feses kehilangan banyak cairan di kolon."},
+  {type:"mcq",q:"Penyakit maag atau peradangan pada lapisan mukosa lambung yang dapat dipicu oleh produksi asam lambung (HCl) berlebih atau infeksi bakteri Helicobacter pylori disebut…",options:["Gastritis","Hepatitis","Kolik","Pankreatitis"],answer:0,explain:"Gastritis adalah peradangan pada mukosa lambung yang menimbulkan rasa perih dan mual, sering disebabkan oleh pola makan tidak teratur, stres, atau bakteri H. pylori."},
+  {type:"mcq",q:"Pelebaran pembuluh darah vena di sekitar rektum atau anus yang menyebabkan rasa nyeri dan dapat mengeluarkan darah saat buang air besar disebut…",options:["Hemoroid (wasir/ambeien)","Apendisitis","Parotitis","Gastritis"],answer:0,explain:"Hemoroid (ambeien/wasir) terjadi karena peningkatan tekanan pada pembuluh darah balik (vena) di sekitar anus, sering akibat mengejan terlalu kuat saat konstipasi."},
+
+  // ── Topik 8: Nutrisi Makanan ──
+  {type:"mcq",q:"Zat makanan makronutrien yang berfungsi sebagai sumber energi utama dan paling cepat dipecah oleh tubuh untuk aktivitas harian adalah…",options:["Karbohidrat","Protein","Lemak","Mineral"],answer:0,explain:"Karbohidrat dipecah menjadi glukosa yang merupakan bahan bakar utama pembentukan energi ATP bagi sel tubuh manusia."},
+  {type:"mcq",q:"Dalam uji laboratorium bahan makanan, larutan Lugol/Iodin digunakan untuk menguji keberadaan amilum. Hasil positif ditunjukkan dengan perubahan warna menjadi…",options:["Merah bata","Biru kehitaman","Ungu violet","Kuning terang"],answer:1,explain:"Uji Lugol/Iodin menghasilkan kompleks warna biru tua hingga biru kehitaman jika sampel makanan mengandung amilum (pati)."},
+  {type:"mcq",q:"Bahan makanan yang ditetesi reagen Biuret berubah warna menjadi ungu. Hal ini membuktikan bahwa makanan tersebut mengandung…",options:["Amilum","Glukosa","Protein","Lemak"],answer:2,explain:"Reagen Biuret bereaksi dengan ikatan peptida rantai protein menghasilkan warna ungu. Ini membuktikan adanya kandungan protein dalam sampel."},
+  {type:"mcq",q:"Kelompok vitamin di bawah ini yang larut dalam lemak dan dapat disimpan di dalam jaringan tubuh adalah…",options:["Vitamin A, D, E, dan K","Vitamin B dan C","Vitamin B kompleks dan Asam Folat","Vitamin C dan D"],answer:0,explain:"Vitamin yang larut dalam lemak adalah vitamin A, D, E, dan K. Sedangkan vitamin B dan C larut dalam air dan tidak disimpan dalam jumlah besar di tubuh."},
+  {type:"mcq",q:"Kekurangan asupan mineral zat besi (Fe) dalam pola makan sehari-hari dapat menyebabkan gangguan pembentukan hemoglobin darah yang dikenal sebagai penyakit…",options:["Anemia","Riketsia","Skorbut","Gondok"],answer:0,explain:"Zat besi (Fe) adalah komponen penting pembentuk hemoglobin sel darah merah. Kekurangan zat besi memicu anemia dengan gejala lemas dan pucat."},
+
+  // ── Topik 9: Proses Pencernaan Manusia ──
+  {type:"mcq",q:"Proses pemecahan bongkahan makanan menjadi ukuran lebih kecil melalui pengunyahan gigi di rongga mulut termasuk contoh pencernaan…",options:["Kimiawi","Mekanik","Biologis","Bakterial"],answer:1,explain:"Pencernaan mekanik memecah ukuran fisik makanan tanpa mengubah susunan molekul kimianya, berguna memperluas bidang kontak enzim pencernaan."},
+  {type:"mcq",q:"Enzim ptialin (amilase ludah) yang disekresikan oleh kelenjar ludah di rongga mulut berfungsi untuk mengubah…",options:["Amilum menjadi maltosa","Protein menjadi pepton","Lemak menjadi asam lemak","Kaseinogen menjadi kasein"],answer:0,explain:"Enzim ptialin (amilase ludah) memecah ikatan amilum (karbohidrat kompleks) menjadi maltosa (disakarida) di dalam rongga mulut."},
+  {type:"mcq",q:"Asam klorida (HCl) yang diproduksi oleh kelenjar dinding lambung memiliki fungsi penting, yaitu…",options:["Mengubah protein menjadi asam amino","Membunuh kuman patogen dan mengaktifkan pepsinogen menjadi pepsin","Mengemulsikan lemak menjadi butiran halus","Menetralkan suasana asam makanan"],answer:1,explain:"Asam lambung (HCl) menciptakan suasana asam yang mematikan bakteri patogen pada makanan serta mengaktifkan pepsinogen inaktif menjadi enzim pepsin aktif."},
+  {type:"mcq",q:"Enzim lipase yang disalurkan dari pankreas ke usus dua belas jari berfungsi untuk memecah molekul…",options:["Lemak menjadi asam lemak dan gliserol","Amilum menjadi glukosa","Protein menjadi pepton","Maltosa menjadi sukrosa"],answer:0,explain:"Lipase pankreas menghidrolisis molekul lemak (trigliserida) yang telah teremulsi menjadi asam lemak dan gliserol agar dapat diserap dinding usus."},
+  {type:"mcq",q:"Enzim tripsin yang dihasilkan oleh kelenjar pankreas dan bekerja di dalam usus halus bertugas untuk…",options:["Mengubah pepton/protein menjadi asam amino","Mengubah amilum menjadi maltosa","Menggumpalkan protein susu","Mengubah asam lemak menjadi glukosa"],answer:0,explain:"Tripsin adalah enzim protease yang melanjutkan pencernaan protein dari lambung dengan memecah pepton menjadi asam amino dan peptida sederhana."},
+
+  // ── Topik 10: Sistem Reproduksi Manusia ──
+  {type:"mcq",q:"Organ reproduksi pria yang berada di dalam skrotum dan berfungsi memproduksi sel sperma serta hormon testosteron adalah…",options:["Testis","Epididimis","Vas deferens","Kelenjar prostat"],answer:0,explain:"Testis adalah gonad pria tempat spermatogenesis di tubulus seminiferus dan sintesis hormon testosteron oleh sel Leydig."},
+  {type:"mcq",q:"Saluran berkelok-kelok di bagian belakang testis yang berfungsi sebagai tempat pematangan dan penyimpanan sementara sel sperma adalah…",options:["Vas deferens","Epididimis","Uretra","Vesikula seminalis"],answer:1,explain:"Epididimis menampung sperma dari testis selama proses pematangan motilitas sebelum dialirkan ke vas deferens saat ejakulasi."},
+  {type:"mcq",q:"Organ reproduksi wanita yang berfungsi menghasilkan sel telur (ovum) serta memproduksi hormon estrogen dan progesteron adalah…",options:["Ovarium (indung telur)","Tuba fallopi","Uterus","Vagina"],answer:0,explain:"Ovarium (indung telur) adalah gonad wanita tempat oogenesis (pembentukan ovum) dan sintesis hormon reproduksi (estrogen dan progesteron)."},
+  {type:"mcq",q:"Tempat terjadinya peristiwa fertilisasi (pembuahan sel telur oleh sperma) pada saluran reproduksi wanita yang normal adalah…",options:["Uterus (rahim)","Tuba fallopi (oviduk)","Ovarium","Vagina"],answer:1,explain:"Fertilisasi normalnya berlangsung di saluran tuba fallopi (oviduk). Setelah pembuahan, zigot akan bergerak dan menempel (implantasi) di dinding rahim."},
+  {type:"mcq",q:"Organ berdinding otot tebal pada sistem reproduksi wanita yang berfungsi sebagai tempat perkembangan embrio hingga janin siap dilahirkan adalah…",options:["Ovarium","Tuba fallopi","Uterus (rahim)","Serviks"],answer:2,explain:"Uterus (rahim) memiliki lapisan berotot kuat dan endometrium yang menebal sebagai tempat implantasi serta tumbuh kembangnya janin selama masa kehamilan."}
+];
+
+let current=0,score=0,locked=false,studentName="",studentClass="";
+const recap=[];
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+const card=document.getElementById("card");
+const progressRow=document.getElementById("progress-row");
+const progressFill=document.getElementById("progress-fill");
+const progressLabel=document.getElementById("progress-label");
+const introSub=document.getElementById("intro-sub");
+
+function renderStart(){
+  card.innerHTML=`<div>
+    <p style="margin:0 0 24px;font-size:14px;color:var(--muted);line-height:1.65;">Isi data diri terlebih dahulu sebelum memulai.</p>
+    <div class="form-group"><label for="name-input">Nama Lengkap</label><input type="text" id="name-input" placeholder="Masukkan nama Anda"></div>
+    <div class="form-group"><label for="class-input">Kelas</label><input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)"></div>
+    <p style="margin:16px 0 20px;font-size:13.5px;color:var(--muted);line-height:1.65;">${QUESTIONS.length} soal &middot; materi IPA SMP &middot; pilihan ganda.</p>
+    <button class="btn-primary show" id="start-btn">Mulai kuis</button>
+  </div>`;
+  document.getElementById("start-btn").addEventListener("click",()=>{
+    const n=document.getElementById("name-input"),c=document.getElementById("class-input");
+    if(!n.value.trim()||!c.value.trim()){alert("Mohon isi nama dan kelas terlebih dahulu.");return;}
+    studentName=n.value.trim();studentClass=c.value.trim();
+    introSub.style.display="none";progressRow.style.display="flex";renderQuestion();
+  });
+}
+
+function renderQuestion(){
+  locked=false;
+  const q=QUESTIONS[current];
+  progressFill.style.width=`${(current/QUESTIONS.length)*100}%`;
+  progressLabel.textContent=`${current+1}/${QUESTIONS.length}`;
+  if(q.type==="fill"){renderFillQuestion(q);return;}
+  let opts="";
+  if(q.type==="mcq"){
+    opts=`<div class="options">`+q.options.map((o,i)=>`<button class="opt-btn" data-i="${i}"><span class="k mono">${String.fromCharCode(65+i)}</span>${o}</button>`).join("")+`</div>`;
+  } else {
+    opts=`<div class="tf-row"><button class="opt-btn" data-i="true">Benar</button><button class="opt-btn" data-i="false">Salah</button></div>`;
+  }
+  const isLast=current===QUESTIONS.length-1;
+  card.innerHTML=`
+    <span class="tag">${q.type==="mcq"?"Pilihan Ganda":"Benar / Salah"}</span>
+    <p class="question-text">${q.type==="mcq"?q.q:"Perhatikan pernyataan berikut:"}</p>
+    ${q.type==="tf"?`<div class="claim-box">${q.claim}</div>`:""}
+    ${opts}
+    <div class="feedback" id="feedback"></div>
+    <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
+  card.querySelectorAll(".opt-btn").forEach(btn=>btn.addEventListener("click",()=>handleAnswer(btn,card.querySelectorAll(".opt-btn"),q)));
+}
+
+function renderFillQuestion(q){
+  const wCh=Math.max(5,(q.accepted[0].length||5)+2);
+  const isCode=q.isCode===true;
+  const isLast=current===QUESTIONS.length-1;
+  const inputHtml=isCode
+    ?`<input type="text" id="blank-input" class="blank-code" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="___" style="width:${wCh}ch">`
+    :`<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="&hellip;" style="width:${wCh}ch">`;
+  const panel=isCode
+    ?`<div class="code-panel">${esc(q.before)}${inputHtml}${esc(q.after)}</div>`
+    :`<div class="sentence-panel">${esc(q.before)}${inputHtml}${esc(q.after)}</div>`;
+  card.innerHTML=`
+    <span class="tag">${isCode?"Lengkapi Kode":"Isian: Lengkapi Kalimat"}</span>
+    <p class="question-text">${q.prompt}</p>
+    ${panel}
+    <div class="next-row check-row" style="justify-content:flex-start;"><button class="btn-primary show" id="check-btn">Periksa jawaban</button></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
+  const input=document.getElementById("blank-input");
+  input.focus();
+  input.addEventListener("input",()=>{input.style.width=Math.max(wCh,input.value.length+2)+"ch";});
+  input.addEventListener("keydown",(e)=>{if(e.key==="Enter"&&!locked)document.getElementById("check-btn").click();});
+  document.getElementById("check-btn").addEventListener("click",()=>{
+    if(locked)return;locked=true;
+    const norm=input.value.trim().toLowerCase().replace(/[.;]$/,"");
+    const ok=q.accepted.map(a=>a.toLowerCase()).includes(norm);
+    input.disabled=true;
+    if(isCode){input.classList.add(ok?"ok":"no");}
+    else{input.style.borderBottomColor=ok?"var(--good)":"var(--bad)";}
+    document.getElementById("check-btn").classList.remove("show");
+    if(ok)score++;
+    recap.push({ok,text:q.prompt});
+    const fb=document.getElementById("feedback");
+    fb.classList.add("show",ok?"good":"bad");
+    fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}`;
+    document.getElementById("next-btn").classList.add("show");
+    document.getElementById("next-btn").addEventListener("click",()=>{current++;current<QUESTIONS.length?renderQuestion():renderResult();},{once:true});
+  },{once:true});
+}
+
+function handleAnswer(btn,allButtons,q){
+  if(locked)return;locked=true;
+  let ok;
+  if(q.type==="mcq"){
+    ok=parseInt(btn.dataset.i,10)===q.answer;
+    allButtons.forEach(b=>{if(parseInt(b.dataset.i,10)===q.answer)b.classList.add("correct");else if(b===btn)b.classList.add("incorrect");b.disabled=true;});
+  } else {
+    const chosen=btn.dataset.i==="true";ok=chosen===q.answer;
+    allButtons.forEach(b=>{if((b.dataset.i==="true")===q.answer)b.classList.add("correct");else if(b===btn)b.classList.add("incorrect");b.disabled=true;});
+  }
+  if(ok)score++;
+  recap.push({ok,text:q.type==="mcq"?q.q:q.claim});
+  const fb=document.getElementById("feedback");
+  fb.classList.add("show",ok?"good":"bad");
+  fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}`;
+  document.getElementById("next-btn").classList.add("show");
+  document.getElementById("next-btn").addEventListener("click",()=>{current++;current<QUESTIONS.length?renderQuestion():renderResult();},{once:true});
+}
+
+function renderResult(){
+  progressFill.style.width="100%";
+  progressLabel.textContent=`${QUESTIONS.length}/${QUESTIONS.length}`;
+  const total=QUESTIONS.length,pct=score/total;
+  let msg,sub;
+  if(pct>=0.9){msg="Luar biasa!";sub="Pemahaman materi IPA kamu sudah sangat matang dan mendalam.";}
+  else if(pct>=0.7){msg="Kerja bagus!";sub="Sebagian besar materi IPA sudah kamu kuasai dengan sangat baik.";}
+  else if(pct>=0.5){msg="Cukup baik.";sub="Sudah memahami konsep dasar IPA, tinjau kembali nomor-nomor yang meleset.";}
+  else{msg="Terus semangat belajar.";sub="Pelajari kembali materi IPA di buku catatan, lalu coba kuis ini lagi.";}
+  const recapHtml=recap.map(r=>`<div class="recap-item"><span class="mark ${r.ok?"ok":"no"}">${r.ok?"OK":"X"}</span><span>${r.text}</span></div>`).join("");
+  card.innerHTML=`
+    <div class="result">
+      <div class="tag">Selesai</div>
+      <div class="student-info">
+        <div class="si-group"><span class="label">Nama</span><span class="value">${esc(studentName)}</span></div>
+        <div class="si-group"><span class="label">Kelas</span><span class="value">${esc(studentClass)}</span></div>
+      </div>
+      <div class="score-big mono">${score}/${total}</div>
+      <div class="score-of">jawaban benar</div>
+      <div class="result-msg">${msg}</div>
+      <p class="result-sub">${sub}</p>
+      <div class="recap">${recapHtml}</div>
+      <button class="btn-restart" id="restart-btn">Ulangi kuis</button>
+    </div>`;
+  document.getElementById("restart-btn").addEventListener("click",()=>{
+    current=0;score=0;recap.length=0;studentName="";studentClass="";
+    progressFill.style.width="0%";progressLabel.textContent=`1/${QUESTIONS.length}`;
+    introSub.style.display="block";progressRow.style.display="none";renderStart();
+  });
+}
+
+renderStart();
+
+(function(){
+  const MAX=3,SECS=30;
+  let viol=0,timer=null,started=false,done=false,sus=false;
+  const ov=document.getElementById("cheat-overlay");
+  const ti=document.getElementById("cheat-title");
+  const ms=document.getElementById("cheat-msg");
+  const co=document.getElementById("cheat-countdown");
+  const wn=document.getElementById("cheat-warning-count");
+  document.addEventListener("click",e=>{if(e.target&&e.target.id==="start-btn")started=true;},true);
+  function trigger(){
+    if(!started||done||sus)return;viol++;
+    if(viol>MAX){endCheat();return;}
+    sus=true;ov.classList.add("show");
+    if(viol===MAX){ti.textContent="Peringatan terakhir";ms.textContent="Pelanggaran ke-"+viol+". Jika terdeteksi lagi, kuis langsung diakhiri.";}
+    else{ti.textContent="Tab berpindah terdeteksi";ms.textContent="Kuis dikunci sementara. Tunggu hingga hitungan selesai.";}
+    wn.textContent="Pelanggaran: "+viol+" / "+MAX;
+    let s=SECS;co.textContent=s;
+    timer=setInterval(()=>{s--;co.textContent=s;if(s<=0){clearInterval(timer);ov.classList.remove("show");sus=false;}},1000);
+  }
+  function endCheat(){
+    done=true;sus=false;clearInterval(timer);ov.classList.remove("show");
+    renderResult();
+    const rd=card.querySelector(".result");
+    if(rd){const b=document.createElement("div");b.style.cssText="background:var(--bad-soft);border:1px solid var(--bad);border-left:3px solid var(--bad);color:var(--bad);border-radius:6px;padding:12px 16px;font-size:14px;margin-bottom:20px;line-height:1.5;";b.innerHTML="<strong>Kuis diakhiri otomatis.</strong> Terdeteksi keluar tab sebanyak "+viol+" kali.";rd.prepend(b);}
+  }
+  document.addEventListener("visibilitychange",()=>{if(document.hidden)trigger();});
+  window.addEventListener("blur",trigger);
+  const _o=renderResult;window.renderResult=function(){done=true;_o();};
+})();
+</script>
+</body>
+</html>
