@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Uji pemahaman analisis data (statistik, populasi, sampel, skala pengukuran, teknik sampling) serta Informatika Bab 2 (computational thinking, fungsi, himpunan data terstruktur, dan struktur data stack).">
-<title>Uji Pemahaman · Analisis Data & Informatika Bab 2</title>
+<meta name="description" content="Uji pemahaman 35 soal mencakup Analisis Data dan Informatika Bab 2 (computational thinking, fungsi, himpunan data terstruktur, dan stack).">
+<title>Uji Pemahaman · Analisis Data &amp; Informatika Bab 2 (35 Soal C1–C6)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -543,9 +543,9 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <p class="quiz-label">Informatika</p>
+    <p class="quiz-label">Informatika &amp; Analisis Data</p>
     <h1 class="title">Uji Pemahaman</h1>
-    <p class="sub" id="intro-sub">Statistik, populasi &amp; sampel, skala pengukuran, teknik sampling, penyajian data, computational thinking, fungsi, himpunan data terstruktur, dan struktur data stack.</p>
+    <p class="sub" id="intro-sub">35 soal mencakup Analisis Data (statistik, data, skala pengukuran, teknik sampling, penyajian data) dan Informatika Bab 2 (computational thinking, fungsi, himpunan data terstruktur, dan stack).</p>
   </header>
 
   <div class="progress-row" id="progress-row" style="display:none;">
@@ -568,402 +568,453 @@
 <script>
 const QUESTIONS = [
   {
-    type: "mcq",
-    q: "Menurut Rahim (2013), statistika berhubungan dengan cara mengumpulkan, menabulasi, menggolong-golongkan, dan menganalisis data yang berupa bilangan agar dapat…",
-    options: [
-      "Ditarik suatu kesimpulan atau keputusan tertentu",
-      "Disimpan dalam database tanpa diolah",
-      "Dihapus setelah dipakai sekali",
-      "Dijual kembali sebagai produk"
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C1 Mengingat",
+    "q": "Menurut konsep dasarnya, statistika didefinisikan sebagai cabang ilmu yang mempelajari tentang…",
+    "options": [
+      "Cara membuat aplikasi komputer untuk memproses database transaksi keuangan",
+      "Cara mengumpulkan, mengolah, menyajikan, menganalisis, dan menarik kesimpulan dari data",
+      "Metode perancangan sirkuit perangkat keras komputasi",
+      "Teknik merekayasa visual grafis animasi komputer"
     ],
-    answer: 0,
-    explain: "Tujuan akhir dari pengumpulan dan pengolahan data secara statistik adalah agar bisa ditarik suatu kesimpulan atau keputusan tertentu."
+    "answer": 1,
+    "explain": "Statistika adalah ilmu yang berkaitan dengan cara mengumpulkan, mengorganisasi, menyajikan, menganalisis, dan menginterpretasikan data untuk membuat kesimpulan atau keputusan yang valid."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Data yang dikumpulkan langsung oleh peneliti melalui observasi, wawancara, atau kuesioner disebut data ",
-    after: ".",
-    accepted: ["primer", "data primer"],
-    explain: "Data yang dikumpulkan langsung oleh peneliti disebut data primer, sedangkan data yang diperoleh dari sumber lain (buku, jurnal, laporan) disebut data sekunder."
+    "type": "fill",
+    "tag": "Isian Singkat · C1 Mengingat",
+    "prompt": "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
+    "before": "Skala pengukuran data yang memiliki tingkatan urutan, jarak interval yang sama antar nilai, serta memiliki nilai nol mutlak (artinya nilai 0 menunjukkan ketiadaan sifat yang diukur) disebut skala ",
+    "after": ".",
+    "accepted": [
+      "rasio",
+      "skala rasio"
+    ],
+    "explain": "Skala rasio memiliki semua karakteristik skala interval ditambah dengan titik nol absolut (mutlak), seperti berat badan, tinggi badan, atau jarak."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Data yang diperoleh dari sumber lain seperti buku, jurnal, atau laporan (bukan dikumpulkan sendiri oleh peneliti) disebut data ",
-    after: ".",
-    accepted: ["sekunder", "data sekunder"],
-    explain: "Data sekunder diperoleh dari sumber yang sudah ada sebelumnya, berbeda dengan data primer yang dikumpulkan langsung oleh peneliti."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C1 Mengingat",
+    "q": "Empat pilar utama dalam Berpikir Komputasional (Computational Thinking) yang benar adalah…",
+    "options": [
+      "Algoritma, Coding, Debugging, dan Testing",
+      "Input, Proses, Output, dan Storage",
+      "Dekomposisi, Pengenalan Pola, Abstraksi, dan Perancangan Algoritma",
+      "Hardware, Software, Brainware, dan Network"
+    ],
+    "answer": 2,
+    "explain": "Empat pilar utama dalam berpikir komputasional adalah: (1) Dekomposisi, (2) Pengenalan Pola (Pattern Recognition), (3) Abstraksi, dan (4) Perancangan Algoritma (Algorithm Design)."
   },
   {
-    type: "mcq",
-    q: "Contoh data kualitatif/kategorikal adalah…",
-    options: ["Tinggi badan", "Jumlah penjualan", "Baik/buruk", "Jarak tempuh"],
-    answer: 2,
-    explain: "Baik/buruk termasuk data kualitatif (kategorikal) karena berupa kategori, bukan angka hasil pengukuran seperti tinggi, jarak, atau penjualan."
+    "type": "fill",
+    "tag": "Isian Singkat · C1 Mengingat",
+    "prompt": "Lengkapi kalimat berikut dengan istilah himpunan yang tepat.",
+    "before": "Suatu himpunan yang sama sekali tidak memiliki anggota disebut himpunan ",
+    "after": ", yang disimbolkan dengan notasi ∅ atau { }.",
+    "accepted": [
+      "kosong",
+      "himpunan kosong"
+    ],
+    "explain": "Himpunan kosong adalah himpunan yang tidak mempunyai anggota sama sekali, disimbolkan dengan ∅ atau { }."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
-    before: "Skala pengukuran yang hanya digunakan untuk pengelompokan, tanpa ada urutan tingkatan, disebut skala ",
-    after: ".",
-    accepted: ["nominal", "skala nominal"],
-    explain: "Skala nominal hanya mengelompokkan data (misalnya warna favorit) tanpa ada makna urutan di antara kategorinya."
+    "type": "fill",
+    "tag": "Isian Singkat · C1 Mengingat",
+    "prompt": "Lengkapi kalimat berikut dengan istilah prinsip kerja stack.",
+    "before": "Struktur data stack bekerja dengan mekanisme memasukkan dan mengeluarkan data di mana data terakhir yang masuk akan menjadi data pertama yang keluar, yang dikenal dengan prinsip ",
+    "after": ".",
+    "accepted": [
+      "lifo",
+      "last in first out"
+    ],
+    "explain": "LIFO (Last In First Out) adalah prinsip utama struktur data stack: elemen yang paling akhir ditambahkan adalah yang pertama diambil kembali."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
-    before: "Skala pengukuran yang sudah memiliki urutan, tetapi jarak antar datanya tidak diketahui secara pasti, disebut skala ",
-    after: ".",
-    accepted: ["ordinal", "skala ordinal"],
-    explain: "Contohnya tingkat kepuasan (Sangat Puas, Puas, Tidak Puas) — ada urutan, tapi selisih antar tingkatannya tidak terukur."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Manakah pasangan contoh berikut yang paling tepat membedakan data primer dan data sekunder?",
+    "options": [
+      "Data laporan keuangan tahun lalu dari internet (primer) dan hasil angket yang disebar sendiri oleh peneliti (sekunder)",
+      "Rekapitulasi nilai rapor dari wali kelas (primer) dan hasil tes tinggi badan siswa oleh tim peneliti (sekunder)",
+      "Catatan harian dokter rumah sakit (sekunder) dan observasi langsung peneliti di laboratorium (primer)",
+      "Hasil wawancara langsung peneliti dengan narasumber (primer) dan data sensus penduduk dari publikasi BPS (sekunder)"
+    ],
+    "answer": 3,
+    "explain": "Data primer diperoleh langsung dari sumber pertama oleh peneliti (seperti wawancara atau eksperimen langsung), sedangkan data sekunder didapatkan dari pihak kedua atau dokumen yang sudah dipublikasikan sebelumnya (seperti laporan BPS)."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
-    before: "Skala pengukuran yang memiliki urutan dan jarak yang tetap, tetapi tidak memiliki nol mutlak (misalnya suhu dalam °C), disebut skala ",
-    after: ".",
-    accepted: ["interval", "skala interval"],
-    explain: "Skala interval punya jarak antar nilai yang konsisten, namun angka nol pada skala ini tidak berarti 'tidak ada sama sekali'."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Perbedaan mendasar antara data kuantitatif diskrit dan kontinu adalah…",
+    "options": [
+      "Data diskrit diperoleh dari hasil pencacahan/membilang (berupa bilangan bulat), sedangkan data kontinu diperoleh dari hasil pengukuran (dapat berupa pecahan/desimal)",
+      "Data diskrit berupa kata-kata sifat, sedangkan data kontinu berupa angka",
+      "Data diskrit selalu berubah sepanjang waktu, sedangkan data kontinu bernilai konstan",
+      "Data diskrit memiliki nilai nol mutlak, sedangkan data kontinu tidak memiliki nilai nol"
+    ],
+    "answer": 0,
+    "explain": "Data kuantitatif diskrit dihasilkan dari proses menghitung (misal: jumlah anak = 3 orang), sedangkan data kontinu dihasilkan dari proses mengukur yang nilainya berada dalam suatu rentang berkesinambungan (misal: berat badan = 45,5 kg)."
   },
   {
-    type: "tf",
-    code: null,
-    claim: "Skala interval memiliki nol mutlak, sama seperti skala rasio.",
-    answer: false,
-    explain: "Salah. Hanya skala rasio yang memiliki nol mutlak (misalnya berat badan 0 kg berarti benar-benar tidak ada berat). Skala interval tidak memiliki nol mutlak."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Suhu 0°C pada termometer Celsius tidak berarti ketiadaan suhu sama sekali (karena masih dapat lebih dingin seperti -5°C). Hal ini menunjukkan bahwa pengukuran suhu Celsius tergolong dalam skala…",
+    "options": [
+      "Rasio, karena suhu dapat dikalikan secara proporsional",
+      "Interval, karena titik nolnya bukan merupakan nol mutlak melainkan nilai konvensi/kesepakatan",
+      "Nominal, karena suhu hanya berfungsi sebagai tanda pengenal",
+      "Ordinal, karena suhu hanya menunjukkan tingkatan tanpa rentang angka yang jelas"
+    ],
+    "answer": 1,
+    "explain": "Skala interval memiliki jarak rentang yang tetap antar nilai, namun nilai nolnya adalah nol relatif/konvensi (bukan ketiadaan mutlak dari sifat yang diukur)."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
-    before: "Skala pengukuran yang memiliki urutan, jarak tetap, dan nol mutlak (misalnya berat badan) disebut skala ",
-    after: ".",
-    accepted: ["rasio", "skala rasio"],
-    explain: "Skala rasio adalah skala paling lengkap: bisa diurutkan, bisa dihitung selisihnya, dan memiliki nol mutlak."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Sampel dalam suatu penelitian dikatakan bersifat representatif apabila…",
+    "options": [
+      "Memiliki jumlah anggota yang sama persis dengan total populasi",
+      "Diambil hanya dari kelompok individu yang paling mudah dijangkau oleh peneliti",
+      "Mampu mencerminkan karakteristik dan proporsi penting yang ada pada seluruh populasi target",
+      "Mengandung data yang sengaja dipilih agar sesuai dengan perkiraan hipotesis awal"
+    ],
+    "answer": 2,
+    "explain": "Sampel yang representatif adalah miniatur dari populasi yang karakteristiknya mencerminkan populasi target sehingga hasil analisis sampel dapat digeneralisasikan."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Seluruh kumpulan individu, objek, atau peristiwa yang memiliki karakteristik tertentu dan menjadi subjek dari suatu penelitian disebut ",
-    after: ".",
-    accepted: ["populasi"],
-    explain: "Populasi adalah keseluruhan elemen yang ingin kita pelajari atau ambil kesimpulannya."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Dalam penyajian data grafis, istilah chart junk merujuk pada…",
+    "options": [
+      "Data pencilan (outlier) yang harus dibuang dari tabel sebelum membuat diagram",
+      "Format berkas gambar yang rusak saat diekspor ke aplikasi lembar kerja",
+      "Label sumbu koordinat yang ditulis menggunakan jenis huruf sans-serif",
+      "Elemen visual dekoratif tambahan (seperti efek 3D berlebihan, bayangan tebal, atau pola latar rumit) yang tidak menambah nilai informasi dan mengalihkan perhatian audiens"
+    ],
+    "answer": 3,
+    "explain": "Chart junk adalah istilah yang diperkenalkan oleh Edward Tufte untuk elemen dekoratif grafis yang tidak perlu, yang justru membingungkan pembaca dan mendistorsi pemahaman data."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Sebagian kecil anggota dari populasi yang dipilih untuk dianalisis, dengan tujuan agar hasilnya bisa mewakili populasi secara keseluruhan, disebut ",
-    after: ".",
-    accepted: ["sampel"],
-    explain: "Sampel diambil agar penelitian tidak perlu memeriksa seluruh populasi, namun tetap bisa menggambarkan populasi secara keseluruhan."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Saat membuat aplikasi peta rute bus kota, perancang hanya menampilkan rute jalan utama dan halte penting tanpa menggambar detail pohon, trotoar, atau warna cat rumah penduduk. Penerapan pilar berpikir komputasional ini disebut…",
+    "options": [
+      "Abstraksi, yaitu memfokuskan pada informasi penting dan mengabaikan detail yang tidak relevan",
+      "Dekomposisi, yaitu memecah rute menjadi halte-halte kecil",
+      "Pengenalan Pola, yaitu mengenali jadwal kedatangan bus yang berulang",
+      "Algoritma, yaitu urutan kode program pembaca sinyal GPS"
+    ],
+    "answer": 0,
+    "explain": "Abstraksi adalah proses menyaring dan memilah informasi penting yang diperlukan untuk memecahkan masalah sambil membuang detail yang tidak penting."
   },
   {
-    type: "mcq",
-    q: "Populasi yang jumlahnya dapat dihitung secara pasti disebut populasi…",
-    options: ["Homogen", "Takterbatas", "Terbatas", "Heterogen"],
-    answer: 2,
-    explain: "Populasi terbatas adalah populasi yang jumlahnya dapat dihitung, sedangkan populasi takterbatas tidak bisa dihitung secara pasti."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Dalam ilmu komputasi dan matematika, suatu fungsi dikatakan bersifat deterministik jika…",
+    "options": [
+      "Menghasilkan output acak yang bervariasi setiap kali dijalankan",
+      "Selalu menghasilkan nilai output yang sama persis setiap kali diberikan nilai input yang identik",
+      "Hanya dapat menerima input berupa bilangan pecahan",
+      "Bisa mengubah data memori tanpa memerlukan parameter masukan"
+    ],
+    "answer": 1,
+    "explain": "Fungsi deterministik adalah fungsi yang untuk suatu nilai masukan tertentu akan selalu menghasilkan keluaran yang sama dan dapat diprediksi tanpa keacakan."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan syarat sampel yang tepat.",
-    before: "Salah satu syarat sampel yang baik adalah harus bersifat ",
-    after: " agar hasil penelitian bisa digeneralisasi ke seluruh populasi.",
-    accepted: ["representatif"],
-    explain: "Sampel yang representatif mencerminkan karakteristik penting dari populasi, sehingga hasilnya bisa diterapkan ke seluruh populasi."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C2 Memahami",
+    "q": "Diberikan himpunan A = {siswa yang menyukai Robotik} dan B = {siswa yang menyukai Coding}. Himpunan siswa yang menyukai Robotik sekaligus menyukai Coding dinyatakan oleh operasi himpunan…",
+    "options": [
+      "Gabungan (A ∪ B)",
+      "Selisih (A − B)",
+      "Irisan (A ∩ B)",
+      "Komplemen (A′)"
+    ],
+    "answer": 2,
+    "explain": "Irisan dua himpunan (A ∩ B) memuat anggota-anggota yang berada pada kedua himpunan sekaligus (memenuhi kriteria A DAN B)."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
-    before: "Teknik sampling di mana populasi dibagi dulu ke dalam beberapa strata berdasarkan karakteristik tertentu (misalnya jenis kelamin atau jurusan), lalu sampel diambil secara acak dari setiap strata, disebut ",
-    after: " sampling.",
-    accepted: ["stratified"],
-    explain: "Stratified sampling memastikan setiap kelompok/strata dalam populasi terwakili dalam sampel."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C3 Menerapkan",
+    "q": "Seorang peneliti mencatat: (1) Nomor punggung kaos pemain sepak bola, (2) Juara lomba lari (Juara 1, 2, 3), (3) Waktu tempuh lari dalam detik. Berturut-turut, skala pengukuran ketiga data tersebut adalah…",
+    "options": [
+      "Ordinal, Nominal, dan Interval",
+      "Nominal, Interval, dan Rasio",
+      "Rasio, Ordinal, dan Nominal",
+      "Nominal, Ordinal, dan Rasio"
+    ],
+    "answer": 3,
+    "explain": "Nomor punggung hanya label kategori (Nominal), Juara 1/2/3 memiliki peringkat urutan (Ordinal), dan waktu lari memiliki rasio perbandingan dengan nol mutlak (Rasio)."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
-    before: "Teknik sampling di mana populasi dibagi ke dalam beberapa klaster (misalnya berdasarkan lokasi atau kelas), lalu beberapa klaster dipilih secara acak dan seluruh anggotanya dijadikan sampel, disebut ",
-    after: " sampling.",
-    accepted: ["cluster"],
-    explain: "Pada cluster sampling, yang dipilih secara acak adalah kelompoknya (klaster), bukan individunya satu per satu."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C3 Menerapkan",
+    "q": "Dalam pemilihan perwakilan kelas, wali kelas ingin mengambil sampel 5 siswa secara acak sederhana (Simple Random Sampling) dari 30 siswa di kelas. Cara penerapan yang paling tepat dan adil adalah…",
+    "options": [
+      "Memilih 5 siswa yang duduk di deretan meja paling depan",
+      "Mengundi nomor presensi seluruh 30 siswa dari wadah tertutup agar setiap siswa memiliki peluang yang sama untuk terpilih",
+      "Memilih 5 siswa yang memiliki nilai rapor tertinggi di kelas",
+      "Menunjuk 5 siswa yang datang paling awal di pagi hari"
+    ],
+    "answer": 1,
+    "explain": "Simple Random Sampling (sampel acak sederhana) memberikan kesempatan/peluang yang sama bagi setiap anggota populasi untuk terpilih, misalnya melalui sistem undian nomor presensi siswa."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah teknik sampling yang tepat.",
-    before: "Teknik sampling dengan mengambil sampel berdasarkan interval tertentu, misalnya mengambil setiap orang ke-10 dari daftar urut populasi, disebut ",
-    after: " sampling.",
-    accepted: ["systematic"],
-    explain: "Systematic sampling mengambil sampel berdasarkan interval/jarak tertentu dalam daftar populasi, bukan murni acak sepenuhnya."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C3 Menerapkan",
+    "q": "Dari daftar 200 siswa bernomor urut 1 sampai 200, akan diambil 20 siswa menggunakan sampling sistematis (interval k = 200 / 20 = 10). Jika nomor awal yang terpilih secara acak adalah nomor 4, maka tiga nomor sampel berikutnya adalah…",
+    "options": [
+      "14, 24, dan 34",
+      "5, 6, dan 7",
+      "10, 20, dan 30",
+      "14, 28, dan 42"
+    ],
+    "answer": 0,
+    "explain": "Dengan nomor awal 4 dan interval k = 10, sampel berikutnya diambil dengan menambahkan kelipatan k: 4 + 10 = 14, 14 + 10 = 24, 24 + 10 = 34, dst."
   },
   {
-    type: "tf",
-    code: null,
-    claim: "Pada simple random sampling, setiap anggota populasi memiliki peluang yang sama untuk dipilih sebagai sampel.",
-    answer: true,
-    explain: "Benar. Tujuannya adalah menghindari bias dalam pemilihan sampel, misalnya dengan undian, aplikasi acak, atau tabel angka random."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C3 Menerapkan",
+    "q": "Seorang analis ingin menyajikan perubahan suhu rata-rata harian sebuah kota setiap hari selama satu bulan penuh untuk melihat tren kenaikan atau penurunannya. Jenis grafik yang paling tepat diterapkan adalah…",
+    "options": [
+      "Diagram lingkaran (pie chart), karena menunjukkan bagian dari 100%",
+      "Diagram batang bertingkat (stacked bar chart), karena membandingkan proporsi kategori",
+      "Diagram garis (line chart), karena efektif menunjukkan fluktuasi dan kontinuitas tren waktu",
+      "Diagram venn, karena mengelompokkan himpunan data yang beririsan"
+    ],
+    "answer": 2,
+    "explain": "Diagram garis (line chart) paling optimal untuk menampilkan data deret waktu (time series) karena menghubungkan titik-titik data secara berurutan dan memperjelas pola tren naik-turun."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah jenis grafik yang tepat.",
-    before: "Grafik berupa lingkaran yang dibagi menjadi beberapa irisan, di mana ukuran setiap irisan mewakili persentase suatu kategori, disebut ",
-    after: " chart.",
-    accepted: ["pie"],
-    explain: "Pie chart cocok untuk menunjukkan proporsi/persentase setiap kategori terhadap keseluruhan data."
+    "type": "fill",
+    "tag": "Isian Singkat · C3 Menerapkan",
+    "prompt": "Hitunglah nilai fungsi berikut.",
+    "before": "Diberikan fungsi komputasi f(x) = 4x − 7. Jika dimasukkan nilai input x = 6, maka nilai output yang dihasilkan adalah ",
+    "after": ".",
+    "accepted": [
+      "17"
+    ],
+    "explain": "Substitusikan x = 6 ke dalam fungsi: f(6) = 4(6) − 7 = 24 − 7 = 17."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Tampilan data yang mengelompokkan nilai ke dalam kelompok (batang) dan nilai-nilai dalam kelompok tersebut bercabang ke kanan (daun) disebut tampilan ",
-    after: ".",
-    accepted: ["stem & leaf", "stem and leaf", "stem-leaf", "batang dan daun", "batang-daun"],
-    explain: "Tampilan stem & leaf (batang-dan-daun) berguna untuk melihat sebaran data sekaligus urutan nilainya."
+    "type": "fill",
+    "tag": "Isian Singkat · C3 Menerapkan",
+    "prompt": "Tentukan elemen teratas stack berikut.",
+    "before": "Sebuah stack mula-mula kosong. Dilakukan operasi berturut-turut: Push(A), Push(B), Push(C), Pop(), Push(D). Elemen yang saat ini berada di posisi teratas (top) dari stack adalah huruf ",
+    "after": ".",
+    "accepted": [
+      "d",
+      "D"
+    ],
+    "explain": "Langkah: (1) Push(A) -> [A], (2) Push(B) -> [A, B], (3) Push(C) -> [A, B, C], (4) Pop() -> mengeluarkan C sehingga tersisa [A, B], (5) Push(D) -> [A, B, D]. Elemen teratas adalah D."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah jenis grafik yang tepat.",
-    before: "Grafik untuk data numerik berpasangan dari dua variabel, di mana satu variabel diukur pada sumbu vertikal dan variabel lainnya pada sumbu horizontal, disebut ",
-    after: " plot.",
-    accepted: ["scatter"],
-    explain: "Scatter plot digunakan untuk melihat hubungan atau pola antara dua variabel numerik, misalnya volume produksi terhadap biaya per hari."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C3 Menerapkan",
+    "q": "Diketahui himpunan semesta S = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10} dan himpunan A = {2, 3, 5, 7}. Anggota himpunan komplemen A (ditulis A′) adalah…",
+    "options": [
+      "{1, 3, 5, 7, 9}",
+      "{2, 4, 6, 8, 10}",
+      "∅ (himpunan kosong)",
+      "{1, 4, 6, 8, 9, 10}"
+    ],
+    "answer": 3,
+    "explain": "Komplemen A memuat semua anggota semesta S yang BUKAN merupakan anggota himpunan A: {1, 4, 6, 8, 9, 10}."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Elemen dekoratif berlebihan pada grafik (misalnya gambar-gambar yang tidak perlu) yang tidak menambah informasi dan justru mengaburkan data disebut chart ",
-    after: ".",
-    accepted: ["junk"],
-    explain: "Chart junk membuat grafik sulit dibaca karena perhatian teralihkan ke dekorasi, bukan ke data itu sendiri."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C3 Menerapkan",
+    "q": "Ketika seorang siswa hendak membuat program game edukasi kuis, ia membagi tugas menjadi sub-sistem mandiri: modul autentikasi akun, modul bank soal, modul animasi antarmuka, dan modul penghitungan skor. Langkah tersebut merupakan penerapan pilar…",
+    "options": [
+      "Dekomposisi",
+      "Pengenalan Pola",
+      "Abstraksi",
+      "Perancangan Algoritma"
+    ],
+    "answer": 0,
+    "explain": "Dekomposisi adalah teknik memecah masalah besar atau sistem yang kompleks menjadi bagian-bagian yang lebih kecil dan lebih mudah dikelola."
   },
   {
-    type: "tf",
-    code: null,
-    claim: "Semakin besar ukuran sampel, umumnya semakin akurat hasil penelitiannya, meski tetap tergantung kebutuhan dan sumber daya yang tersedia.",
-    answer: true,
-    explain: "Benar. Ukuran sampel yang cukup adalah salah satu syarat sampel yang baik, meskipun perlu dipertimbangkan terhadap keterbatasan sumber daya."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C4 Menganalisis",
+    "q": "Sebuah tim survei ingin mengetahui kepuasan masyarakat terhadap layanan transportasi publik kota, namun mereka hanya membagikan kuesioner daring (online) melalui media sosial pada jam kerja (pukul 10.00 - 14.00). Analisis potensi kelemahan (sampling bias) paling signifikan dari metode tersebut adalah…",
+    "options": [
+      "Waktu pengumpulan data terlalu singkat sehingga kapasitas server basis data tidak mencukupi",
+      "Sampel tidak merepresentasikan kelompok lansia, pekerja lapangan yang tidak membuka medsos saat jam kerja, serta warga yang tidak memiliki akses internet",
+      "Jumlah pertanyaan pada kuesioner daring selalu lebih sedikit dibanding survei cetak",
+      "Data daring otomatis berstatus data sekunder sehingga tidak valid untuk dianalisis"
+    ],
+    "answer": 1,
+    "explain": "Metode ini mengalami bias seleksi (selection bias/coverage bias) berat karena mengabaikan kelompok pengguna penting yang tidak online atau tidak mengakses medsos pada jam kerja."
   },
   {
-    type: "mcq",
-    q: "Computational Thinking (berpikir komputasional) merupakan metode pemecahan masalah yang bersifat sistematis dan logis, di mana masalah diuraikan dan solusinya dirumuskan agar dapat dijalankan secara efektif oleh…",
-    options: ["Hanya komputer", "Manusia maupun sistem", "Hanya manusia", "Robot semata"],
-    answer: 1,
-    explain: "Computational Thinking dirancang agar solusinya bisa dijalankan secara efektif baik oleh manusia maupun oleh sistem (komputer)."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C4 Menganalisis",
+    "q": "Pada grafik batang perbandingan penjualan produk A (100 unit) dan produk B (105 unit), pembuat grafik sengaja memotong sumbu Y (truncated Y-axis) sehingga skala nilai dimulai dari 98 bukan dari 0. Analisis efek distorsi visual yang ditimbulkan adalah…",
+    "options": [
+      "Batang produk A dan B menjadi miring dan tidak sejajar sumbu horizontal",
+      "Grafik kehilangan kemampuan untuk menampilkan warna batang yang berbeda",
+      "Batang produk B tampak berkali-kali lipat lebih tinggi dari produk A, menciptakan ilusi perbedaan yang sangat dramatis padahal selisih sesungguhnya hanya 5%",
+      "Grafik otomatis ditolak oleh sistem pengolah data karena sumbu Y wajib bernilai negatif"
+    ],
+    "answer": 2,
+    "explain": "Truncated axis (memotong sumbu nilai dasar bukan dari 0) membesar-besarkan perbedaan kecil sehingga batang yang hanya selisih 5% terlihat berlipat-lipat lebih tinggi dan menyesatkan audiens."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah pilar Computational Thinking yang tepat.",
-    before: "Pilar Computational Thinking yang memecah masalah atau sistem kompleks menjadi bagian-bagian yang lebih kecil, spesifik, dan mudah dikelola disebut ",
-    after: ".",
-    accepted: ["decomposition", "dekomposisi"],
-    explain: "Decomposition (dekomposisi) memecah masalah besar menjadi bagian-bagian kecil yang lebih mudah diselesaikan."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C4 Menganalisis",
+    "q": "Diberikan domain X = {a, b, c} dan kodomain Y = {1, 2, 3}. Pasangan berurutan manakah di bawah ini yang memenuhi syarat sebagai suatu fungsi matematika yang valid?",
+    "options": [
+      "{(a, 1), (a, 2), (b, 3)}",
+      "{(a, 1), (b, 2)}",
+      "{(a, 1), (b, 3), (b, 2), (c, 3)}",
+      "{(a, 1), (b, 2), (c, 2)}"
+    ],
+    "answer": 3,
+    "explain": "Syarat fungsi: setiap anggota domain tepat memiliki satu pasangan di kodomain. Pada opsi D, a->1, b->2, c->2 memenuhi syarat. Opsi A dan C menduplikasi elemen domain, sedangkan opsi B mengabaikan elemen c."
   },
   {
-    type: "mcq",
-    q: "Pilar Computational Thinking yang berfungsi untuk mencari keteraturan, tren, atau kesamaan dalam masalah yang sedang dipecahkan disebut…",
-    options: ["Abstraction", "Algorithm", "Pattern recognition", "Decomposition"],
-    answer: 2,
-    explain: "Pattern recognition adalah proses mengenali pola atau kesamaan dari masalah yang sedang dihadapi."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C4 Menganalisis",
+    "q": "Di suatu kelas terdapat 35 siswa. Sebanyak 20 siswa menyukai Matematika, 18 siswa menyukai Informatika, dan 8 siswa menyukai kedua-duanya. Jika dianalisis menggunakan prinsip diagram Venn himpunan, berapa banyak siswa yang HANYA menyukai Matematika saja?",
+    "options": [
+      "12 siswa",
+      "20 siswa",
+      "10 siswa",
+      "8 siswa"
+    ],
+    "answer": 0,
+    "explain": "Banyak siswa yang menyukai Matematika saja = Total siswa suka Matematika − Siswa suka kedua-duanya = 20 − 8 = 12 siswa."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah pilar Computational Thinking yang tepat.",
-    before: "Pilar Computational Thinking yang memilah dan menyaring informasi penting yang relevan dengan solusi, serta mengabaikan detail-detail kecil yang tidak krusial, disebut ",
-    after: ".",
-    accepted: ["abstraction", "abstraksi"],
-    explain: "Abstraction (abstraksi) berfokus pada informasi penting dan mengabaikan detail yang tidak relevan dengan solusi."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C4 Menganalisis",
+    "q": "Diberikan urutan ekspresi aritmatika postfix berikut: 5 3 2 * +. Jika ekspresi ini dievaluasi langkah demi langkah menggunakan struktur data Stack, nilai akhir yang tersisa pada stack adalah…",
+    "options": [
+      "16",
+      "11",
+      "30",
+      "13"
+    ],
+    "answer": 1,
+    "explain": "Langkah kerja stack: (1) Push(5) -> [5], (2) Push(3) -> [5, 3], (3) Push(2) -> [5, 3, 2], (4) Operator *: Pop 2 dan 3, hitung 3 * 2 = 6, Push(6) -> [5, 6], (5) Operator +: Pop 6 dan 5, hitung 5 + 6 = 11, Push(11) -> [11]. Hasil akhir = 11."
   },
   {
-    type: "mcq",
-    q: "Merancang instruksi atau serangkaian langkah logis yang terurut secara sistematis untuk mencapai tujuan atau menyelesaikan masalah adalah pengertian dari…",
-    options: ["Algorithm", "Pattern recognition", "Abstraction", "Decomposition"],
-    answer: 0,
-    explain: "Algorithm (algoritma) adalah rangkaian langkah logis dan terurut untuk mencapai suatu tujuan atau solusi."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C4 Menganalisis",
+    "q": "Dalam menganalisis pola cuaca, kegiatan mengenali bahwa setiap kelembapan udara >90% dan suhu turun drastis maka kemungkinan hujan lebat dalam 1 jam tergolong pilar…, sedangkan merumuskan urutan instruksi terstruktur pengiriman peringatan dini otomatis ke ponsel warga tergolong pilar…",
+    "options": [
+      "Dekomposisi dan Abstraksi",
+      "Abstraksi dan Pengenalan Pola",
+      "Pengenalan Pola (Pattern Recognition) dan Perancangan Algoritma (Algorithm Design)",
+      "Perancangan Algoritma dan Dekomposisi"
+    ],
+    "answer": 2,
+    "explain": "Mengidentifikasi keteraturan atau kecenderungan data yang berulang adalah Pengenalan Pola, sedangkan merancang langkah instruksi logis penyelesaian masalah adalah Perancangan Algoritma."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah pilar Computational Thinking yang tepat.",
-    before: "Pada kasus membuat sarapan roti panggang isi selai dan hot milk tea, mengambil kesimpulan tugas inti seperti 'membuat roti panggang' dan 'membuat hot milk tea' dari cerita panjang merupakan contoh penerapan pilar ",
-    after: ".",
-    accepted: ["decomposition", "dekomposisi"],
-    explain: "Mengambil tugas inti dari informasi yang panjang adalah bentuk decomposition, yaitu memecah masalah menjadi bagian-bagian yang lebih spesifik."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C5 Mengevaluasi",
+    "q": "Seorang peneliti mengklaim: \"Survei saya diikuti oleh 50.000 anggota sebuah klub mobil mewah, sehingga kesimpulan survei ini dapat digeneralisasi untuk mencerminkan gaya hidup seluruh masyarakat Indonesia.\" Bagaimanakah evaluasi kritis Anda terhadap klaim tersebut?",
+    "options": [
+      "Klaim tersebut valid karena dalam statistika setiap sampel di atas 1.000 responden dijamin bebas bias",
+      "Klaim tersebut valid asalkan peneliti menggunakan perangkat lunak pengolah data terlisensi resmi",
+      "Klaim tersebut tidak valid semata-mata karena jumlah 50.000 masih terlalu sedikit untuk populasi Indonesia",
+      "Klaim tersebut tidak valid karena meskipun jumlah sampelnya sangat besar, metode penarikan sampel mengalami bias seleksi berat dan tidak representatif terhadap keragaman seluruh masyarakat Indonesia"
+    ],
+    "answer": 3,
+    "explain": "Ukuran sampel yang sangat besar (big data) tidak dapat menutupi bias penarikan sampel yang parah. Representativitas dan ketepatan metode sampling jauh lebih krusial dibanding semata-mata besaran angka sampel."
   },
   {
-    type: "mcq",
-    q: "Mengenali bahwa 'roti dipanggang', 'air dipanaskan', dan 'teh ditambah susu' merupakan pola berulang dalam kegiatan menyiapkan sarapan adalah contoh penerapan pilar…",
-    options: ["Algorithm", "Pattern recognition", "Abstraction", "Decomposition"],
-    answer: 1,
-    explain: "Mengenali pola dari beberapa kegiatan yang mirip merupakan contoh pattern recognition."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C5 Mengevaluasi",
+    "q": "Sebuah laporan keuangan menyajikan alokasi anggaran dari 18 divisi yang nilainya saling berdekatan (masing-masing antara 4% hingga 7%) menggunakan diagram lingkaran 3D miring (3D exploded pie chart). Evaluasi terhadap efektivitas visualisasi tersebut adalah…",
+    "options": [
+      "Sangat buruk, karena diagram lingkaran dengan lebih dari 7 kategori sangat sulit dibedakan, dan perspektif 3D memicu distorsi visual di mana irisan depan tampak lebih besar dari irisan belakang",
+      "Sangat efektif, karena efek 3D membuat grafik terlihat modern dan mewah bagi pembaca",
+      "Sangat efektif, karena diagram lingkaran adalah satu-satunya grafik yang dapat memuat lebih dari 15 kategori data",
+      "Cukup efektif asalkan setiap irisan diberi warna gradasi cerah yang bervariasi"
+    ],
+    "answer": 0,
+    "explain": "Pie chart tidak cocok untuk lebih dari 5-7 kategori (terlebih dengan nilai yang mirip). Efek 3D semakin memperparah karena memiringkan sudut pandang dan mendistorsi luas area irisan."
   },
   {
-    type: "mcq",
-    q: "Ketika menyiapkan sarapan, membuang detail yang tidak penting (misalnya alasan ibu sedang sibuk) dan hanya berfokus pada hal-hal penting seperti jenis roti dan rasa selai adalah contoh penerapan pilar…",
-    options: ["Abstraction", "Algorithm", "Decomposition", "Pattern recognition"],
-    answer: 0,
-    explain: "Abstraction membuang detail yang tidak relevan dan hanya menyisakan informasi penting untuk penyelesaian masalah."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C5 Mengevaluasi",
+    "q": "Dalam merancang perangkat lunak kasir, Programmer A menulis seluruh logika perhitungan diskon, cetak struk, dan pajak dalam satu prosedur monolitik sepanjang 600 baris. Programmer B memecahnya menjadi fungsi-fungsi kecil mandiri: hitungDiskon(), hitungPajak(), dan cetakStruk(). Berdasarkan evaluasi aspek pemeliharaan perangkat lunak (maintainability), pendekatan manakah yang lebih unggul?",
+    "options": [
+      "Pendekatan Programmer A, karena satu prosedur panjang selalu dieksekusi lebih cepat oleh prosesor komputer",
+      "Pendekatan Programmer B, karena memudahkan pencarian kesalahan (debugging), pengujian kode terisolasi, dan fungsi dapat digunakan kembali di bagian program lain",
+      "Pendekatan Programmer A, karena menghemat alokasi memori nama-nama fungsi baru",
+      "Kedua pendekatan sama baiknya karena output yang dicetak ke struk menghasilkan angka yang sama"
+    ],
+    "answer": 1,
+    "explain": "Modularitas fungsi (dekomposisi) menghasilkan kode yang bersih, mudah diuji (unit testing), mudah didebug, dan dapat digunakan kembali (reusable), yang merupakan standar praktik rekayasa perangkat lunak yang baik."
   },
   {
-    type: "mcq",
-    q: "Fungsi merupakan bagian dari sebuah 'mesin komputasi' yang menerima input, melakukan proses tertentu, dan…",
-    options: ["Menyimpan input secara permanen", "Menghasilkan output", "Menghapus proses sebelumnya", "Menggandakan input"],
-    answer: 1,
-    explain: "Fungsi menerima input, memprosesnya, lalu menghasilkan output sebagai hasil akhirnya."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C5 Mengevaluasi",
+    "q": "Fitur tombol Undo pada aplikasi pengolah kata dan tombol Back pada peramban web (browser) memanfaatkan struktur data Stack. Mengapa struktur data Stack dinilai paling tepat untuk fitur ini dibandingkan struktur data Queue (antrean FIFO)?",
+    "options": [
+      "Karena stack dapat menyimpan data tak terbatas tanpa menggunakan memori komputer",
+      "Karena queue hanya dapat memproses data berupa bilangan angka dan bukan teks dokumen",
+      "Karena perintah/halaman yang paling terakhir dikunjungi harus menjadi yang paling pertama dipulihkan saat tombol ditekan (prinsip LIFO)",
+      "Karena stack selalu mengeksekusi operasi penelusuran lebih lambat dari queue sehingga aman bagi pengguna"
+    ],
+    "answer": 2,
+    "explain": "Undo dan Back memerlukan riwayat terbalik: tindakan paling mutakhir (terakhir dilakukan) adalah tindakan pertama yang harus dibatalkan/dikembalikan, yang tepat sesuai dengan sifat LIFO dari stack."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Pada contoh mesin ATM, memasukkan pin, menekan opsi tarik tunai, dan memasukkan nominal uang merupakan tahap ",
-    after: " dalam sebuah fungsi.",
-    accepted: ["input", "masukan"],
-    explain: "Tindakan pengguna memasukkan data ke mesin (pin, opsi, nominal) merupakan tahap input pada fungsi."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C5 Mengevaluasi",
+    "q": "Dua siswa merancang algoritma untuk menyalakan lampu teras rumah secara otomatis:\n• Algoritma 1: Menyalakan lampu tepat setiap pukul 18.00 berdasarkan pengatur waktu (timer jam), tanpa memedulikan kondisi cuaca.\n• Algoritma 2: Menyalakan lampu hanya ketika sensor cahaya mendeteksi lingkungan mulai gelap (misalnya saat mendung gelap atau senja tiba).\nBerdasarkan evaluasi efektivitas dan efisiensi, manakah penilaian yang paling tepat?",
+    "options": [
+      "Algoritma 1 selalu lebih unggul karena tidak membutuhkan aliran arus listrik",
+      "Kedua algoritma menghasilkan kinerja yang sama persis di setiap keadaan cuaca",
+      "Algoritma 1 lebih baik karena jam dinding tidak pernah terpengaruh bayangan awan",
+      "Algoritma 2 lebih efektif dan hemat energi karena bekerja secara adaptif menyesuaikan tingkat kegelapan lingkungan yang sesungguhnya"
+    ],
+    "answer": 3,
+    "explain": "Algoritma 2 (berbasis sensor cahaya/kondisional) lebih unggul karena bersifat adaptif: lampu tidak menyala sia-sia jika hari masih terang pada jam 18.00, dan otomatis menyala lebih awal jika cuaca mendung gelap, sehingga lebih hemat energi."
   },
   {
-    type: "mcq",
-    q: "Dalam matematika, fungsi adalah relasi yang menghubungkan setiap elemen dalam himpunan input dengan tepat satu elemen dalam himpunan output. Himpunan input pada fungsi disebut…",
-    options: ["Kodomain", "Range", "Domain", "Himpunan kosong"],
-    answer: 2,
-    explain: "Himpunan input pada fungsi disebut domain, sedangkan himpunan output disebut kodomain."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C6 Mengkreasi",
+    "q": "Anda diminta merancang formula perhitungan otomatis dalam program rapor siswa. Ketentuan bobot nilainya adalah: Tugas Mandiri sebesar 20%, Ujian Tengah Semester (UTS) sebesar 30%, dan Ujian Akhir Semester (UAS) sebesar 50%. Rancangan formula algoritma yang tepat untuk menghasilkan Nilai Akhir (NA) siswa adalah…",
+    "options": [
+      "NA = (0.2 × Tugas) + (0.3 × UTS) + (0.5 × UAS)",
+      "NA = (Tugas + UTS + UAS) / 3",
+      "NA = (Tugas × 20) + (UTS × 30) + (UAS × 50)",
+      "NA = 0.5 × (Tugas + UTS + UAS)"
+    ],
+    "answer": 0,
+    "explain": "Dengan bobot Tugas 20% (0,2), UTS 30% (0,3), dan UAS 50% (0,5), rancangan perhitungan komputasi yang benar adalah mengalikan setiap nilai dengan desimal bobotnya lalu menjumlahkannya: NA = (0.2 × Tugas) + (0.3 × UTS) + (0.5 × UAS)."
   },
   {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Himpunan output dari suatu fungsi disebut ",
-    after: ".",
-    accepted: ["kodomain"],
-    explain: "Kodomain adalah himpunan yang memuat seluruh kemungkinan output dari suatu fungsi."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C6 Mengkreasi",
+    "q": "Sebuah sistem beasiswa ingin menyaring data siswa dengan kriteria: \"Memiliki sertifikat prestasi tingkat Internasional (I) ATAU prestasi tingkat Nasional (N), TETAPI TIDAK memiliki catatan sanksi pelanggaran (P)\". Rumusan operasi logika himpunan yang paling tepat dirancang untuk kriteria penyaringan tersebut adalah…",
+    "options": [
+      "(I ∩ N) ∪ P′",
+      "(I ∪ N) ∩ P′",
+      "(I ∪ N) ∪ P",
+      "(I ∩ N) ∩ P"
+    ],
+    "answer": 1,
+    "explain": "(I ∪ N) menyatakan gabungan siswa yang memiliki prestasi Internasional atau Nasional. Mengirisnya dengan komplemen P (P′) memastikan hanya mereka yang BUKAN anggota himpunan pelanggar yang lolos."
   },
   {
-    type: "mcq",
-    q: "Selama input suatu fungsi tidak berubah, maka…",
-    options: ["Output akan selalu berubah-ubah", "Output akan selalu sama", "Proses akan dihentikan", "Fungsi akan error"],
-    answer: 1,
-    explain: "Salah satu sifat fungsi adalah, selama input tidak berubah, output yang dihasilkan akan selalu sama. Namun, input yang berbeda bisa saja menghasilkan output yang sama."
-  },
-  {
-    type: "mcq",
-    q: "Dalam ilmu komputasi, fungsi dapat diartikan sebagai…",
-    options: ["Data yang tidak dapat diubah", "Prosedur atau blok kode yang menerima input, memproses, dan memberikan output", "Kumpulan objek yang memiliki ciri sama", "Struktur data LIFO"],
-    answer: 1,
-    explain: "Dalam komputasi, fungsi adalah prosedur atau blok kode yang menerima input, melakukan proses tertentu, dan memberikan output."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Proses memecah sebuah fungsi besar menjadi fungsi-fungsi yang lebih kecil disebut ",
-    after: " fungsi.",
-    accepted: ["dekomposisi", "decomposition"],
-    explain: "Dekomposisi fungsi memecah fungsi besar menjadi bagian-bagian kecil agar lebih mudah dikelola dan diubah."
-  },
-  {
-    type: "mcq",
-    q: "Salah satu manfaat dekomposisi fungsi adalah…",
-    options: ["Membuat program menjadi lebih lambat", "Mempermudah membuat perubahan program tanpa mengubah keseluruhan program", "Menghilangkan kebutuhan akan output", "Menggabungkan seluruh fungsi menjadi satu blok besar"],
-    answer: 1,
-    explain: "Dengan dekomposisi, perubahan cukup dilakukan pada fungsi kecil tertentu tanpa mengubah keseluruhan program."
-  },
-  {
-    type: "mcq",
-    q: "Himpunan adalah…",
-    options: ["Kumpulan objek yang memiliki kesamaan ciri yang jelas dan dapat didefinisikan dengan tepat", "Kumpulan angka acak tanpa pola", "Struktur data yang menerapkan prinsip LIFO", "Prosedur yang menerima input dan output"],
-    answer: 0,
-    explain: "Himpunan adalah kumpulan objek dengan ciri yang jelas dan dapat didefinisikan secara tepat."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Himpunan dilambangkan dengan huruf ",
-    after: ", seperti A, B, atau C, dan anggotanya dituliskan di dalam simbol kurung kurawal.",
-    accepted: ["kapital", "besar", "huruf kapital", "huruf besar"],
-    explain: "Himpunan biasa dilambangkan dengan huruf kapital, sedangkan anggotanya ditulis dalam tanda kurung kurawal { }."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Himpunan yang tidak memiliki anggota sama sekali disebut himpunan ",
-    after: ", dilambangkan dengan ∅.",
-    accepted: ["kosong"],
-    explain: "Himpunan kosong adalah himpunan yang tidak memiliki anggota, dilambangkan dengan simbol ∅."
-  },
-  {
-    type: "mcq",
-    q: "Himpunan yang berisi seluruh anggota yang sedang dibicarakan disebut…",
-    options: ["Himpunan kosong", "Himpunan semesta", "Himpunan bagian", "Himpunan komplemen"],
-    answer: 1,
-    explain: "Himpunan semesta (S) memuat seluruh anggota himpunan yang sedang dibicarakan."
-  },
-  {
-    type: "mcq",
-    q: "Kumpulan data yang rapi dan memiliki pola keteraturan yang jelas disebut…",
-    options: ["Himpunan data tidak terstruktur", "Himpunan data terstruktur", "Himpunan kosong", "Himpunan komplemen"],
-    answer: 1,
-    explain: "Himpunan data terstruktur adalah kumpulan data yang rapi dan memiliki pola keteraturan yang jelas."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah operasi himpunan yang tepat.",
-    before: "Operasi himpunan yang menghasilkan data yang ada di himpunan A dan juga ada di himpunan B disebut operasi ",
-    after: ".",
-    accepted: ["irisan"],
-    explain: "Irisan (∩) menghasilkan data yang merupakan anggota dari kedua himpunan A dan B."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah operasi himpunan yang tepat.",
-    before: "Operasi himpunan yang menghasilkan semua data yang ada di kedua himpunan disebut operasi ",
-    after: ".",
-    accepted: ["gabungan"],
-    explain: "Gabungan (∪) menggabungkan seluruh anggota dari himpunan A maupun himpunan B."
-  },
-  {
-    type: "mcq",
-    q: "Data yang ada di himpunan semesta S namun tidak ada di himpunan A disebut…",
-    options: ["Irisan A", "Gabungan A", "Selisih A", "Komplemen A"],
-    answer: 3,
-    explain: "Komplemen A (A′) adalah data yang ada di himpunan semesta S tetapi tidak ada di himpunan A."
-  },
-  {
-    type: "mcq",
-    q: "Stack adalah struktur data yang digunakan untuk menyimpan sejumlah objek atau variabel dengan menerapkan prinsip…",
-    options: ["FIFO (First In First Out)", "LIFO (Last In First Out)", "Acak", "Terurut abjad"],
-    answer: 1,
-    explain: "Stack menerapkan prinsip LIFO, yaitu data yang terakhir dimasukkan akan menjadi data pertama yang dikeluarkan."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Prinsip kerja stack, di mana data yang terakhir dimasukkan akan menjadi data pertama yang dikeluarkan, disingkat ",
-    after: ".",
-    accepted: ["lifo", "last in first out"],
-    explain: "LIFO adalah singkatan dari Last In First Out, prinsip kerja utama pada struktur data stack."
-  },
-  {
-    type: "mcq",
-    q: "Jika angka 1 lalu angka 2 dimasukkan berturut-turut ke dalam stack, angka yang akan keluar lebih dulu adalah…",
-    options: ["Angka 1", "Angka 2", "Keduanya keluar bersamaan", "Tidak ada yang keluar"],
-    answer: 1,
-    explain: "Karena stack bersifat LIFO, angka 2 yang dimasukkan paling akhir akan menjadi yang pertama keluar."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Operasi untuk memasukkan elemen baru ke dalam stack disebut operasi ",
-    after: ".",
-    accepted: ["push"],
-    explain: "Push adalah operasi memasukkan elemen baru ke bagian atas (top) stack."
-  },
-  {
-    type: "fill",
-    prompt: "Lengkapi kalimat berikut dengan istilah yang tepat.",
-    before: "Operasi untuk mengeluarkan elemen dari bagian atas stack disebut operasi ",
-    after: ".",
-    accepted: ["pop"],
-    explain: "Pop adalah operasi mengeluarkan elemen dari bagian atas (top) stack."
-  },
-  {
-    type: "mcq",
-    q: "Pada ilustrasi operasi ekspresi matematika dengan stack, ketika operator '+' masuk setelah dua angka dimasukkan ke dalam stack, maka yang terjadi adalah…",
-    options: ["Kedua angka dihapus tanpa diproses", "Dua angka terakhir dikeluarkan untuk dioperasikan, lalu hasilnya dimasukkan kembali ke stack", "Stack menjadi kosong secara permanen", "Angka pertama tetap berada di stack tanpa diproses"],
-    answer: 1,
-    explain: "Saat operator masuk, dua angka teratas dikeluarkan (pop) untuk dioperasikan, kemudian hasilnya dimasukkan kembali (push) ke dalam stack — ini prinsip evaluasi ekspresi postfix menggunakan stack."
+    "type": "mcq",
+    "tag": "Pilihan Ganda · C6 Mengkreasi",
+    "q": "Anda ditugaskan merancang modul parser untuk memvalidasi apakah tanda kurung buka \"(\" dan tanda kurung tutup \")\" dalam suatu ekspresi matematika sudah seimbang dan berpasangan dengan benar. Rancangan logika menggunakan Stack yang tepat adalah…",
+    "options": [
+      "Setiap membaca tanda \"(\", lakukan pop dari stack; setiap membaca tanda \")\", lakukan push ke stack. Ekspresi valid jika stack berisi elemen genap",
+      "Kumpulkan seluruh tanda kurung ke dalam stack, kemudian hitung apakah total elemen dalam stack bernilai ganjil",
+      "Setiap membaca tanda \"(\", masukkan (push) ke stack. Setiap membaca tanda \")\", keluarkan (pop) satu elemen dari stack. Ekspresi dinyatakan valid jika selama proses tidak terjadi pop pada stack kosong dan di akhir proses stack dalam keadaan kosong",
+      "Setiap membaca kurung buka atau tutup, masukkan ke stack lalu kosongkan stack setiap kali menemukan angka"
+    ],
+    "answer": 2,
+    "explain": "Algoritma pencocokan tanda kurung menggunakan stack: saat kurung buka ditemukan, simpan ke stack. Saat kurung tutup ditemukan, harus ada kurung buka di stack untuk dipasangkan (pop). Jika stack kosong saat dipop atau tersisa elemen di akhir, ekspresi tidak valid."
   }
 ];
 
@@ -1002,14 +1053,7 @@ function renderStart() {
         <label for="class-input">Kelas</label>
         <input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)">
       </div>
-      <p style="margin:16px 0 20px; font-size:15px; color:var(--muted); line-height:1.6;">
-        Kamu akan menjawab ${QUESTIONS.length} soal — mulai dari analisis data
-        (konsep dasar statistik, populasi &amp; sampel, skala pengukuran, teknik
-        sampling, penyajian data), sampai Informatika Bab 2 (computational
-        thinking, fungsi, himpunan data terstruktur, dan struktur data stack).
-        ${fillCount} di antaranya adalah soal isian: lengkapi kata atau istilah
-        yang kosong pada kalimat.
-      </p>
+
       <button class="btn-primary show" id="start-btn">Mulai kuis</button>
     </div>
   `;
@@ -1055,7 +1099,7 @@ function renderQuestion() {
   }
 
   card.innerHTML = `
-    <span class="tag">${q.type === "mcq" ? "Pilihan Ganda" : "Benar / Salah"}</span>
+    <span class="tag">${q.tag || (q.type === "mcq" ? "Pilihan Ganda" : "Benar / Salah")}</span>
     <p class="question-text">${q.type === "mcq" ? q.q : "Perhatikan pernyataan berikut:"}</p>
     ${q.type === "tf" ? `<p class="question-text" style="font-size:15.5px; font-weight:500;">${q.claim}</p>` : ""}
     ${optionsHtml}
@@ -1071,7 +1115,7 @@ function renderFillQuestion(q) {
   const widthCh = Math.max(8, (q.accepted[0].length || 8) + 2);
 
   card.innerHTML = `
-    <span class="tag">Isian: Lengkapi Kalimat</span>
+    <span class="tag">${q.tag || "Isian: Lengkapi Kalimat"}</span>
     <p class="question-text">${q.prompt}</p>
     <div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…" style="width:${widthCh}ch">${esc(q.after)}</div>
     <div class="next-row check-row" style="justify-content:flex-start;">
