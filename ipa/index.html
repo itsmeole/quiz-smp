@@ -90,11 +90,6 @@
   .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--muted); }
   .form-group input { width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius); font-size: 15px; font-family: inherit; color: var(--ink); background: var(--surface); transition: border-color 0.2s ease, background 0.2s ease; }
   .form-group input:focus { outline: none; border-color: var(--accent); background: var(--accent-soft); }
-  .essay-input { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); font-size: 15px; font-family: inherit; color: var(--ink); background: var(--bg); transition: border-color 0.2s ease, background 0.2s ease; box-sizing: border-box; }
-  .essay-input:focus { outline: none; border-color: var(--accent); background: var(--surface); }
-  .essay-input:disabled { opacity: 1; }
-  .essay-input.ok { border-color: var(--good); background: var(--good-soft); color: var(--good); font-weight: 500; }
-  .essay-input.no { border-color: var(--bad); background: var(--bad-soft); color: var(--bad); font-weight: 500; }
   .recap { text-align: left; border-top: 1px solid var(--line); padding-top: 20px; margin-top: 8px; }
   .recap-item { display: flex; align-items: baseline; gap: 12px; padding: 7px 0; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--line); }
   .recap-item:last-child { border-bottom: none; }
@@ -119,7 +114,7 @@
   <header class="top">
     <p class="quiz-label">IPA &middot; SMP</p>
     <h1 class="title">Uji Pemahaman IPA</h1>
-    <p class="sub" id="intro-sub">60 soal latihan (50 pilihan ganda + 10 essay singkat) mencakup besaran pokok, konversi satuan, sel &amp; jaringan, sistem pencernaan, kelainan pencernaan, nutrisi makanan, dan sistem reproduksi manusia.</p>
+    <p class="sub" id="intro-sub">60 soal latihan (50 pilihan ganda + 10 isian kalimat) mencakup besaran pokok, konversi satuan, sel &amp; jaringan, sistem pencernaan, kelainan pencernaan, nutrisi makanan, dan sistem reproduksi manusia.</p>
   </header>
   <div class="progress-row" id="progress-row" style="display:none;">
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
@@ -207,27 +202,97 @@ const QUESTIONS=[
   {type:"mcq",q:"Tempat terjadinya peristiwa fertilisasi (pembuahan sel telur oleh sperma) pada saluran reproduksi wanita yang normal adalah…",options:["Uterus (rahim)","Tuba fallopi (oviduk)","Ovarium","Vagina"],answer:1,explain:"Fertilisasi normalnya berlangsung di saluran tuba fallopi (oviduk). Setelah pembuahan, zigot akan bergerak dan menempel (implantasi) di dinding rahim."},
   {type:"mcq",q:"Organ berdinding otot tebal pada sistem reproduksi wanita yang berfungsi sebagai tempat perkembangan embrio hingga janin siap dilahirkan adalah…",options:["Ovarium","Tuba fallopi","Uterus (rahim)","Serviks"],answer:2,explain:"Uterus (rahim) memiliki lapisan berotot kuat dan endometrium yang menebal sebagai tempat implantasi serta tumbuh kembangnya janin selama masa kehamilan."},
 
-  // ── Bagian II: Soal Essay Singkat (10 Soal, 1 per Topik) ──
+  // ── Bagian II: Isian Singkat (10 Soal, 1 per Topik) ──
   // Topik 1: Besaran Pokok
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan nama besaran pokok yang memiliki satuan Sistem Internasional (SI) Candela (cd)!",accepted:["intensitas cahaya","cahaya","intensitas"],explain:"Candela (cd) adalah satuan Sistem Internasional untuk besaran pokok intensitas cahaya."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan nama besaran pokok yang tepat.",
+    before: "Besaran pokok yang memiliki satuan Sistem Internasional (SI) Candela (cd) adalah ",
+    after: ".",
+    accepted: ["intensitas cahaya", "cahaya"],
+    explain: "Candela (cd) adalah satuan Sistem Internasional (SI) untuk besaran pokok intensitas cahaya."
+  },
   // Topik 2: Konversi Satuan
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebuah benda memiliki massa 2,5 kilogram. Berapakah nilai massa tersebut jika dikonversikan ke dalam satuan gram?",accepted:["2500 gram","2500 g","2.500 gram","2.500 g","2500","2.500"],explain:"1 kilogram = 1.000 gram, sehingga 2,5 kg = 2,5 × 1.000 = 2.500 gram."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan angka hasil konversi yang tepat.",
+    before: "Sebuah benda memiliki massa 2,5 kilogram. Jika dikonversikan ke satuan gram, nilainya setara dengan ",
+    after: " gram.",
+    accepted: ["2500", "2.500"],
+    explain: "1 kilogram = 1.000 gram, sehingga 2,5 kg = 2,5 × 1.000 = 2.500 gram."
+  },
   // Topik 3: Sel Hewan dan Sel Tumbuhan
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan organel sel yang berfungsi sebagai tempat terjadinya fotosintesis dan hanya ditemukan pada sel tumbuhan!",accepted:["kloroplas","chloroplast","plastida"],explain:"Kloroplas mengandung pigmen klorofil dan menjadi tempat terjadinya reaksi fotosintesis pada tumbuhan."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan nama organel sel yang tepat.",
+    before: "Organel sel yang berfungsi sebagai tempat berlangsungnya fotosintesis dan hanya ditemukan pada sel tumbuhan adalah ",
+    after: ".",
+    accepted: ["kloroplas", "chloroplast"],
+    explain: "Kloroplas mengandung pigmen klorofil dan menjadi tempat terjadinya reaksi fotosintesis pada tumbuhan."
+  },
   // Topik 4: Jaringan Hewan
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan jenis jaringan otot yang bekerja secara tidak sadar (involunter) dan menyusun dinding organ dalam seperti lambung dan usus!",accepted:["otot polos","polos"],explain:"Otot polos bekerja di luar kehendak sadar (involunter), berbentuk gelendong, dan melapisi organ dalam seperti lambung dan usus."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan jenis jaringan otot yang tepat.",
+    before: "Jaringan otot yang bekerja secara tidak sadar (involunter) dan menyusun organ dalam seperti lambung serta usus adalah otot ",
+    after: ".",
+    accepted: ["polos"],
+    explain: "Otot polos bekerja di luar kehendak sadar (involunter), berbentuk gelendong, dan melapisi dinding organ dalam saluran pencernaan."
+  },
   // Topik 5: Jaringan Tumbuhan
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan nama jaringan pengangkut pada tumbuhan yang berfungsi membawa air dan mineral dari akar menuju daun!",accepted:["xilem","pembuluh kayu","xylem"],explain:"Xilem (pembuluh kayu) mengangkut air dan unsur hara tanah dari akar ke daun, sedangkan floem mengedarkan hasil fotosintesis."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan nama jaringan pengangkut yang tepat.",
+    before: "Jaringan pengangkut pada tumbuhan yang berfungsi membawa air dan mineral dari akar menuju daun adalah ",
+    after: ".",
+    accepted: ["xilem", "pembuluh kayu", "xylem"],
+    explain: "Xilem (pembuluh kayu) bertugas mengangkut air dan garam mineral tanah dari akar ke daun."
+  },
   // Topik 6: Organ Sistem Pencernaan Manusia
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan kelenjar pencernaan terbesar dalam tubuh manusia yang menghasilkan cairan empedu untuk mengemulsikan lemak!",accepted:["hati","hepar","liver"],explain:"Hati (hepar) memproduksi cairan empedu yang disimpan di kantung empedu sebelum dialirkan ke duodenum untuk mengemulsi lemak."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan nama organ kelenjar yang tepat.",
+    before: "Kelenjar pencernaan terbesar dalam tubuh manusia yang menghasilkan cairan empedu untuk mengemulsikan lemak adalah ",
+    after: ".",
+    accepted: ["hati", "hepar", "liver"],
+    explain: "Hati (hepar) memproduksi cairan empedu yang disimpan di kantung empedu sebelum disalurkan ke duodenum untuk mengemulsikan lemak."
+  },
   // Topik 7: Kelainan Pencernaan
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan istilah medis untuk penyakit peradangan pada umbai cacing (usus buntu) yang sering menimbulkan nyeri di perut kanan bawah!",accepted:["apendisitis","appendicitis","radang usus buntu"],explain:"Apendisitis adalah peradangan pada apendiks vermiformis (umbai cacing) yang umumnya dipicu penyumbatan dan infeksi bakteri."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan istilah medis yang tepat.",
+    before: "Penyakit peradangan pada umbai cacing akibat infeksi yang menimbulkan rasa nyeri di perut bagian kanan bawah disebut ",
+    after: ".",
+    accepted: ["apendisitis", "appendicitis", "usus buntu"],
+    explain: "Apendisitis adalah peradangan pada apendiks vermiformis (umbai cacing/usus buntu)."
+  },
   // Topik 8: Nutrisi Makanan
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan nama larutan reagen yang digunakan dalam uji makanan untuk membuktikan adanya kandungan amilum (menghasilkan warna biru kehitaman)!",accepted:["lugol","iodin","iodine","larutan lugol","larutan iodin"],explain:"Larutan Lugol (atau iodin) bereaksi dengan amilum menghasilkan perubahan warna menjadi biru tua hingga biru kehitaman."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan nama reagen uji makanan yang tepat.",
+    before: "Larutan reagen yang digunakan untuk menguji keberadaan amilum dan menghasilkan perubahan warna biru kehitaman adalah larutan ",
+    after: ".",
+    accepted: ["lugol", "iodin", "iodine", "larutan lugol", "larutan iodin"],
+    explain: "Larutan Lugol (atau iodin) bereaksi dengan amilum menghasilkan warna biru kehitaman."
+  },
   // Topik 9: Proses Pencernaan Manusia
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan nama enzim pencernaan di dalam rongga mulut yang berfungsi memecah amilum menjadi maltosa!",accepted:["ptialin","amilase","amilase ludah","enzim ptialin","enzim amilase"],explain:"Enzim ptialin (amilase ludah) disekresikan oleh kelenjar ludah untuk menguraikan amilum menjadi maltosa di rongga mulut."},
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan nama enzim pencernaan yang tepat.",
+    before: "Enzim pencernaan di dalam rongga mulut yang berfungsi mengubah amilum menjadi maltosa adalah enzim ",
+    after: ".",
+    accepted: ["ptialin", "amilase", "amilase ludah"],
+    explain: "Enzim ptialin (amilase ludah) disekresikan oleh kelenjar ludah untuk menguraikan amilum menjadi maltosa di rongga mulut."
+  },
   // Topik 10: Sistem Reproduksi Manusia
-  {type:"fill",tag:"Essay Singkat",prompt:"Sebutkan nama saluran reproduksi wanita yang menjadi tempat utama berlangsungnya proses fertilisasi (pembuahan sel telur oleh sperma)!",accepted:["tuba fallopi","tuba falopi","oviduk","oviduct","saluran telur"],explain:"Fertilisasi normalnya terjadi di sepertiga atas saluran tuba fallopi (oviduk)."}
+  {
+    type: "fill",
+    prompt: "Lengkapi kalimat berikut dengan nama saluran reproduksi yang tepat.",
+    before: "Saluran reproduksi wanita yang menjadi tempat utama berlangsungnya proses fertilisasi (pembuahan ovum oleh sperma) adalah ",
+    after: ".",
+    accepted: ["tuba fallopi", "tuba falopi", "oviduk", "oviduct", "saluran telur"],
+    explain: "Fertilisasi normalnya berlangsung di sepertiga atas saluran tuba fallopi (oviduk)."
+  }
 ];
 
 let current=0,score=0,locked=false,studentName="",studentClass="";
@@ -244,7 +309,7 @@ function renderStart(){
     <p style="margin:0 0 24px;font-size:14px;color:var(--muted);line-height:1.65;">Isi data diri terlebih dahulu sebelum memulai.</p>
     <div class="form-group"><label for="name-input">Nama Lengkap</label><input type="text" id="name-input" placeholder="Masukkan nama Anda"></div>
     <div class="form-group"><label for="class-input">Kelas</label><input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)"></div>
-    <p style="margin:16px 0 20px;font-size:13.5px;color:var(--muted);line-height:1.65;">${QUESTIONS.length} soal &middot; 50 Pilihan Ganda + 10 Essay Singkat &middot; materi IPA SMP.</p>
+    <p style="margin:16px 0 20px;font-size:13.5px;color:var(--muted);line-height:1.65;">${QUESTIONS.length} soal &middot; 50 pilihan ganda + 10 isian kalimat &middot; materi IPA SMP.</p>
     <button class="btn-primary show" id="start-btn">Mulai kuis</button>
   </div>`;
   document.getElementById("start-btn").addEventListener("click",()=>{
@@ -279,50 +344,31 @@ function renderQuestion(){
 }
 
 function renderFillQuestion(q){
-  const isCode=q.isCode===true;
+  const wCh=Math.max(8,(q.accepted[0].length||8)+2);
   const isLast=current===QUESTIONS.length-1;
-  const isSentence=q.before!==undefined||q.after!==undefined;
-  const wCh=Math.max(8,(q.accepted[0].length||6)+2);
-  let panel;
-  if(isCode){
-    panel=`<div class="code-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-code" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="___" style="width:${wCh}ch">${esc(q.after)}</div>`;
-  } else if(isSentence){
-    panel=`<div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="&hellip;" style="width:${wCh}ch">${esc(q.after)}</div>`;
-  } else {
-    panel=`<div style="margin:0 0 20px;"><input type="text" id="blank-input" class="essay-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ketik jawaban singkat Anda di sini..."></div>`;
-  }
-  const tagLabel=q.tag||(isCode?"Lengkapi Kode":(isSentence?"Isian: Lengkapi Kalimat":"Essay Singkat"));
   card.innerHTML=`
-    <span class="tag">${tagLabel}</span>
+    <span class="tag">Isian: Lengkapi Kalimat</span>
     <p class="question-text">${q.prompt}</p>
-    ${panel}
+    <div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…" style="width:${wCh}ch">${esc(q.after)}</div>
     <div class="next-row check-row" style="justify-content:flex-start;"><button class="btn-primary show" id="check-btn">Periksa jawaban</button></div>
     <div class="feedback" id="feedback"></div>
     <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
   const input=document.getElementById("blank-input");
   input.focus();
-  if(isSentence||isCode){
-    input.addEventListener("input",()=>{input.style.width=Math.max(wCh,input.value.length+2)+"ch";});
-  }
+  input.addEventListener("input",()=>{input.style.width=Math.max(wCh,input.value.length+2)+"ch";});
   input.addEventListener("keydown",(e)=>{if(e.key==="Enter"&&!locked)document.getElementById("check-btn").click();});
   document.getElementById("check-btn").addEventListener("click",()=>{
-    if(!input.value.trim()){alert("Silakan ketik jawaban terlebih dahulu.");input.focus();return;}
     if(locked)return;locked=true;
-    const clean=input.value.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g," ").replace(/\s+/g," ").trim();
-    const ok=q.accepted.some(acc=>{
-      const cleanAcc=acc.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g," ").replace(/\s+/g," ").trim();
-      return clean===cleanAcc || clean.includes(cleanAcc);
-    });
+    const norm=input.value.trim().toLowerCase().replace(/[.;]$/,"");
+    const ok=q.accepted.map(a=>a.toLowerCase().trim()).includes(norm);
     input.disabled=true;
-    if(isCode){input.classList.add(ok?"ok":"no");}
-    else if(isSentence){input.style.borderBottomColor=ok?"var(--good)":"var(--bad)";}
-    else{input.classList.add(ok?"ok":"no");}
+    input.style.borderBottomColor=ok?"var(--good)":"var(--bad)";
     document.getElementById("check-btn").classList.remove("show");
     if(ok)score++;
     recap.push({ok,text:q.prompt});
     const fb=document.getElementById("feedback");
     fb.classList.add("show",ok?"good":"bad");
-    fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}<div style="margin-top:8px;font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px;">Kunci jawaban: <strong>${esc(q.accepted[0])}</strong></div>`;
+    fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}`;
     document.getElementById("next-btn").classList.add("show");
     document.getElementById("next-btn").addEventListener("click",()=>{current++;current<QUESTIONS.length?renderQuestion():renderResult();},{once:true});
   },{once:true});
