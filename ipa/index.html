@@ -105,6 +105,10 @@
   #cheat-box p { margin: 0 0 20px; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
   #cheat-countdown { font-family: 'Geist Mono', monospace; font-size: 52px; font-weight: 600; color: var(--bad); line-height: 1; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
   #cheat-warning-count { font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
+  .integrity-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; margin: 8px 0 14px; }
+  .integrity-badge.clean { background: var(--good-soft); color: var(--good); border: 1px solid rgba(30, 120, 69, 0.25); }
+  .integrity-badge.warn { background: var(--bad-soft); color: var(--bad); border: 1px solid rgba(176, 58, 37, 0.25); }
+  .cheat-shield { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; color: var(--muted); background: #EDECE6; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.02em; margin-left: auto; }
   @media (max-width: 480px) { .wrap { padding: 36px 18px 72px; } .card { padding: 24px 20px; } .student-info { flex-direction: column; gap: 12px; } }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
 </style>
@@ -120,6 +124,7 @@
   <div class="progress-row" id="progress-row" style="display:none;">
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="progress-label mono" id="progress-label">1</div>
+
   </div>
   <div class="card" id="card"></div>
 </div>
@@ -127,7 +132,7 @@
   <div id="cheat-box">
     <h2 id="cheat-title">Tab berpindah terdeteksi</h2>
     <p id="cheat-msg">Kuis dikunci sementara. Tunggu hingga hitungan selesai.</p>
-    <div id="cheat-countdown">30</div>
+    <div id="cheat-countdown">15</div>
     <div id="cheat-warning-count"></div>
   </div>
 </div>
@@ -298,6 +303,16 @@ const QUESTIONS=[
 
 let current=0,score=0,locked=false,studentName="",studentClass="";
 const recap=[];
+
+/* ── Anti-Curang State ── */
+const MAX_VIOLATIONS = 3;
+const SUSPEND_SECS = 30;
+let violations = 0;
+let quizActive = false;
+let quizDone = false;
+let isSuspended = false;
+let suspendTimer = null;
+
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 const card=document.getElementById("card");
 const progressRow=document.getElementById("progress-row");
@@ -322,6 +337,8 @@ function renderStart(){
 }
 
 function renderQuestion(){
+  quizActive = true;
+  quizDone = false;
   locked=false;
   const q=QUESTIONS[current];
   progressFill.style.width=`${(current/QUESTIONS.length)*100}%`;
@@ -397,6 +414,17 @@ function handleAnswer(btn,allButtons,q){
 function renderResult(){
   progressFill.style.width="100%";
   progressLabel.textContent=`${QUESTIONS.length}/${QUESTIONS.length}`;
+
+  quizActive = false;
+  quizDone = true;
+  isSuspended = false;
+  if (suspendTimer) {
+    clearInterval(suspendTimer);
+    suspendTimer = null;
+  }
+  const ov = document.getElementById("cheat-overlay");
+  if (ov) ov.classList.remove("show");
+
   const total=QUESTIONS.length,pct=score/total;
   let msg,sub;
   if(pct>=0.9){msg="Luar biasa!";sub="Pemahaman materi IPA kamu sudah sangat matang dan mendalam.";}
@@ -410,6 +438,11 @@ function renderResult(){
       <div class="student-info">
         <div class="si-group"><span class="label">Nama</span><span class="value">${esc(studentName)}</span></div>
         <div class="si-group"><span class="label">Kelas</span><span class="value">${esc(studentClass)}</span></div>
+      </div>
+      <div style="text-align:center;">
+        <div class="integrity-badge ${violations > 0 ? 'warn' : 'clean'}">
+          ${violations > 0 ? `⚠️ Catatan Integritas: Terdeteksi ${violations}× Berpindah Tab/Layar` : `✓ Integritas Ujian: Bersih (0 Pelanggaran Tab)`}
+        </div>
       </div>
       <div id="sync-container" style="text-align:center;"></div>
       <div class="score-big mono">${score}/${total}</div>
@@ -428,49 +461,140 @@ function renderResult(){
       score: score,
       total_questions: total,
       percentage: (score / total) * 100,
-      violations: typeof window.getQuizViolations === "function" ? window.getQuizViolations() : 0
+      violations: violations
     });
   }
 
   document.getElementById("restart-btn").addEventListener("click",()=>{
     current=0;score=0;recap.length=0;studentName="";studentClass="";
+    violations = 0;
+    quizActive = false;
+    quizDone = false;
+    isSuspended = false;
+    if (suspendTimer) {
+      clearInterval(suspendTimer);
+      suspendTimer = null;
+    }
     progressFill.style.width="0%";progressLabel.textContent=`1/${QUESTIONS.length}`;
     introSub.style.display="block";progressRow.style.display="none";renderStart();
   });
 }
 
-renderStart();
+/* ── Anti-Curang System ── */
+function playWarningBeep() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(600, ctx.currentTime);
+    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.35);
+  } catch(e) {}
+}
 
-(function(){
-  const MAX=3,SECS=30;
-  let viol=0,timer=null,started=false,done=false,sus=false;
-  const ov=document.getElementById("cheat-overlay");
-  const ti=document.getElementById("cheat-title");
-  const ms=document.getElementById("cheat-msg");
-  const co=document.getElementById("cheat-countdown");
-  const wn=document.getElementById("cheat-warning-count");
-  document.addEventListener("click",e=>{if(e.target&&e.target.id==="start-btn")started=true;},true);
-  function trigger(){
-    if(!started||done||sus)return;viol++;
-    if(viol>MAX){endCheat();return;}
-    sus=true;ov.classList.add("show");
-    if(viol===MAX){ti.textContent="Peringatan terakhir";ms.textContent="Pelanggaran ke-"+viol+". Jika terdeteksi lagi, kuis langsung diakhiri.";}
-    else{ti.textContent="Tab berpindah terdeteksi";ms.textContent="Kuis dikunci sementara. Tunggu hingga hitungan selesai.";}
-    wn.textContent="Pelanggaran: "+viol+" / "+MAX;
-    let s=SECS;co.textContent=s;
-    timer=setInterval(()=>{s--;co.textContent=s;if(s<=0){clearInterval(timer);ov.classList.remove("show");sus=false;}},1000);
+function triggerViolation(reason) {
+  if (!quizActive || quizDone || isSuspended) return;
+
+  violations++;
+  playWarningBeep();
+
+  const overlay = document.getElementById("cheat-overlay");
+  const title = document.getElementById("cheat-title");
+  const msg = document.getElementById("cheat-msg");
+  const countdown = document.getElementById("cheat-countdown");
+  const warnCount = document.getElementById("cheat-warning-count");
+
+  // Jika pelanggaran melebihi batas 3 kali (pelanggaran ke-4), langsung akhiri kuis & kumpulkan seadanya
+  if (violations > MAX_VIOLATIONS) {
+    endQuizByCheat();
+    return;
   }
-  function endCheat(){
-    done=true;sus=false;clearInterval(timer);ov.classList.remove("show");
-    renderResult();
-    const rd=card.querySelector(".result");
-    if(rd){const b=document.createElement("div");b.style.cssText="background:var(--bad-soft);border:1px solid var(--bad);border-left:3px solid var(--bad);color:var(--bad);border-radius:6px;padding:12px 16px;font-size:14px;margin-bottom:20px;line-height:1.5;";b.innerHTML="<strong>Kuis diakhiri otomatis.</strong> Terdeteksi keluar tab sebanyak "+viol+" kali.";rd.prepend(b);}
+
+  isSuspended = true;
+  overlay.classList.add("show");
+
+  if (violations === MAX_VIOLATIONS) {
+    title.textContent = "Peringatan Terakhir (3 / 3)!";
+    msg.textContent = `Ini adalah pelanggaran ke-3. Kuis dikunci selama 30 detik. Jika Anda berpindah tab sekali lagi, kuis akan langsung diakhiri dan jawaban dikumpulkan seadanya!`;
+  } else {
+    title.textContent = `Tab Berpindah Terdeteksi (Pelanggaran ${violations} / ${MAX_VIOLATIONS})`;
+    msg.textContent = `Terdeteksi keluar dari halaman kuis. Kuis dikunci selama 30 detik. Anda harus tetap berada di halaman ini untuk melanjutkan.`;
   }
-  document.addEventListener("visibilitychange",()=>{if(document.hidden)trigger();});
-  window.addEventListener("blur",trigger);
-  const _o=renderResult;window.renderResult=function(){done=true;_o();};
-  window.getQuizViolations=function(){return viol;};
-})();
+
+  warnCount.textContent = `Pelanggaran: ${violations} / ${MAX_VIOLATIONS}`;
+
+  let secs = SUSPEND_SECS;
+  countdown.textContent = secs;
+
+  if (suspendTimer) clearInterval(suspendTimer);
+
+  suspendTimer = setInterval(() => {
+    // Hanya hitung mundur jika tab kuis sedang dilihat siswa
+    if (!document.hidden) {
+      secs--;
+      countdown.textContent = secs;
+      if (secs <= 0) {
+        clearInterval(suspendTimer);
+        suspendTimer = null;
+        isSuspended = false;
+        overlay.classList.remove("show");
+      }
+    }
+  }, 1000);
+}
+
+function endQuizByCheat() {
+  quizActive = false;
+  quizDone = true;
+  isSuspended = false;
+  if (suspendTimer) clearInterval(suspendTimer);
+
+  const overlay = document.getElementById("cheat-overlay");
+  if (overlay) overlay.classList.remove("show");
+
+  // Paksa render hasil dan simpan otomatis ke Supabase ("terkumpul seadanya")
+  renderResult();
+
+  const resultDiv = card.querySelector(".result");
+  if (resultDiv) {
+    const banner = document.createElement("div");
+    banner.style.cssText = "background:var(--bad-soft);border:1px solid var(--bad);border-left:4px solid var(--bad);color:var(--bad);border-radius:8px;padding:14px 18px;font-size:14px;margin-bottom:20px;line-height:1.5;text-align:left;";
+    banner.innerHTML = `<strong>⚠️ Kuis Diakhiri Otomatis karena Melebihi Batas Toleransi Pelanggaran (Maks. 3 Kali)!</strong><br>Terdeteksi keluar tab/layar sebanyak ${violations} kali. Jawaban Anda telah otomatis dikumpulkan seadanya ke database. Nilai dihitung berdasarkan soal yang sudah dijawab.`;
+    resultDiv.prepend(banner);
+  }
+}
+
+// Deteksi pindah tab — hanya pakai visibilitychange agar tidak double-count
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && quizActive && !quizDone) {
+    triggerViolation("visibilitychange");
+  }
+});
+
+// Anti-Copy & Anti-ContextMenu
+document.addEventListener("contextmenu", e => {
+  if (quizActive && !quizDone) e.preventDefault();
+});
+document.addEventListener("copy", e => {
+  if (quizActive && !quizDone) e.preventDefault();
+});
+document.addEventListener("cut", e => {
+  if (quizActive && !quizDone) e.preventDefault();
+});
+
+window.getQuizViolations = function() {
+  return violations;
+};
+
+renderStart();
 </script>
 </body>
 </html>
