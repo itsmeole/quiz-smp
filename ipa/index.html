@@ -108,6 +108,7 @@
   @media (max-width: 480px) { .wrap { padding: 36px 18px 72px; } .card { padding: 24px 20px; } .student-info { flex-direction: column; gap: 12px; } }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
 </style>
+<script src="../supabase-client.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -410,6 +411,7 @@ function renderResult(){
         <div class="si-group"><span class="label">Nama</span><span class="value">${esc(studentName)}</span></div>
         <div class="si-group"><span class="label">Kelas</span><span class="value">${esc(studentClass)}</span></div>
       </div>
+      <div id="sync-container" style="text-align:center;"></div>
       <div class="score-big mono">${score}/${total}</div>
       <div class="score-of">jawaban benar</div>
       <div class="result-msg">${msg}</div>
@@ -417,6 +419,19 @@ function renderResult(){
       <div class="recap">${recapHtml}</div>
       <button class="btn-restart" id="restart-btn">Ulangi kuis</button>
     </div>`;
+
+  if (typeof displaySupabaseSyncStatus === "function") {
+    displaySupabaseSyncStatus(document.getElementById("sync-container"), {
+      student_name: studentName,
+      student_class: studentClass,
+      subject: "Ilmu Pengetahuan Alam (IPA)",
+      score: score,
+      total_questions: total,
+      percentage: (score / total) * 100,
+      violations: typeof window.getQuizViolations === "function" ? window.getQuizViolations() : 0
+    });
+  }
+
   document.getElementById("restart-btn").addEventListener("click",()=>{
     current=0;score=0;recap.length=0;studentName="";studentClass="";
     progressFill.style.width="0%";progressLabel.textContent=`1/${QUESTIONS.length}`;
@@ -454,6 +469,7 @@ renderStart();
   document.addEventListener("visibilitychange",()=>{if(document.hidden)trigger();});
   window.addEventListener("blur",trigger);
   const _o=renderResult;window.renderResult=function(){done=true;_o();};
+  window.getQuizViolations=function(){return viol;};
 })();
 </script>
 </body>

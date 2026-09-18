@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Uji pemahaman 35 soal mencakup Analisis Data dan Informatika Bab 2 (computational thinking, fungsi, himpunan data terstruktur, dan stack).">
-<title>Uji Pemahaman · Analisis Data &amp; Informatika Bab 2 (35 Soal C1–C6)</title>
+<meta name="description" content="Portal Uji Pemahaman Siswa SMP Praktikum. Pilih mata pelajaran Informatika, IPA, atau ICT untuk memulai kuis.">
+<title>Portal Uji Pemahaman · SMP Praktikum</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg:          #F7F6F2;
@@ -17,18 +17,12 @@
     --line:        #E2E0D6;
     --accent:      #1A6B60;
     --accent-soft: #EAF3F1;
-    --good:        #1E7845;
-    --good-soft:   #E8F4ED;
-    --bad:         #B03A25;
-    --bad-soft:    #FAE9E5;
-    --panel:       #1C1C19;
-    --panel-ink:   #E8E6DE;
-    --radius:      8px;
-    --z-overlay:   100;
+    --radius:      12px;
+    --shadow-sm:   0 1px 3px rgba(0,0,0,0.04);
+    --shadow:      0 8px 24px rgba(0,0,0,0.06);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -43,1327 +37,259 @@
   }
 
   .mono {
-    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-family: 'Geist Mono', monospace;
   }
 
-  /* ── Layout ── */
   .wrap {
-    max-width: 600px;
+    max-width: 820px;
     margin: 0 auto;
-    padding: 52px 24px 96px;
+    padding: 60px 24px 96px;
   }
 
-  header.top {
-    margin-bottom: 36px;
+  /* ── Header ── */
+  header.portal-header {
+    text-align: center;
+    margin-bottom: 48px;
   }
 
-  .quiz-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
-  h1.title {
-    font-family: 'Geist', sans-serif;
-    font-size: clamp(22px, 4.5vw, 28px);
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    margin: 0;
-    color: var(--ink);
-    text-wrap: balance;
-  }
-
-  p.sub {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.65;
-    margin: 10px 0 32px;
-    max-width: 52ch;
-    text-wrap: pretty;
-  }
-
-  /* ── Progress ── */
-  .progress-row {
-    display: flex;
+  .portal-badge {
+    display: inline-flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-
-  .progress-track {
-    flex: 1;
-    height: 2px;
-    background: var(--line);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--accent);
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .progress-label {
-    font-family: 'Geist Mono', monospace;
+    gap: 6px;
     font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    min-width: 6ch;
-    text-align: right;
-  }
-
-  /* ── Card ── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 32px;
-  }
-
-  /* ── Type badge ── */
-  .tag {
-    display: inline-block;
-    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--muted);
-    border: 1px solid var(--line);
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin-bottom: 20px;
+    letter-spacing: 0.06em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    margin-bottom: 14px;
   }
 
-  /* ── Question text ── */
-  .question-text {
-    font-size: 17px;
-    font-weight: 500;
-    line-height: 1.55;
-    margin: 0 0 24px;
+  .title-main {
+    margin: 0 0 12px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
     color: var(--ink);
-    text-wrap: pretty;
   }
 
-  /* ── Code panel ── */
-  .code-panel {
-    background: var(--panel);
-    color: var(--panel-ink);
-    border-radius: 6px;
-    padding: 16px 20px;
-    font-family: 'Geist Mono', monospace;
-    font-size: 13.5px;
-    line-height: 1.75;
-    overflow-x: auto;
-    margin: 0 0 24px;
-    white-space: pre;
-  }
-  .code-panel .tg { color: #7EC1B8; }
-  .code-panel .at { color: #C9A15A; }
-  .code-panel .st { color: #B98BC9; }
-  .code-panel .pr { color: #7EC1B8; }
-  .code-panel .vl { color: #C9A15A; }
-  .code-panel .cm { color: #666; }
-
-  /* ── Sentence fill panel ── */
-  .sentence-panel {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 18px 22px;
-    font-size: 15.5px;
-    line-height: 1.9;
-    margin: 0 0 22px;
+  .sub-main {
+    margin: 0 auto;
+    max-width: 560px;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
   }
 
-  /* ── Options ── */
-  .options {
+  /* ── Subject Cards ── */
+  .subjects-grid {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 18px;
+    margin-bottom: 40px;
   }
 
-  .opt-btn {
-    text-align: left;
-    padding: 12px 16px;
-    border: 1px solid var(--line);
+  .subject-card {
     background: var(--surface);
+    border: 1px solid var(--line);
     border-radius: var(--radius);
-    font-size: 14.5px;
-    font-family: inherit;
-    color: var(--ink);
-    cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s ease;
+    padding: 24px 28px;
     display: flex;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
   }
 
-  .opt-btn .k {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    flex-shrink: 0;
-    width: 1.6em;
-  }
-
-  .opt-btn:hover:not(:disabled) {
+  .subject-card:hover {
     border-color: var(--accent);
-    background: var(--accent-soft);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
   }
 
-  .opt-btn:active:not(:disabled) { transform: scale(0.99); }
-  .opt-btn:disabled { cursor: default; }
-
-  .opt-btn.correct {
-    border-color: var(--good);
-    background: var(--good-soft);
-    color: var(--good);
-    font-weight: 500;
-  }
-
-  .opt-btn.incorrect {
-    border-color: var(--bad);
-    background: var(--bad-soft);
-    color: var(--bad);
-    font-weight: 500;
-  }
-
-  /* ── True/False ── */
-  .tf-row {
+  .card-left {
     display: flex;
-    gap: 10px;
+    align-items: flex-start;
+    gap: 18px;
   }
 
-  .tf-row .opt-btn {
-    flex: 1;
-    justify-content: center;
-    text-align: center;
-  }
-
-  /* ── Fill input ── */
-  .blank-input {
-    font-family: 'Geist Mono', monospace;
-    font-weight: 600;
-    font-size: 15px;
-    background: transparent;
-    border: none;
-    border-bottom: 1.5px solid var(--accent);
-    color: var(--ink);
-    padding: 2px 6px;
-    border-radius: 0;
-    min-width: 8ch;
-    outline: none;
-    text-align: center;
-    transition: border-color 0.2s ease, background 0.2s ease;
-  }
-
-  .blank-input:focus {
-    background: var(--accent-soft);
-    border-radius: 3px 3px 0 0;
-  }
-
-  .blank-input:disabled { opacity: 1; }
-
-  /* ── Feedback ── */
-  .check-row { margin-bottom: 4px; }
-
-  .feedback {
-    margin-top: 20px;
-    padding: 12px 16px;
-    border-radius: 6px;
-    font-size: 14px;
-    line-height: 1.6;
-    display: none;
-    border-left: 3px solid transparent;
-  }
-
-  .feedback.show { display: block; }
-
-  .feedback.good {
-    background: var(--good-soft);
-    color: #14562E;
-    border-left-color: var(--good);
-  }
-
-  .feedback.bad {
-    background: var(--bad-soft);
-    color: #832B1A;
-    border-left-color: var(--bad);
-  }
-
-  /* ── Buttons ── */
-  .next-row {
-    margin-top: 24px;
+  .card-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
     display: flex;
-    justify-content: flex-end;
-  }
-
-  .btn-primary {
-    background: var(--ink);
-    color: var(--bg);
-    border: none;
-    padding: 10px 22px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-family: inherit;
-    font-weight: 500;
-    cursor: pointer;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease, background 0.2s ease, transform 0.1s ease;
-    letter-spacing: 0.01em;
-  }
-
-  .btn-primary.show {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .btn-primary:hover { background: var(--accent); }
-  .btn-primary:active { transform: scale(0.98); }
-
-  /* ── Result ── */
-  .result {
-    text-align: center;
-    padding: 16px 0 8px;
-  }
-
-  .score-big {
-    font-family: 'Geist Mono', monospace;
-    font-size: 72px;
-    font-weight: 600;
-    line-height: 1;
-    margin: 12px 0 6px;
-    color: var(--ink);
-    letter-spacing: -0.03em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .score-of {
-    color: var(--muted);
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    margin-bottom: 28px;
-  }
-
-  .result-msg {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-
-  .result-sub {
-    color: var(--muted);
-    font-size: 14px;
-    max-width: 38ch;
-    margin: 0 auto 28px;
-    line-height: 1.65;
-    text-wrap: pretty;
-  }
-
-  /* ── Student info ── */
-  .student-info {
-    display: flex;
-    gap: 32px;
-    justify-content: center;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 16px 24px;
-    margin: 0 0 24px;
-    text-align: left;
-  }
-
-  .student-info .si-group { display: flex; flex-direction: column; gap: 2px; }
-
-  .student-info .label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .student-info .value {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--ink);
-  }
-
-  /* ── Form ── */
-  .form-group { margin-bottom: 16px; }
-
-  .form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: var(--muted);
-  }
-
-  .form-group input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    font-size: 15px;
-    font-family: inherit;
-    color: var(--ink);
-    background: var(--surface);
-    transition: border-color 0.2s ease, background 0.2s ease;
-  }
-
-  .form-group input:focus {
-    outline: none;
-    border-color: var(--accent);
-    background: var(--accent-soft);
-  }
-
-  /* ── Recap ── */
-  .recap {
-    text-align: left;
-    border-top: 1px solid var(--line);
-    padding-top: 20px;
-    margin-top: 8px;
-  }
-
-  .recap-item {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    padding: 7px 0;
-    font-size: 13px;
-    color: var(--muted);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .recap-item:last-child { border-bottom: none; }
-
-  .recap-item .mark {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    font-weight: 600;
-    flex-shrink: 0;
-    width: 2ch;
-  }
-
-  .recap-item .mark.ok { color: var(--good); }
-  .recap-item .mark.no { color: var(--bad); }
-
-  .btn-restart {
-    margin-top: 28px;
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--line);
-    padding: 10px 22px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-family: inherit;
-    font-weight: 500;
-    cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-  }
-
-  .btn-restart:hover {
-    border-color: var(--ink);
-    color: var(--ink);
-  }
-
-  /* ── Anti-Curang ── */
-  #cheat-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(26, 26, 24, 0.88);
-    z-index: var(--z-overlay);
     align-items: center;
     justify-content: center;
-    padding: 32px;
+    font-size: 24px;
+    flex-shrink: 0;
+    background: #F4F3ED;
   }
-  #cheat-overlay.show { display: flex; }
+  .subject-card.info .card-icon-box { background: #EDFDF5; }
+  .subject-card.ipa .card-icon-box { background: #E8F0FE; }
+  .subject-card.ict .card-icon-box { background: #FEF3F2; }
 
-  #cheat-box {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 36px 32px;
-    max-width: 340px;
-    width: 100%;
-    text-align: center;
-  }
-
-  #cheat-box h2 {
-    margin: 0 0 8px;
-    font-size: 17px;
+  .card-title {
+    margin: 0 0 6px;
+    font-size: 18px;
     font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tag-pill {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #F1EFE8;
+    color: #4A4A45;
+  }
+
+  .card-desc {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    background: #F4F3ED;
+    color: var(--ink);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .subject-card:hover .card-btn {
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+
+  /* ── Admin Link Banner ── */
+  .admin-banner {
+    background: #FFFFFF;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .admin-info {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .admin-info strong {
     color: var(--ink);
   }
 
-  #cheat-box p {
-    margin: 0 0 20px;
-    font-size: 13.5px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  #cheat-countdown {
-    font-family: 'Geist Mono', monospace;
-    font-size: 52px;
+  .admin-link {
+    font-size: 13px;
     font-weight: 600;
-    color: var(--bad);
-    line-height: 1;
-    margin-bottom: 10px;
-    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .admin-link:hover {
+    text-decoration: underline;
   }
 
-  #cheat-warning-count {
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 0.02em;
-  }
-
-  @media (max-width: 480px) {
-    .wrap { padding: 36px 18px 72px; }
-    .card { padding: 24px 20px; }
-    .student-info { flex-direction: column; gap: 12px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { transition: none !important; animation: none !important; }
+  @media (max-width: 640px) {
+    .wrap { padding: 40px 18px 72px; }
+    .title-main { font-size: 26px; }
+    .subject-card { flex-direction: column; align-items: stretch; gap: 18px; }
+    .card-btn { justify-content: center; }
   }
 </style>
 </head>
 <body>
+
 <div class="wrap">
-  <header class="top">
-    <p class="quiz-label">Informatika &amp; Analisis Data</p>
-    <h1 class="title">Uji Pemahaman</h1>
-    <p class="sub" id="intro-sub">35 soal mencakup Analisis Data (statistik, data, skala pengukuran, teknik sampling, penyajian data) dan Informatika Bab 2 (computational thinking, fungsi, himpunan data terstruktur, dan stack).</p>
+
+  <header class="portal-header">
+    <span class="portal-badge">SMP Praktikum</span>
+    <h1 class="title-main">Portal Uji Pemahaman Siswa</h1>
+    <p class="sub-main">Silakan pilih mata pelajaran yang akan diujikan. Hasil pengerjaan dan skor Anda akan otomatis tercatat ke dalam sistem database sekolah.</p>
   </header>
 
-  <div class="progress-row" id="progress-row" style="display:none;">
-    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="progress-label mono" id="progress-label">1</div>
-  </div>
+  <div class="subjects-grid">
 
-  <div class="card" id="card"></div>
-</div>
-
-<div id="cheat-overlay">
-  <div id="cheat-box">
-    <h2 id="cheat-title">Tab berpindah terdeteksi</h2>
-    <p id="cheat-msg">Kuis dikunci sementara. Tunggu hingga hitungan selesai.</p>
-    <div id="cheat-countdown">30</div>
-    <div id="cheat-warning-count"></div>
-  </div>
-</div>
-
-<script>
-const QUESTIONS = [
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C1 Mengingat",
-    "q": "Menurut konsep dasarnya, statistika didefinisikan sebagai cabang ilmu yang mempelajari tentang…",
-    "options": [
-      "Cara membuat aplikasi komputer untuk memproses database transaksi keuangan",
-      "Cara mengumpulkan, mengolah, menyajikan, menganalisis, dan menarik kesimpulan dari data",
-      "Metode perancangan sirkuit perangkat keras komputasi",
-      "Teknik merekayasa visual grafis animasi komputer"
-    ],
-    "answer": 1,
-    "explain": "Statistika adalah ilmu yang berkaitan dengan cara mengumpulkan, mengorganisasi, menyajikan, menganalisis, dan menginterpretasikan data untuk membuat kesimpulan atau keputusan yang valid."
-  },
-  {
-    "type": "fill",
-    "tag": "Isian Singkat · C1 Mengingat",
-    "prompt": "Lengkapi kalimat berikut dengan istilah skala pengukuran yang tepat.",
-    "before": "Skala pengukuran data yang memiliki tingkatan urutan, jarak interval yang sama antar nilai, serta memiliki nilai nol mutlak (artinya nilai 0 menunjukkan ketiadaan sifat yang diukur) disebut skala ",
-    "after": ".",
-    "accepted": [
-      "rasio",
-      "skala rasio"
-    ],
-    "explain": "Skala rasio memiliki semua karakteristik skala interval ditambah dengan titik nol absolut (mutlak), seperti berat badan, tinggi badan, atau jarak."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C1 Mengingat",
-    "q": "Empat pilar utama dalam Berpikir Komputasional (Computational Thinking) yang benar adalah…",
-    "options": [
-      "Algoritma, Coding, Debugging, dan Testing",
-      "Input, Proses, Output, dan Storage",
-      "Dekomposisi, Pengenalan Pola, Abstraksi, dan Perancangan Algoritma",
-      "Hardware, Software, Brainware, dan Network"
-    ],
-    "answer": 2,
-    "explain": "Empat pilar utama dalam berpikir komputasional adalah: (1) Dekomposisi, (2) Pengenalan Pola (Pattern Recognition), (3) Abstraksi, dan (4) Perancangan Algoritma (Algorithm Design)."
-  },
-  {
-    "type": "fill",
-    "tag": "Isian Singkat · C1 Mengingat",
-    "prompt": "Lengkapi kalimat berikut dengan istilah himpunan yang tepat.",
-    "before": "Suatu himpunan yang sama sekali tidak memiliki anggota disebut himpunan ",
-    "after": ", yang disimbolkan dengan notasi ∅ atau { }.",
-    "accepted": [
-      "kosong",
-      "himpunan kosong"
-    ],
-    "explain": "Himpunan kosong adalah himpunan yang tidak mempunyai anggota sama sekali, disimbolkan dengan ∅ atau { }."
-  },
-  {
-    "type": "fill",
-    "tag": "Isian Singkat · C1 Mengingat",
-    "prompt": "Lengkapi kalimat berikut dengan istilah prinsip kerja stack.",
-    "before": "Struktur data stack bekerja dengan mekanisme memasukkan dan mengeluarkan data di mana data terakhir yang masuk akan menjadi data pertama yang keluar, yang dikenal dengan prinsip ",
-    "after": ".",
-    "accepted": [
-      "lifo",
-      "last in first out"
-    ],
-    "explain": "LIFO (Last In First Out) adalah prinsip utama struktur data stack: elemen yang paling akhir ditambahkan adalah yang pertama diambil kembali."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Manakah pasangan contoh berikut yang paling tepat membedakan data primer dan data sekunder?",
-    "options": [
-      "Data laporan keuangan tahun lalu dari internet (primer) dan hasil angket yang disebar sendiri oleh peneliti (sekunder)",
-      "Rekapitulasi nilai rapor dari wali kelas (primer) dan hasil tes tinggi badan siswa oleh tim peneliti (sekunder)",
-      "Catatan harian dokter rumah sakit (sekunder) dan observasi langsung peneliti di laboratorium (primer)",
-      "Hasil wawancara langsung peneliti dengan narasumber (primer) dan data sensus penduduk dari publikasi BPS (sekunder)"
-    ],
-    "answer": 3,
-    "explain": "Data primer diperoleh langsung dari sumber pertama oleh peneliti (seperti wawancara atau eksperimen langsung), sedangkan data sekunder didapatkan dari pihak kedua atau dokumen yang sudah dipublikasikan sebelumnya (seperti laporan BPS)."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Perbedaan mendasar antara data kuantitatif diskrit dan kontinu adalah…",
-    "options": [
-      "Data diskrit diperoleh dari hasil pencacahan/membilang (berupa bilangan bulat), sedangkan data kontinu diperoleh dari hasil pengukuran (dapat berupa pecahan/desimal)",
-      "Data diskrit berupa kata-kata sifat, sedangkan data kontinu berupa angka",
-      "Data diskrit selalu berubah sepanjang waktu, sedangkan data kontinu bernilai konstan",
-      "Data diskrit memiliki nilai nol mutlak, sedangkan data kontinu tidak memiliki nilai nol"
-    ],
-    "answer": 0,
-    "explain": "Data kuantitatif diskrit dihasilkan dari proses menghitung (misal: jumlah anak = 3 orang), sedangkan data kontinu dihasilkan dari proses mengukur yang nilainya berada dalam suatu rentang berkesinambungan (misal: berat badan = 45,5 kg)."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Suhu 0°C pada termometer Celsius tidak berarti ketiadaan suhu sama sekali (karena masih dapat lebih dingin seperti -5°C). Hal ini menunjukkan bahwa pengukuran suhu Celsius tergolong dalam skala…",
-    "options": [
-      "Rasio, karena suhu dapat dikalikan secara proporsional",
-      "Interval, karena titik nolnya bukan merupakan nol mutlak melainkan nilai konvensi/kesepakatan",
-      "Nominal, karena suhu hanya berfungsi sebagai tanda pengenal",
-      "Ordinal, karena suhu hanya menunjukkan tingkatan tanpa rentang angka yang jelas"
-    ],
-    "answer": 1,
-    "explain": "Skala interval memiliki jarak rentang yang tetap antar nilai, namun nilai nolnya adalah nol relatif/konvensi (bukan ketiadaan mutlak dari sifat yang diukur)."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Sampel dalam suatu penelitian dikatakan bersifat representatif apabila…",
-    "options": [
-      "Memiliki jumlah anggota yang sama persis dengan total populasi",
-      "Diambil hanya dari kelompok individu yang paling mudah dijangkau oleh peneliti",
-      "Mampu mencerminkan karakteristik dan proporsi penting yang ada pada seluruh populasi target",
-      "Mengandung data yang sengaja dipilih agar sesuai dengan perkiraan hipotesis awal"
-    ],
-    "answer": 2,
-    "explain": "Sampel yang representatif adalah miniatur dari populasi yang karakteristiknya mencerminkan populasi target sehingga hasil analisis sampel dapat digeneralisasikan."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Dalam penyajian data grafis, istilah chart junk merujuk pada…",
-    "options": [
-      "Data pencilan (outlier) yang harus dibuang dari tabel sebelum membuat diagram",
-      "Format berkas gambar yang rusak saat diekspor ke aplikasi lembar kerja",
-      "Label sumbu koordinat yang ditulis menggunakan jenis huruf sans-serif",
-      "Elemen visual dekoratif tambahan (seperti efek 3D berlebihan, bayangan tebal, atau pola latar rumit) yang tidak menambah nilai informasi dan mengalihkan perhatian audiens"
-    ],
-    "answer": 3,
-    "explain": "Chart junk adalah istilah yang diperkenalkan oleh Edward Tufte untuk elemen dekoratif grafis yang tidak perlu, yang justru membingungkan pembaca dan mendistorsi pemahaman data."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Saat membuat aplikasi peta rute bus kota, perancang hanya menampilkan rute jalan utama dan halte penting tanpa menggambar detail pohon, trotoar, atau warna cat rumah penduduk. Penerapan pilar berpikir komputasional ini disebut…",
-    "options": [
-      "Abstraksi, yaitu memfokuskan pada informasi penting dan mengabaikan detail yang tidak relevan",
-      "Dekomposisi, yaitu memecah rute menjadi halte-halte kecil",
-      "Pengenalan Pola, yaitu mengenali jadwal kedatangan bus yang berulang",
-      "Algoritma, yaitu urutan kode program pembaca sinyal GPS"
-    ],
-    "answer": 0,
-    "explain": "Abstraksi adalah proses menyaring dan memilah informasi penting yang diperlukan untuk memecahkan masalah sambil membuang detail yang tidak penting."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Dalam ilmu komputasi dan matematika, suatu fungsi dikatakan bersifat deterministik jika…",
-    "options": [
-      "Menghasilkan output acak yang bervariasi setiap kali dijalankan",
-      "Selalu menghasilkan nilai output yang sama persis setiap kali diberikan nilai input yang identik",
-      "Hanya dapat menerima input berupa bilangan pecahan",
-      "Bisa mengubah data memori tanpa memerlukan parameter masukan"
-    ],
-    "answer": 1,
-    "explain": "Fungsi deterministik adalah fungsi yang untuk suatu nilai masukan tertentu akan selalu menghasilkan keluaran yang sama dan dapat diprediksi tanpa keacakan."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C2 Memahami",
-    "q": "Diberikan himpunan A = {siswa yang menyukai Robotik} dan B = {siswa yang menyukai Coding}. Himpunan siswa yang menyukai Robotik sekaligus menyukai Coding dinyatakan oleh operasi himpunan…",
-    "options": [
-      "Gabungan (A ∪ B)",
-      "Selisih (A − B)",
-      "Irisan (A ∩ B)",
-      "Komplemen (A′)"
-    ],
-    "answer": 2,
-    "explain": "Irisan dua himpunan (A ∩ B) memuat anggota-anggota yang berada pada kedua himpunan sekaligus (memenuhi kriteria A DAN B)."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C3 Menerapkan",
-    "q": "Seorang peneliti mencatat: (1) Nomor punggung kaos pemain sepak bola, (2) Juara lomba lari (Juara 1, 2, 3), (3) Waktu tempuh lari dalam detik. Berturut-turut, skala pengukuran ketiga data tersebut adalah…",
-    "options": [
-      "Ordinal, Nominal, dan Interval",
-      "Nominal, Interval, dan Rasio",
-      "Rasio, Ordinal, dan Nominal",
-      "Nominal, Ordinal, dan Rasio"
-    ],
-    "answer": 3,
-    "explain": "Nomor punggung hanya label kategori (Nominal), Juara 1/2/3 memiliki peringkat urutan (Ordinal), dan waktu lari memiliki rasio perbandingan dengan nol mutlak (Rasio)."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C3 Menerapkan",
-    "q": "Dalam pemilihan perwakilan kelas, wali kelas ingin mengambil sampel 5 siswa secara acak sederhana (Simple Random Sampling) dari 30 siswa di kelas. Cara penerapan yang paling tepat dan adil adalah…",
-    "options": [
-      "Memilih 5 siswa yang duduk di deretan meja paling depan",
-      "Mengundi nomor presensi seluruh 30 siswa dari wadah tertutup agar setiap siswa memiliki peluang yang sama untuk terpilih",
-      "Memilih 5 siswa yang memiliki nilai rapor tertinggi di kelas",
-      "Menunjuk 5 siswa yang datang paling awal di pagi hari"
-    ],
-    "answer": 1,
-    "explain": "Simple Random Sampling (sampel acak sederhana) memberikan kesempatan/peluang yang sama bagi setiap anggota populasi untuk terpilih, misalnya melalui sistem undian nomor presensi siswa."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C3 Menerapkan",
-    "q": "Dari daftar 200 siswa bernomor urut 1 sampai 200, akan diambil 20 siswa menggunakan sampling sistematis (interval k = 200 / 20 = 10). Jika nomor awal yang terpilih secara acak adalah nomor 4, maka tiga nomor sampel berikutnya adalah…",
-    "options": [
-      "14, 24, dan 34",
-      "5, 6, dan 7",
-      "10, 20, dan 30",
-      "14, 28, dan 42"
-    ],
-    "answer": 0,
-    "explain": "Dengan nomor awal 4 dan interval k = 10, sampel berikutnya diambil dengan menambahkan kelipatan k: 4 + 10 = 14, 14 + 10 = 24, 24 + 10 = 34, dst."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C3 Menerapkan",
-    "q": "Seorang analis ingin menyajikan perubahan suhu rata-rata harian sebuah kota setiap hari selama satu bulan penuh untuk melihat tren kenaikan atau penurunannya. Jenis grafik yang paling tepat diterapkan adalah…",
-    "options": [
-      "Diagram lingkaran (pie chart), karena menunjukkan bagian dari 100%",
-      "Diagram batang bertingkat (stacked bar chart), karena membandingkan proporsi kategori",
-      "Diagram garis (line chart), karena efektif menunjukkan fluktuasi dan kontinuitas tren waktu",
-      "Diagram venn, karena mengelompokkan himpunan data yang beririsan"
-    ],
-    "answer": 2,
-    "explain": "Diagram garis (line chart) paling optimal untuk menampilkan data deret waktu (time series) karena menghubungkan titik-titik data secara berurutan dan memperjelas pola tren naik-turun."
-  },
-  {
-    "type": "fill",
-    "tag": "Isian Singkat · C3 Menerapkan",
-    "prompt": "Hitunglah nilai fungsi berikut.",
-    "before": "Diberikan fungsi komputasi f(x) = 4x − 7. Jika dimasukkan nilai input x = 6, maka nilai output yang dihasilkan adalah ",
-    "after": ".",
-    "accepted": [
-      "17"
-    ],
-    "explain": "Substitusikan x = 6 ke dalam fungsi: f(6) = 4(6) − 7 = 24 − 7 = 17."
-  },
-  {
-    "type": "fill",
-    "tag": "Isian Singkat · C3 Menerapkan",
-    "prompt": "Tentukan elemen teratas stack berikut.",
-    "before": "Sebuah stack mula-mula kosong. Dilakukan operasi berturut-turut: Push(A), Push(B), Push(C), Pop(), Push(D). Elemen yang saat ini berada di posisi teratas (top) dari stack adalah huruf ",
-    "after": ".",
-    "accepted": [
-      "d",
-      "D"
-    ],
-    "explain": "Langkah: (1) Push(A) -> [A], (2) Push(B) -> [A, B], (3) Push(C) -> [A, B, C], (4) Pop() -> mengeluarkan C sehingga tersisa [A, B], (5) Push(D) -> [A, B, D]. Elemen teratas adalah D."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C3 Menerapkan",
-    "q": "Diketahui himpunan semesta S = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10} dan himpunan A = {2, 3, 5, 7}. Anggota himpunan komplemen A (ditulis A′) adalah…",
-    "options": [
-      "{1, 3, 5, 7, 9}",
-      "{2, 4, 6, 8, 10}",
-      "∅ (himpunan kosong)",
-      "{1, 4, 6, 8, 9, 10}"
-    ],
-    "answer": 3,
-    "explain": "Komplemen A memuat semua anggota semesta S yang BUKAN merupakan anggota himpunan A: {1, 4, 6, 8, 9, 10}."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C3 Menerapkan",
-    "q": "Ketika seorang siswa hendak membuat program game edukasi kuis, ia membagi tugas menjadi sub-sistem mandiri: modul autentikasi akun, modul bank soal, modul animasi antarmuka, dan modul penghitungan skor. Langkah tersebut merupakan penerapan pilar…",
-    "options": [
-      "Dekomposisi",
-      "Pengenalan Pola",
-      "Abstraksi",
-      "Perancangan Algoritma"
-    ],
-    "answer": 0,
-    "explain": "Dekomposisi adalah teknik memecah masalah besar atau sistem yang kompleks menjadi bagian-bagian yang lebih kecil dan lebih mudah dikelola."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C4 Menganalisis",
-    "q": "Sebuah tim survei ingin mengetahui kepuasan masyarakat terhadap layanan transportasi publik kota, namun mereka hanya membagikan kuesioner daring (online) melalui media sosial pada jam kerja (pukul 10.00 - 14.00). Analisis potensi kelemahan (sampling bias) paling signifikan dari metode tersebut adalah…",
-    "options": [
-      "Waktu pengumpulan data terlalu singkat sehingga kapasitas server basis data tidak mencukupi",
-      "Sampel tidak merepresentasikan kelompok lansia, pekerja lapangan yang tidak membuka medsos saat jam kerja, serta warga yang tidak memiliki akses internet",
-      "Jumlah pertanyaan pada kuesioner daring selalu lebih sedikit dibanding survei cetak",
-      "Data daring otomatis berstatus data sekunder sehingga tidak valid untuk dianalisis"
-    ],
-    "answer": 1,
-    "explain": "Metode ini mengalami bias seleksi (selection bias/coverage bias) berat karena mengabaikan kelompok pengguna penting yang tidak online atau tidak mengakses medsos pada jam kerja."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C4 Menganalisis",
-    "q": "Pada grafik batang perbandingan penjualan produk A (100 unit) dan produk B (105 unit), pembuat grafik sengaja memotong sumbu Y (truncated Y-axis) sehingga skala nilai dimulai dari 98 bukan dari 0. Analisis efek distorsi visual yang ditimbulkan adalah…",
-    "options": [
-      "Batang produk A dan B menjadi miring dan tidak sejajar sumbu horizontal",
-      "Grafik kehilangan kemampuan untuk menampilkan warna batang yang berbeda",
-      "Batang produk B tampak berkali-kali lipat lebih tinggi dari produk A, menciptakan ilusi perbedaan yang sangat dramatis padahal selisih sesungguhnya hanya 5%",
-      "Grafik otomatis ditolak oleh sistem pengolah data karena sumbu Y wajib bernilai negatif"
-    ],
-    "answer": 2,
-    "explain": "Truncated axis (memotong sumbu nilai dasar bukan dari 0) membesar-besarkan perbedaan kecil sehingga batang yang hanya selisih 5% terlihat berlipat-lipat lebih tinggi dan menyesatkan audiens."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C4 Menganalisis",
-    "q": "Diberikan domain X = {a, b, c} dan kodomain Y = {1, 2, 3}. Pasangan berurutan manakah di bawah ini yang memenuhi syarat sebagai suatu fungsi matematika yang valid?",
-    "options": [
-      "{(a, 1), (a, 2), (b, 3)}",
-      "{(a, 1), (b, 2)}",
-      "{(a, 1), (b, 3), (b, 2), (c, 3)}",
-      "{(a, 1), (b, 2), (c, 2)}"
-    ],
-    "answer": 3,
-    "explain": "Syarat fungsi: setiap anggota domain tepat memiliki satu pasangan di kodomain. Pada opsi D, a->1, b->2, c->2 memenuhi syarat. Opsi A dan C menduplikasi elemen domain, sedangkan opsi B mengabaikan elemen c."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C4 Menganalisis",
-    "q": "Di suatu kelas terdapat 35 siswa. Sebanyak 20 siswa menyukai Matematika, 18 siswa menyukai Informatika, dan 8 siswa menyukai kedua-duanya. Jika dianalisis menggunakan prinsip diagram Venn himpunan, berapa banyak siswa yang HANYA menyukai Matematika saja?",
-    "options": [
-      "12 siswa",
-      "20 siswa",
-      "10 siswa",
-      "8 siswa"
-    ],
-    "answer": 0,
-    "explain": "Banyak siswa yang menyukai Matematika saja = Total siswa suka Matematika − Siswa suka kedua-duanya = 20 − 8 = 12 siswa."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C4 Menganalisis",
-    "q": "Diberikan urutan ekspresi aritmatika postfix berikut: 5 3 2 * +. Jika ekspresi ini dievaluasi langkah demi langkah menggunakan struktur data Stack, nilai akhir yang tersisa pada stack adalah…",
-    "options": [
-      "16",
-      "11",
-      "30",
-      "13"
-    ],
-    "answer": 1,
-    "explain": "Langkah kerja stack: (1) Push(5) -> [5], (2) Push(3) -> [5, 3], (3) Push(2) -> [5, 3, 2], (4) Operator *: Pop 2 dan 3, hitung 3 * 2 = 6, Push(6) -> [5, 6], (5) Operator +: Pop 6 dan 5, hitung 5 + 6 = 11, Push(11) -> [11]. Hasil akhir = 11."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C4 Menganalisis",
-    "q": "Dalam menganalisis pola cuaca, kegiatan mengenali bahwa setiap kelembapan udara >90% dan suhu turun drastis maka kemungkinan hujan lebat dalam 1 jam tergolong pilar…, sedangkan merumuskan urutan instruksi terstruktur pengiriman peringatan dini otomatis ke ponsel warga tergolong pilar…",
-    "options": [
-      "Dekomposisi dan Abstraksi",
-      "Abstraksi dan Pengenalan Pola",
-      "Pengenalan Pola (Pattern Recognition) dan Perancangan Algoritma (Algorithm Design)",
-      "Perancangan Algoritma dan Dekomposisi"
-    ],
-    "answer": 2,
-    "explain": "Mengidentifikasi keteraturan atau kecenderungan data yang berulang adalah Pengenalan Pola, sedangkan merancang langkah instruksi logis penyelesaian masalah adalah Perancangan Algoritma."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C5 Mengevaluasi",
-    "q": "Seorang peneliti mengklaim: \"Survei saya diikuti oleh 50.000 anggota sebuah klub mobil mewah, sehingga kesimpulan survei ini dapat digeneralisasi untuk mencerminkan gaya hidup seluruh masyarakat Indonesia.\" Bagaimanakah evaluasi kritis Anda terhadap klaim tersebut?",
-    "options": [
-      "Klaim tersebut valid karena dalam statistika setiap sampel di atas 1.000 responden dijamin bebas bias",
-      "Klaim tersebut valid asalkan peneliti menggunakan perangkat lunak pengolah data terlisensi resmi",
-      "Klaim tersebut tidak valid semata-mata karena jumlah 50.000 masih terlalu sedikit untuk populasi Indonesia",
-      "Klaim tersebut tidak valid karena meskipun jumlah sampelnya sangat besar, metode penarikan sampel mengalami bias seleksi berat dan tidak representatif terhadap keragaman seluruh masyarakat Indonesia"
-    ],
-    "answer": 3,
-    "explain": "Ukuran sampel yang sangat besar (big data) tidak dapat menutupi bias penarikan sampel yang parah. Representativitas dan ketepatan metode sampling jauh lebih krusial dibanding semata-mata besaran angka sampel."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C5 Mengevaluasi",
-    "q": "Sebuah laporan keuangan menyajikan alokasi anggaran dari 18 divisi yang nilainya saling berdekatan (masing-masing antara 4% hingga 7%) menggunakan diagram lingkaran 3D miring (3D exploded pie chart). Evaluasi terhadap efektivitas visualisasi tersebut adalah…",
-    "options": [
-      "Sangat buruk, karena diagram lingkaran dengan lebih dari 7 kategori sangat sulit dibedakan, dan perspektif 3D memicu distorsi visual di mana irisan depan tampak lebih besar dari irisan belakang",
-      "Sangat efektif, karena efek 3D membuat grafik terlihat modern dan mewah bagi pembaca",
-      "Sangat efektif, karena diagram lingkaran adalah satu-satunya grafik yang dapat memuat lebih dari 15 kategori data",
-      "Cukup efektif asalkan setiap irisan diberi warna gradasi cerah yang bervariasi"
-    ],
-    "answer": 0,
-    "explain": "Pie chart tidak cocok untuk lebih dari 5-7 kategori (terlebih dengan nilai yang mirip). Efek 3D semakin memperparah karena memiringkan sudut pandang dan mendistorsi luas area irisan."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C5 Mengevaluasi",
-    "q": "Dalam merancang perangkat lunak kasir, Programmer A menulis seluruh logika perhitungan diskon, cetak struk, dan pajak dalam satu prosedur monolitik sepanjang 600 baris. Programmer B memecahnya menjadi fungsi-fungsi kecil mandiri: hitungDiskon(), hitungPajak(), dan cetakStruk(). Berdasarkan evaluasi aspek pemeliharaan perangkat lunak (maintainability), pendekatan manakah yang lebih unggul?",
-    "options": [
-      "Pendekatan Programmer A, karena satu prosedur panjang selalu dieksekusi lebih cepat oleh prosesor komputer",
-      "Pendekatan Programmer B, karena memudahkan pencarian kesalahan (debugging), pengujian kode terisolasi, dan fungsi dapat digunakan kembali di bagian program lain",
-      "Pendekatan Programmer A, karena menghemat alokasi memori nama-nama fungsi baru",
-      "Kedua pendekatan sama baiknya karena output yang dicetak ke struk menghasilkan angka yang sama"
-    ],
-    "answer": 1,
-    "explain": "Modularitas fungsi (dekomposisi) menghasilkan kode yang bersih, mudah diuji (unit testing), mudah didebug, dan dapat digunakan kembali (reusable), yang merupakan standar praktik rekayasa perangkat lunak yang baik."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C5 Mengevaluasi",
-    "q": "Fitur tombol Undo pada aplikasi pengolah kata dan tombol Back pada peramban web (browser) memanfaatkan struktur data Stack. Mengapa struktur data Stack dinilai paling tepat untuk fitur ini dibandingkan struktur data Queue (antrean FIFO)?",
-    "options": [
-      "Karena stack dapat menyimpan data tak terbatas tanpa menggunakan memori komputer",
-      "Karena queue hanya dapat memproses data berupa bilangan angka dan bukan teks dokumen",
-      "Karena perintah/halaman yang paling terakhir dikunjungi harus menjadi yang paling pertama dipulihkan saat tombol ditekan (prinsip LIFO)",
-      "Karena stack selalu mengeksekusi operasi penelusuran lebih lambat dari queue sehingga aman bagi pengguna"
-    ],
-    "answer": 2,
-    "explain": "Undo dan Back memerlukan riwayat terbalik: tindakan paling mutakhir (terakhir dilakukan) adalah tindakan pertama yang harus dibatalkan/dikembalikan, yang tepat sesuai dengan sifat LIFO dari stack."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C5 Mengevaluasi",
-    "q": "Dua siswa merancang algoritma untuk menyalakan lampu teras rumah secara otomatis:\n• Algoritma 1: Menyalakan lampu tepat setiap pukul 18.00 berdasarkan pengatur waktu (timer jam), tanpa memedulikan kondisi cuaca.\n• Algoritma 2: Menyalakan lampu hanya ketika sensor cahaya mendeteksi lingkungan mulai gelap (misalnya saat mendung gelap atau senja tiba).\nBerdasarkan evaluasi efektivitas dan efisiensi, manakah penilaian yang paling tepat?",
-    "options": [
-      "Algoritma 1 selalu lebih unggul karena tidak membutuhkan aliran arus listrik",
-      "Kedua algoritma menghasilkan kinerja yang sama persis di setiap keadaan cuaca",
-      "Algoritma 1 lebih baik karena jam dinding tidak pernah terpengaruh bayangan awan",
-      "Algoritma 2 lebih efektif dan hemat energi karena bekerja secara adaptif menyesuaikan tingkat kegelapan lingkungan yang sesungguhnya"
-    ],
-    "answer": 3,
-    "explain": "Algoritma 2 (berbasis sensor cahaya/kondisional) lebih unggul karena bersifat adaptif: lampu tidak menyala sia-sia jika hari masih terang pada jam 18.00, dan otomatis menyala lebih awal jika cuaca mendung gelap, sehingga lebih hemat energi."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C6 Mengkreasi",
-    "q": "Anda diminta merancang formula perhitungan otomatis dalam program rapor siswa. Ketentuan bobot nilainya adalah: Tugas Mandiri sebesar 20%, Ujian Tengah Semester (UTS) sebesar 30%, dan Ujian Akhir Semester (UAS) sebesar 50%. Rancangan formula algoritma yang tepat untuk menghasilkan Nilai Akhir (NA) siswa adalah…",
-    "options": [
-      "NA = (0.2 × Tugas) + (0.3 × UTS) + (0.5 × UAS)",
-      "NA = (Tugas + UTS + UAS) / 3",
-      "NA = (Tugas × 20) + (UTS × 30) + (UAS × 50)",
-      "NA = 0.5 × (Tugas + UTS + UAS)"
-    ],
-    "answer": 0,
-    "explain": "Dengan bobot Tugas 20% (0,2), UTS 30% (0,3), dan UAS 50% (0,5), rancangan perhitungan komputasi yang benar adalah mengalikan setiap nilai dengan desimal bobotnya lalu menjumlahkannya: NA = (0.2 × Tugas) + (0.3 × UTS) + (0.5 × UAS)."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C6 Mengkreasi",
-    "q": "Sebuah sistem beasiswa ingin menyaring data siswa dengan kriteria: \"Memiliki sertifikat prestasi tingkat Internasional (I) ATAU prestasi tingkat Nasional (N), TETAPI TIDAK memiliki catatan sanksi pelanggaran (P)\". Rumusan operasi logika himpunan yang paling tepat dirancang untuk kriteria penyaringan tersebut adalah…",
-    "options": [
-      "(I ∩ N) ∪ P′",
-      "(I ∪ N) ∩ P′",
-      "(I ∪ N) ∪ P",
-      "(I ∩ N) ∩ P"
-    ],
-    "answer": 1,
-    "explain": "(I ∪ N) menyatakan gabungan siswa yang memiliki prestasi Internasional atau Nasional. Mengirisnya dengan komplemen P (P′) memastikan hanya mereka yang BUKAN anggota himpunan pelanggar yang lolos."
-  },
-  {
-    "type": "mcq",
-    "tag": "Pilihan Ganda · C6 Mengkreasi",
-    "q": "Anda ditugaskan merancang modul parser untuk memvalidasi apakah tanda kurung buka \"(\" dan tanda kurung tutup \")\" dalam suatu ekspresi matematika sudah seimbang dan berpasangan dengan benar. Rancangan logika menggunakan Stack yang tepat adalah…",
-    "options": [
-      "Setiap membaca tanda \"(\", lakukan pop dari stack; setiap membaca tanda \")\", lakukan push ke stack. Ekspresi valid jika stack berisi elemen genap",
-      "Kumpulkan seluruh tanda kurung ke dalam stack, kemudian hitung apakah total elemen dalam stack bernilai ganjil",
-      "Setiap membaca tanda \"(\", masukkan (push) ke stack. Setiap membaca tanda \")\", keluarkan (pop) satu elemen dari stack. Ekspresi dinyatakan valid jika selama proses tidak terjadi pop pada stack kosong dan di akhir proses stack dalam keadaan kosong",
-      "Setiap membaca kurung buka atau tutup, masukkan ke stack lalu kosongkan stack setiap kali menemukan angka"
-    ],
-    "answer": 2,
-    "explain": "Algoritma pencocokan tanda kurung menggunakan stack: saat kurung buka ditemukan, simpan ke stack. Saat kurung tutup ditemukan, harus ada kurung buka di stack untuk dipasangkan (pop). Jika stack kosong saat dipop atau tersisa elemen di akhir, ekspresi tidak valid."
-  }
-];
-
-let current = 0;
-let score = 0;
-let locked = false;
-let studentName = "";
-let studentClass = "";
-const recap = [];
-
-function esc(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-const card = document.getElementById("card");
-const progressRow = document.getElementById("progress-row");
-const progressFill = document.getElementById("progress-fill");
-const progressLabel = document.getElementById("progress-label");
-const introSub = document.getElementById("intro-sub");
-
-function renderStart() {
-  const fillCount = QUESTIONS.filter(q => q.type === "fill").length;
-  card.innerHTML = `
-    <div>
-      <p style="margin:0 0 24px; font-size:15px; color:var(--muted); line-height:1.6;">
-        Sebelum memulai, silakan isi data diri Anda terlebih dahulu.
-      </p>
-      <div class="form-group">
-        <label for="name-input">Nama Lengkap</label>
-        <input type="text" id="name-input" placeholder="Masukkan nama Anda">
-      </div>
-      <div class="form-group">
-        <label for="class-input">Kelas</label>
-        <input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)">
-      </div>
-
-      <button class="btn-primary show" id="start-btn">Mulai kuis</button>
-    </div>
-  `;
-  document.getElementById("start-btn").addEventListener("click", () => {
-    const nameInput = document.getElementById("name-input");
-    const classInput = document.getElementById("class-input");
-    
-    if (!nameInput.value.trim() || !classInput.value.trim()) {
-      alert("Mohon isi nama dan kelas terlebih dahulu.");
-      return;
-    }
-    
-    studentName = nameInput.value.trim();
-    studentClass = classInput.value.trim();
-    
-    introSub.style.display = "none";
-    progressRow.style.display = "flex";
-    renderQuestion();
-  });
-}
-
-function renderQuestion() {
-  locked = false;
-  const q = QUESTIONS[current];
-  progressFill.style.width = `${(current / QUESTIONS.length) * 100}%`;
-  progressLabel.textContent = `Soal ${current + 1}/${QUESTIONS.length}`;
-
-  if (q.type === "fill") {
-    renderFillQuestion(q);
-    return;
-  }
-
-  let optionsHtml = "";
-  if (q.type === "mcq") {
-    optionsHtml = `<div class="options">` + q.options.map((opt, i) =>
-      `<button class="opt-btn" data-i="${i}"><span class="k mono">${String.fromCharCode(65+i)}</span>${esc(opt)}</button>`
-    ).join("") + `</div>`;
-  } else {
-    optionsHtml = `<div class="tf-row">
-      <button class="opt-btn" data-i="true">Benar</button>
-      <button class="opt-btn" data-i="false">Salah</button>
-    </div>`;
-  }
-
-  card.innerHTML = `
-    <span class="tag">${q.tag || (q.type === "mcq" ? "Pilihan Ganda" : "Benar / Salah")}</span>
-    <p class="question-text">${q.type === "mcq" ? q.q : "Perhatikan pernyataan berikut:"}</p>
-    ${q.type === "tf" ? `<p class="question-text" style="font-size:15.5px; font-weight:500;">${q.claim}</p>` : ""}
-    ${optionsHtml}
-    <div class="feedback" id="feedback"></div>
-    <div class="next-row"><button class="btn-primary" id="next-btn">${current === QUESTIONS.length - 1 ? "Lihat hasil" : "Lanjut"}</button></div>
-  `;
-
-  const buttons = card.querySelectorAll(".opt-btn");
-  buttons.forEach(btn => btn.addEventListener("click", () => handleAnswer(btn, buttons, q)));
-}
-
-function renderFillQuestion(q) {
-  const widthCh = Math.max(8, (q.accepted[0].length || 8) + 2);
-
-  card.innerHTML = `
-    <span class="tag">${q.tag || "Isian: Lengkapi Kalimat"}</span>
-    <p class="question-text">${q.prompt}</p>
-    <div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…" style="width:${widthCh}ch">${esc(q.after)}</div>
-    <div class="next-row check-row" style="justify-content:flex-start;">
-      <button class="btn-primary show" id="check-btn">Periksa jawaban</button>
-    </div>
-    <div class="feedback" id="feedback"></div>
-    <div class="next-row"><button class="btn-primary" id="next-btn">${current === QUESTIONS.length - 1 ? "Lihat hasil" : "Lanjut"}</button></div>
-  `;
-
-  const input = document.getElementById("blank-input");
-  input.focus();
-  input.addEventListener("input", () => {
-    input.style.width = Math.max(widthCh, input.value.length + 2) + "ch";
-  });
-
-  document.getElementById("check-btn").addEventListener("click", () => {
-    if (locked) return;
-    locked = true;
-
-    const normalized = input.value.trim().toLowerCase().replace(/[.;]$/, "");
-    const isCorrect = q.accepted.map(a => a.toLowerCase()).includes(normalized);
-
-    input.disabled = true;
-    input.style.borderBottomColor = isCorrect ? "var(--good)" : "var(--bad)";
-    document.getElementById("check-btn").classList.remove("show");
-
-    if (isCorrect) score++;
-    recap.push({ ok: isCorrect, text: q.prompt });
-
-    const feedback = document.getElementById("feedback");
-    feedback.classList.add("show", isCorrect ? "good" : "bad");
-    feedback.innerHTML = `<strong>${isCorrect ? "Tepat." : "Belum tepat."}</strong> ${q.explain}`;
-
-    document.getElementById("next-btn").classList.add("show");
-    document.getElementById("next-btn").addEventListener("click", () => {
-      current++;
-      if (current < QUESTIONS.length) {
-        renderQuestion();
-      } else {
-        renderResult();
-      }
-    }, { once: true });
-  }, { once: true });
-}
-
-function handleAnswer(btn, allButtons, q) {
-  if (locked) return;
-  locked = true;
-
-  let isCorrect;
-  if (q.type === "mcq") {
-    isCorrect = parseInt(btn.dataset.i, 10) === q.answer;
-    allButtons.forEach(b => {
-      const i = parseInt(b.dataset.i, 10);
-      if (i === q.answer) b.classList.add("correct");
-      else if (b === btn) b.classList.add("incorrect");
-      b.disabled = true;
-    });
-  } else {
-    const chosen = btn.dataset.i === "true";
-    isCorrect = chosen === q.answer;
-    allButtons.forEach(b => {
-      const val = b.dataset.i === "true";
-      if (val === q.answer) b.classList.add("correct");
-      else if (b === btn) b.classList.add("incorrect");
-      b.disabled = true;
-    });
-  }
-
-  if (isCorrect) score++;
-  recap.push({ ok: isCorrect, text: q.type === "mcq" ? q.q : q.claim });
-
-  const feedback = document.getElementById("feedback");
-  feedback.classList.add("show", isCorrect ? "good" : "bad");
-  feedback.innerHTML = `<strong>${isCorrect ? "Tepat." : "Belum tepat."}</strong> ${q.explain}`;
-
-  document.getElementById("next-btn").classList.add("show");
-  document.getElementById("next-btn").addEventListener("click", () => {
-    current++;
-    if (current < QUESTIONS.length) {
-      renderQuestion();
-    } else {
-      renderResult();
-    }
-  }, { once: true });
-}
-
-function renderResult() {
-  progressFill.style.width = "100%";
-  progressLabel.textContent = `Soal ${QUESTIONS.length}/${QUESTIONS.length}`;
-
-  const total = QUESTIONS.length;
-  const pct = score / total;
-  let msg, sub;
-  if (pct >= 0.9) {
-    msg = "Luar biasa!";
-    sub = "Pemahaman kamu tentang analisis data maupun computational thinking, fungsi, himpunan, dan stack sudah sangat solid.";
-  } else if (pct >= 0.7) {
-    msg = "Kerja bagus!";
-    sub = "Fondasinya sudah kuat, tinggal perhalus beberapa istilah.";
-  } else if (pct >= 0.5) {
-    msg = "Cukup baik.";
-    sub = "Sudah paham sebagian besar konsep, coba tinjau lagi bagian yang meleset.";
-  } else {
-    msg = "Terus berlatih.";
-    sub = "Tidak apa — coba baca ulang materi analisis data dan Informatika Bab 2, lalu ulangi kuisnya.";
-  }
-
-  const recapHtml = recap.map(r =>
-    `<div class="recap-item"><span class="mark ${r.ok ? "ok" : "no"}">${r.ok ? "OK" : "X"}</span><span>${r.text}</span></div>`
-  ).join("");
-
-  card.innerHTML = `
-    <div class="result">
-      <div class="tag">Selesai</div>
-      <div class="student-info">
-        <div class="si-group">
-          <span class="label">Nama</span>
-          <span class="value">${esc(studentName)}</span>
-        </div>
-        <div class="si-group">
-          <span class="label">Kelas</span>
-          <span class="value">${esc(studentClass)}</span>
+    <!-- Card 1: Informatika -->
+    <a href="informatika/" class="subject-card info">
+      <div class="card-left">
+        <div class="card-icon-box">💻</div>
+        <div>
+          <h2 class="card-title">
+            Informatika &amp; Analisis Data
+            <span class="tag-pill mono">35 Soal</span>
+          </h2>
+          <p class="card-desc">Statistika, data primer/sekunder, skala pengukuran, computational thinking, fungsi matematika, himpunan, dan stack.</p>
         </div>
       </div>
-      <div class="score-big mono">${score}/${total}</div>
-      <div class="score-of">jawaban benar</div>
-      <div class="result-msg">${msg}</div>
-      <p class="result-sub">${sub}</p>
-      <div class="recap">${recapHtml}</div>
-      <button class="btn-restart" id="restart-btn">Ulangi kuis</button>
-    </div>
-  `;
+      <div class="card-btn">
+        Mulai Kuis
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
 
-  document.getElementById("restart-btn").addEventListener("click", () => {
-    current = 0;
-    score = 0;
-    recap.length = 0;
-    studentName = "";
-    studentClass = "";
-    progressFill.style.width = "0%";
-    progressLabel.textContent = `1/${QUESTIONS.length}`;
-    introSub.style.display = "block";
-    progressRow.style.display = "none";
-    renderStart();
-  });
-}
+    <!-- Card 2: IPA -->
+    <a href="ipa/" class="subject-card ipa">
+      <div class="card-left">
+        <div class="card-icon-box">🔬</div>
+        <div>
+          <h2 class="card-title">
+            Ilmu Pengetahuan Alam (IPA)
+            <span class="tag-pill mono">60 Soal</span>
+          </h2>
+          <p class="card-desc">Besaran pokok, konversi satuan, sel &amp; jaringan, organ pencernaan, kelainan pencernaan, nutrisi, dan reproduksi manusia.</p>
+        </div>
+      </div>
+      <div class="card-btn">
+        Mulai Kuis
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
 
-renderStart();
+    <!-- Card 3: ICT -->
+    <a href="ict/" class="subject-card ict">
+      <div class="card-left">
+        <div class="card-icon-box">🌐</div>
+        <div>
+          <h2 class="card-title">
+            Dasar HTML &amp; CSS (ICT)
+            <span class="tag-pill mono">40 Soal</span>
+          </h2>
+          <p class="card-desc">Struktur dasar dokumen HTML, elemen tag, heading, link, list, form, selektor CSS, warna, font, dan perataan tata letak web.</p>
+        </div>
+      </div>
+      <div class="card-btn">
+        Mulai Kuis
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
 
-/* ── Anti-Curang Logic ── */
-(function() {
-  const MAX_VIOLATIONS = 3;
-  const SUSPEND_SECS   = 30;
+  </div>
+</div>
 
-  let violations     = 0;
-  let suspendTimer   = null;
-  let quizStarted    = false;  // aktif setelah klik "Mulai kuis"
-  let quizDone       = false;
-  let suspended      = false;
-
-  const overlay    = document.getElementById('cheat-overlay');
-  const title      = document.getElementById('cheat-title');
-  const msg        = document.getElementById('cheat-msg');
-  const countdown  = document.getElementById('cheat-countdown');
-  const warnCount  = document.getElementById('cheat-warning-count');
-
-  // Tandai kuis sudah dimulai saat start-btn diklik
-  document.addEventListener('click', function(e) {
-    if (e.target && e.target.id === 'start-btn') {
-      quizStarted = true;
-    }
-  }, true);
-
-  function triggerViolation() {
-    if (!quizStarted || quizDone || suspended) return;
-
-    violations++;
-
-    if (violations > MAX_VIOLATIONS) {
-      // Sudah melebihi batas — akhiri quiz
-      endQuizByCheat();
-      return;
-    }
-
-    suspended = true;
-    overlay.classList.add('show');
-
-    if (violations === MAX_VIOLATIONS) {
-      title.textContent = 'Peringatan terakhir';
-      msg.textContent   = 'Pelanggaran ke-' + violations + '. Jika terdeteksi lagi, kuis langsung diakhiri.';
-    } else {
-      title.textContent = 'Tab berpindah terdeteksi';
-      msg.textContent   = 'Kuis dikunci sementara. Tunggu hingga hitungan selesai.';
-    }
-
-    warnCount.textContent = 'Pelanggaran: ' + violations + ' / ' + MAX_VIOLATIONS;
-
-    let secs = SUSPEND_SECS;
-    countdown.textContent = secs;
-
-    suspendTimer = setInterval(function() {
-      secs--;
-      countdown.textContent = secs;
-      if (secs <= 0) {
-        clearInterval(suspendTimer);
-        overlay.classList.remove('show');
-        suspended = false;
-      }
-    }, 1000);
-  }
-
-  function endQuizByCheat() {
-    quizDone = true;
-    suspended = false;
-    clearInterval(suspendTimer);
-    overlay.classList.remove('show');
-    // Paksa render hasil dengan score saat ini
-    renderResult();
-    // Tambahkan banner info di atas hasil
-    const resultDiv = card.querySelector('.result');
-    if (resultDiv) {
-      const banner = document.createElement('div');
-      banner.style.cssText = 'background:var(--bad-soft);border:1px solid var(--bad);color:var(--bad);border-radius:6px;padding:12px 16px;font-size:14px;margin-bottom:20px;line-height:1.5;';
-      banner.innerHTML = '<strong>Kuis Diakhiri Otomatis.</strong> Kamu terdeteksi keluar tab sebanyak ' + violations + ' kali. Nilai dihitung berdasarkan soal yang sudah dijawab.';
-      resultDiv.prepend(banner);
-    }
-  }
-
-  // Deteksi pindah tab (Page Visibility API)
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden) triggerViolation();
-  });
-
-  // Deteksi pindah window / minimize (blur)
-  window.addEventListener('blur', function() {
-    triggerViolation();
-  });
-
-  // Tandai kuis selesai secara normal
-  // (patch renderResult agar quizDone = true)
-  const _origRenderResult = renderResult;
-  window.renderResult = function() {
-    quizDone = true;
-    _origRenderResult();
-  };
-
-})();
-</script>
 </body>
 </html>
