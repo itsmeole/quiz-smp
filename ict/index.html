@@ -138,37 +138,82 @@
 </div>
 <script>
 const QUESTIONS=[
+  /* ── HTML: Struktur Dasar ── */
   {type:"fill",isCode:true,prompt:"Lengkapi deklarasi tipe dokumen HTML5 di baris pertama.",before:"<!DOCTYPE ",after:">",accepted:["html"],explain:"&lt;!DOCTYPE html&gt; wajib ditulis di baris pertama agar browser tahu dokumen ini menggunakan HTML5."},
-  {type:"fill",isCode:true,prompt:"Lengkapi tag yang menghubungkan file CSS eksternal ke halaman HTML.",before:"<",after:' rel="stylesheet" href="style.css">',accepted:["link"],explain:"Tag &lt;link&gt; ditulis di dalam &lt;head&gt; untuk menghubungkan file CSS eksternal. rel=&quot;stylesheet&quot; menyatakan jenis hubungannya."},
-  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan URL tujuan pada sebuah tautan.",before:'<a ',after:'="https://example.com">Klik di sini</a>',accepted:["href"],explain:"Atribut href (Hypertext Reference) pada tag &lt;a&gt; menentukan URL halaman yang akan dibuka saat tautan diklik."},
-  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan lokasi file gambar.",before:"<img ",after:'="foto.jpg" alt="Foto profil">',accepted:["src"],explain:"Atribut src (source) pada &lt;img&gt; menentukan path atau URL file gambar yang akan ditampilkan."},
-  {type:"fill",isCode:true,prompt:"Lengkapi atribut teks alternatif pada gambar (penting untuk aksesibilitas).",before:'<img src="logo.png" ',after:'="Logo perusahaan">',accepted:["alt"],explain:"Atribut alt menyediakan teks pengganti jika gambar gagal dimuat, dan dibaca oleh screen reader."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag yang digunakan untuk bagian kepala dokumen HTML (tempat judul, meta, dan link CSS).",before:"<html>\n  <",after:">\n    <title>Halaman Saya</title>\n  </head>",accepted:["head"],explain:"Elemen &lt;head&gt; berisi metadata dokumen: judul, link CSS, dan meta tag. Tidak tampil langsung di halaman."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag yang membungkus semua konten yang tampil di browser.",before:"<html>\n  <head>...</head>\n  <",after:">\n    <h1>Halo!</h1>\n  </body>\n</html>",accepted:["body"],explain:"Elemen &lt;body&gt; berisi semua konten yang akan ditampilkan di browser: teks, gambar, tabel, formulir, dan lainnya."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk menampilkan judul yang muncul di tab browser.",before:"<head>\n  <",after:">Portofolio Saya</title>\n</head>",accepted:["title"],explain:"&lt;title&gt; menentukan teks yang tampil di tab browser dan hasil pencarian. Letakkan di dalam &lt;head&gt;."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag yang menghubungkan file CSS eksternal ke halaman HTML.",before:"<",after:' rel="stylesheet" href="style.css">',accepted:["link"],explain:"Tag &lt;link&gt; ditulis di dalam &lt;head&gt; untuk menghubungkan file CSS eksternal."},
+
+  /* ── HTML: Tag Teks & Konten ── */
   {type:"fill",isCode:true,prompt:"Lengkapi tag heading terbesar dalam HTML.",before:"<",after:">Selamat Datang</h1>",accepted:["h1"],explain:"&lt;h1&gt; adalah heading terbesar. HTML menyediakan enam level heading: &lt;h1&gt; hingga &lt;h6&gt;."},
   {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat blok paragraf teks.",before:"<",after:">Ini adalah sebuah paragraf.</p>",accepted:["p"],explain:"Tag &lt;p&gt; membuat blok paragraf. Browser otomatis menambahkan jarak atas dan bawah pada elemen &lt;p&gt;."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag agar teks 'HTML' dicetak tebal.",before:"Saya belajar <",after:">HTML</strong> hari ini.",accepted:["strong"],explain:"&lt;strong&gt; membuat teks tebal dan menandai penekanan semantik."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag agar teks dicetak miring.",before:"Ini <",after:">sangat penting</em> untuk diingat.",accepted:["em"],explain:"&lt;em&gt; (emphasis) membuat teks miring dengan makna penekanan."},
+
+  /* ── HTML: Tautan & Gambar ── */
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan URL tujuan pada sebuah tautan.",before:'<a ',after:'="https://example.com">Klik di sini</a>',accepted:["href"],explain:"Atribut href pada tag &lt;a&gt; menentukan URL halaman yang akan dibuka saat tautan diklik."},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan lokasi file gambar.",before:"<img ",after:'="foto.jpg" alt="Foto profil">',accepted:["src"],explain:"Atribut src pada &lt;img&gt; menentukan path atau URL file gambar yang akan ditampilkan."},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut teks alternatif pada gambar (penting untuk aksesibilitas).",before:'<img src="logo.png" ',after:'="Logo perusahaan">',accepted:["alt"],explain:"Atribut alt menyediakan teks pengganti jika gambar gagal dimuat, dan dibaca oleh screen reader."},
+
+  /* ── HTML: Daftar ── */
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat daftar bernomor (ordered list).",before:"<",after:">\n  <li>Langkah 1</li>\n  <li>Langkah 2</li>\n</ol>",accepted:["ol"],explain:"&lt;ol&gt; membuat daftar bernomor otomatis. Berbeda dengan &lt;ul&gt; yang menggunakan simbol/poin."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag item di dalam daftar berikut.",before:"<ul>\n  <",after:">Apel</li>\n  <li>Mangga</li>\n</ul>",accepted:["li"],explain:"Tag &lt;li&gt; (list item) digunakan untuk setiap item di dalam daftar &lt;ul&gt; maupun &lt;ol&gt;."},
+
+  /* ── HTML: Tabel ── */
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat baris di dalam tabel.",before:"<table>\n  <",after:">\n    <td>Data 1</td>\n    <td>Data 2</td>\n  </tr>\n</table>",accepted:["tr"],explain:"&lt;tr&gt; (table row) membuat baris di dalam tabel. Di dalamnya diisi &lt;td&gt; atau &lt;th&gt;."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk sel data biasa di dalam tabel.",before:"<tr>\n  <",after:">Nama</td>\n  <td>Nilai</td>\n</tr>",accepted:["td"],explain:"&lt;td&gt; (table data) adalah sel data dalam tabel. Berbeda dengan &lt;th&gt; yang untuk sel header."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk sel header pada baris pertama tabel.",before:"<tr>\n  <",after:">No</th>\n  <th>Nama</th>\n</tr>",accepted:["th"],explain:"&lt;th&gt; (table header) membuat sel dengan teks tebal dan rata tengah secara default."},
+
+  /* ── HTML: Formulir ── */
+  {type:"fill",isCode:true,prompt:"Lengkapi tag input agar pengguna bisa memasukkan teks biasa.",before:'<input type="',after:'" placeholder="Masukkan nama">',accepted:["text"],explain:'type="text" adalah tipe input untuk memasukkan teks biasa.'},
+  {type:"fill",isCode:true,prompt:"Lengkapi type input agar karakter yang diketik tersembunyi (kata sandi).",before:'<input type="',after:'" name="pass" placeholder="Kata sandi">',accepted:["password"],explain:'type="password" menyembunyikan karakter yang diketik dengan titik/bintang untuk menjaga kerahasiaan.'},
+  {type:"fill",isCode:true,prompt:"Lengkapi nilai type pada tombol agar bisa mengirimkan formulir.",before:'<button type="',after:'">Kirim</button>',accepted:["submit"],explain:'type="submit" membuat tombol mengirimkan data formulir.'},
+  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan metode pengiriman data formulir.",before:'<form ',after:'="post" action="/login">\n  ...\n</form>',accepted:["method"],explain:"Atribut method menentukan cara pengiriman: GET (data terlihat di URL) atau POST (data tersembunyi di body)."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat area teks multi-baris.",before:"<",after:' rows="4" cols="40" placeholder="Tulis komentar..."></textarea>',accepted:["textarea"],explain:"&lt;textarea&gt; memungkinkan pengguna menulis teks panjang multi-baris, berbeda dengan &lt;input&gt; yang hanya satu baris."},
+  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat kotak pilihan dropdown.",before:"<",after:">\n  <option value=''>Pilih kelas</option>\n  <option value='7'>Kelas 7</option>\n</select>",accepted:["select"],explain:"&lt;select&gt; membuat dropdown. Isinya berupa elemen &lt;option&gt;."},
+
+  /* ── HTML: Atribut ── */
   {type:"fill",isCode:true,prompt:"Lengkapi atribut untuk memberikan nama kelas CSS pada elemen.",before:'<div ',after:'="card">Konten kartu</div>',accepted:["class"],explain:"Atribut class mengelompokkan elemen agar bisa diberi gaya dengan selektor .nama-kelas di CSS."},
   {type:"fill",isCode:true,prompt:"Lengkapi atribut yang memberikan identitas unik pada elemen.",before:'<section ',after:'="hero">Hero Section</section>',accepted:["id"],explain:"Atribut id harus unik per halaman. Digunakan untuk menargetkan elemen spesifik via CSS (#id) atau JavaScript."},
-  {type:"fill",isCode:true,prompt:"Lengkapi tag item di dalam daftar berikut.",before:"<ul>\n  <",after:">Apel</li>\n  <li>Mangga</li>\n</ul>",accepted:["li"],explain:"Tag &lt;li&gt; (list item) digunakan untuk setiap item di dalam daftar &lt;ul&gt; maupun &lt;ol&gt;."},
-  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk membuat daftar bernomor (ordered list).",before:"<",after:">\n  <li>Langkah 1</li>\n  <li>Langkah 2</li>\n</ol>",accepted:["ol"],explain:"&lt;ol&gt; membuat daftar bernomor otomatis. Berbeda dengan &lt;ul&gt; yang menggunakan simbol/poin."},
-  {type:"fill",isCode:true,prompt:"Lengkapi nilai type pada tombol agar bisa mengirimkan formulir.",before:'<button type="',after:'">Kirim</button>',accepted:["submit"],explain:'type="submit" membuat tombol mengirimkan data formulir. Tipe lain: button (tidak submit) dan reset.'},
-  {type:"fill",isCode:true,prompt:"Lengkapi type input agar karakter yang diketik tersembunyi (kata sandi).",before:'<input type="',after:'" name="pass" placeholder="Kata sandi">',accepted:["password"],explain:'type="password" menyembunyikan karakter yang diketik dengan titik/bintang untuk menjaga kerahasiaan.'},
-  {type:"fill",isCode:true,prompt:"Lengkapi atribut yang menentukan metode pengiriman data formulir.",before:'<form ',after:'="post" action="/login">\n  ...\n</form>',accepted:["method"],explain:"Atribut method menentukan cara pengiriman: GET (data terlihat di URL) atau POST (data tersembunyi di body)."},
-  {type:"fill",isCode:true,prompt:"Lengkapi tag untuk menyematkan konten dari URL lain (misalnya video atau peta).",before:"<",after:' src="https://maps.google.com/" width="600" height="400"></iframe>',accepted:["iframe"],explain:"&lt;iframe&gt; (inline frame) menyematkan konten dari URL lain, seperti embed YouTube atau Google Maps."},
+
+
+  /* ── CSS: Warna & Teks ── */
   {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengubah warna teks.",before:"p {\n  ",after:": #333333;\n}",accepted:["color"],explain:"Properti color mengubah warna teks. Nilainya bisa nama warna (red), hex (#ff0000), atau rgb(255,0,0)."},
-  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur warna latar belakang.",before:"body {\n  background-",after:": #f5f5f5;\n}",accepted:["color"],explain:"background-color mengatur warna latar belakang elemen. Berbeda dengan background yang juga mencakup gambar latar."},
-  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur ukuran huruf.",before:"h1 {\n  font-",after:": 32px;\n}",accepted:["size"],explain:"font-size mengatur ukuran teks. Satuan umum: px, em (relatif ke parent), rem (relatif ke root), % (persentase)."},
+  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur warna latar belakang.",before:"body {\n  background-",after:": #f5f5f5;\n}",accepted:["color"],explain:"background-color mengatur warna latar belakang elemen."},
+  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur ukuran huruf.",before:"h1 {\n  font-",after:": 32px;\n}",accepted:["size"],explain:"font-size mengatur ukuran teks. Satuan umum: px, %, rem."},
+  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur jenis huruf.",before:"body {\n  font-",after:": 'Arial', sans-serif;\n}",accepted:["family"],explain:"font-family menentukan jenis huruf. Selalu sertakan font generik (sans-serif, serif) sebagai fallback."},
+  {type:"fill",isCode:true,prompt:"Lengkapi nilai properti CSS untuk membuat teks menjadi tebal.",before:"h3 {\n  font-weight: ",after:";\n}",accepted:["bold"],explain:"font-weight: bold membuat teks tebal. Bisa juga menggunakan angka: 400 (normal), 700 (bold)."},
+  {type:"fill",isCode:true,prompt:"Lengkapi nilai untuk menengahkan teks secara horizontal.",before:"h2 {\n  text-align: ",after:";\n}",accepted:["center"],explain:"text-align mengatur perataan teks: left, right, center, atau justify."},
+  {type:"fill",isCode:true,prompt:"Lengkapi nilai CSS untuk menghilangkan garis bawah pada tautan.",before:"a {\n  text-decoration: ",after:";\n}",accepted:["none"],explain:"text-decoration: none menghapus garis bawah default pada &lt;a&gt;. Nilai lain: underline, overline."},
+
+  /* ── CSS: Box Model ── */
   {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengatur jarak di luar elemen (ruang antar elemen).",before:".card {\n  ",after:": 16px;\n}",accepted:["margin"],explain:"margin mengatur ruang di luar border elemen. padding mengatur ruang di dalam border."},
   {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengatur jarak di dalam elemen (antara konten dan border).",before:"nav {\n  ",after:": 12px 24px;\n}",accepted:["padding"],explain:"padding: 12px 24px berarti 12px atas-bawah dan 24px kiri-kanan."},
   {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk menambahkan garis tepi pada elemen.",before:"img {\n  ",after:": 2px solid #cccccc;\n}",accepted:["border"],explain:"Properti border shorthand: tebal, jenis (solid/dashed/dotted), warna."},
+  {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengatur lebar sebuah elemen.",before:".box {\n  ",after:": 300px;\n}",accepted:["width"],explain:"Properti width mengatur lebar elemen. Bisa dalam px, %, vw, atau satuan lainnya."},
+  {type:"fill",isCode:true,prompt:"Lengkapi properti CSS untuk mengatur tinggi sebuah elemen.",before:".hero {\n  ",after:": 500px;\n}",accepted:["height"],explain:"Properti height mengatur tinggi elemen. Jika tidak disetel, tinggi mengikuti konten di dalamnya."},
+
+  /* ── CSS: Tata Letak ── */
   {type:"fill",isCode:true,prompt:"Lengkapi nilai display untuk mengaktifkan tata letak Flexbox.",before:".container {\n  display: ",after:";\n}",accepted:["flex"],explain:"display: flex mengaktifkan Flexbox. Elemen anak tersusun horizontal secara default."},
-  {type:"fill",isCode:true,prompt:"Lengkapi nilai untuk menengahkan teks secara horizontal.",before:"h2 {\n  text-align: ",after:";\n}",accepted:["center"],explain:"text-align mengatur perataan teks: left, right, center, atau justify."},
-  {type:"fill",isCode:true,prompt:"Lengkapi bagian properti CSS untuk mengatur jenis huruf.",before:"body {\n  font-",after:": 'Geist', sans-serif;\n}",accepted:["family"],explain:"font-family menentukan jenis huruf. Selalu sertakan font generik (sans-serif, serif, monospace) sebagai fallback."},
+
+  /* ── Pilihan Ganda ── */
   {type:"mcq",q:"HTML adalah singkatan dari…",options:["HyperText Markup Language","High Transfer Markup Language","HyperText Machine Language","Home Tool Markup Language"],answer:0,explain:"HTML = HyperText Markup Language. 'HyperText' = teks yang saling terhubung, 'Markup' = penggunaan tag untuk menandai struktur konten."},
   {type:"mcq",q:"Tag HTML yang digunakan untuk membuat tabel adalah…",options:["&lt;tbl&gt;","&lt;table&gt;","&lt;tb&gt;","&lt;grid&gt;"],answer:1,explain:"Tag &lt;table&gt; untuk tabel. Di dalamnya: &lt;tr&gt; untuk baris, &lt;th&gt; untuk sel header, &lt;td&gt; untuk sel data."},
-  {type:"mcq",q:"Cara penulisan komentar yang benar di dalam HTML adalah…",options:["// ini komentar","/* ini komentar */","&lt;!-- ini komentar --&gt;","# ini komentar"],answer:2,explain:"Komentar HTML ditulis dengan &lt;!-- komentar --&gt; dan tidak tampil di browser. CSS pakai /* */, JavaScript pakai //."},
-  {type:"mcq",q:"Selektor CSS yang tepat untuk menargetkan elemen dengan class 'box' adalah…",options:["#box { }",".box { }","*box { }","box: { }"],answer:1,explain:"Selektor class menggunakan titik (.): .box menargetkan semua elemen ber-class 'box'. Selektor id menggunakan # : #box."},
-  {type:"tf",claim:"Tag &lt;br&gt; memerlukan tag penutup seperti &lt;/br&gt;.",answer:false,explain:"Salah. &lt;br&gt; adalah void element (self-closing) yang tidak butuh tag penutup. Contoh lain: &lt;img&gt;, &lt;input&gt;, &lt;hr&gt;, &lt;link&gt;."},
-  {type:"tf",claim:"Dalam satu halaman HTML, nilai atribut id harus unik &mdash; tidak boleh ada dua elemen dengan id yang sama.",answer:true,explain:"Benar. id harus unik per halaman. Untuk mengelompokkan banyak elemen dengan nama yang sama, gunakan class."}
+  {type:"mcq",q:"Cara penulisan komentar yang benar di dalam HTML adalah…",options:["// ini komentar","/* ini komentar */","&lt;!-- ini komentar --&gt;","# ini komentar"],answer:2,explain:"Komentar HTML ditulis dengan &lt;!-- komentar --&gt; dan tidak tampil di browser."},
+  {type:"mcq",q:"Selektor CSS yang tepat untuk menargetkan elemen dengan class 'box' adalah…",options:["#box { }",".box { }","*box { }","box: { }"],answer:1,explain:"Selektor class menggunakan titik (.): .box menargetkan semua elemen ber-class 'box'. Selektor id menggunakan tanda pagar (#)."},
+  {type:"mcq",q:"Properti CSS apa yang digunakan untuk mengubah warna latar belakang sebuah elemen?",options:["color","background-color","bg-color","fill"],answer:1,explain:"background-color mengatur warna latar belakang. Properti color hanya mengubah warna teks."},
+  {type:"mcq",q:"Cara yang benar untuk menghubungkan file CSS eksternal ke HTML adalah…",options:['&lt;style src="style.css"&gt;','&lt;link rel="stylesheet" href="style.css"&gt;','&lt;css href="style.css"&gt;','&lt;script src="style.css"&gt;'],answer:1,explain:'&lt;link rel="stylesheet" href="style.css"&gt; di dalam &lt;head&gt; adalah cara standar menghubungkan CSS eksternal.'},
+
+  /* ── Benar / Salah ── */
+  {type:"tf",claim:"Tag &lt;br&gt; memerlukan tag penutup seperti &lt;/br&gt;.",answer:false,explain:"Salah. &lt;br&gt; adalah void element yang tidak butuh tag penutup. Contoh lain: &lt;img&gt;, &lt;input&gt;, &lt;hr&gt;, &lt;link&gt;."},
+  {type:"tf",claim:"Dalam satu halaman HTML, nilai atribut id harus unik &mdash; tidak boleh ada dua elemen dengan id yang sama.",answer:true,explain:"Benar. id harus unik per halaman. Untuk mengelompokkan banyak elemen dengan nama yang sama, gunakan class."},
+  {type:"tf",claim:"Atribut class pada HTML hanya bisa digunakan satu kali per halaman.",answer:false,explain:"Salah. class bisa digunakan berkali-kali di banyak elemen. Inilah bedanya dengan id yang harus unik."},
+  {type:"tf",claim:"Tag &lt;img&gt; memerlukan tag penutup &lt;/img&gt;.",answer:false,explain:"Salah. &lt;img&gt; adalah void element yang tidak memerlukan tag penutup. Cukup &lt;img src='...' alt='...'&gt;."},
+  {type:"tf",claim:"Dalam HTML, atribut 'style' bisa digunakan untuk menuliskan CSS secara langsung di dalam tag elemen.",answer:true,explain:"Benar. Ini disebut inline CSS, contoh: &lt;p style='color:red;'&gt;. Namun sebaiknya CSS dipisah ke file tersendiri."},
+  {type:"tf",claim:"Properti CSS 'color' digunakan untuk mengatur warna latar belakang elemen.",answer:false,explain:"Salah. Properti color hanya mengubah warna teks. Untuk latar belakang gunakan background-color."}
 ];
+
 
 let current=0,score=0,locked=false,studentName="",studentClass="";
 const recap=[];
