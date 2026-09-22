@@ -182,20 +182,23 @@ async function fetchQuizResultsFromSupabase() {
  * @returns {Promise<{success: boolean, error?: string}>}
  */
 async function deleteQuizResultFromSupabase(id) {
-  const endpoint = `${SUPABASE_CONFIG.url}/rest/v1/${SUPABASE_CONFIG.table}?id=eq.${id}`;
+  const endpoint = `${SUPABASE_CONFIG.url}/rest/v1/${SUPABASE_CONFIG.table}?id=eq.${encodeURIComponent(id)}`;
   try {
     const response = await fetch(endpoint, {
       method: "DELETE",
       headers: {
         "apikey": SUPABASE_CONFIG.anonKey,
-        "Authorization": "Bearer " + SUPABASE_CONFIG.anonKey
+        "Authorization": "Bearer " + SUPABASE_CONFIG.anonKey,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
       }
     });
-    if (!response.ok) {
-      const errText = await response.text();
-      return { success: false, error: errText || ("Status " + response.status) };
+    // Supabase DELETE returns 204 No Content on success
+    if (response.status === 204 || response.ok) {
+      return { success: true };
     }
-    return { success: true };
+    const errText = await response.text();
+    return { success: false, error: errText || ("Status " + response.status) };
   } catch (err) {
     return { success: false, error: err.message || "Gagal menghubungi server" };
   }
