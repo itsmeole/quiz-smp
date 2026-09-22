@@ -131,7 +131,7 @@ function displaySupabaseSyncStatus(targetEl, quizData) {
     if (result.success) {
       hasSynced = true;
       updatedBadge.className = "sync-badge saved";
-      updatedBadge.innerHTML = `<span>✓ Nilai berhasil dikirim & tersimpan</span>`;
+      updatedBadge.innerHTML = `<span>✓ Nilai berhasil dikirim &amp; tersimpan</span>`;
     } else {
       updatedBadge.className = "sync-badge error";
       updatedBadge.innerHTML = `
@@ -178,6 +178,8 @@ async function fetchQuizResultsFromSupabase() {
 
 /**
  * Menghapus satu data hasil kuis berdasarkan ID
+ * Menggunakan return=representation agar Supabase mengembalikan baris yang dihapus.
+ * Jika array kosong dikembalikan, berarti RLS memblokir penghapusan secara diam-diam.
  * @param {string} id UUID dari row quiz_results
  * @returns {Promise<{success: boolean, error?: string}>}
  */
@@ -190,15 +192,28 @@ async function deleteQuizResultFromSupabase(id) {
         "apikey": SUPABASE_CONFIG.anonKey,
         "Authorization": "Bearer " + SUPABASE_CONFIG.anonKey,
         "Content-Type": "application/json",
-        "Prefer": "return=minimal"
+        "Prefer": "return=representation"
       }
     });
-    // Supabase DELETE returns 204 No Content on success
-    if (response.status === 204 || response.ok) {
-      return { success: true };
+
+    if (!response.ok) {
+      const errText = await response.text();
+      return { success: false, error: errText || ("HTTP " + response.status) };
     }
-    const errText = await response.text();
-    return { success: false, error: errText || ("Status " + response.status) };
+
+    const deleted = await response.json();
+
+    // Array kosong = RLS memblokir penghapusan tanpa menampilkan error
+    if (!Array.isArray(deleted) || deleted.length === 0) {
+      return {
+        success: false,
+        error: "Penghapusan diblokir oleh kebijakan keamanan database (RLS).\n" +
+               "Buka Supabase Dashboard → Table Editor → quiz_results → RLS Policies,\n" +
+               "lalu tambahkan DELETE policy untuk role 'anon'."
+      };
+    }
+
+    return { success: true };
   } catch (err) {
     return { success: false, error: err.message || "Gagal menghubungi server" };
   }
