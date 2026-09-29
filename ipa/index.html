@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Uji pemahaman materi IPA SMP: besaran pokok, konversi satuan, sel dan jaringan, sistem pencernaan, nutrisi, dan sistem reproduksi manusia.">
+<meta name="description" content="Uji pemahaman materi IPA SMP: besaran pokok, konversi satuan, sel dan jaringan, sistem organ manusia, energi, fisika dan kimia.">
 <title>Uji Pemahaman &middot; IPA SMP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,12 +119,11 @@
   <header class="top">
     <p class="quiz-label">IPA &middot; SMP</p>
     <h1 class="title">Uji Pemahaman IPA</h1>
-    <p class="sub" id="intro-sub">60 soal latihan (50 pilihan ganda + 10 isian kalimat) mencakup besaran pokok, konversi satuan, sel &amp; jaringan, sistem pencernaan, kelainan pencernaan, nutrisi makanan, dan sistem reproduksi manusia.</p>
+    <p class="sub" id="intro-sub">25 soal pilihan ganda yang diacak dari bank soal IPA SMP. Setiap siswa mendapat kombinasi soal yang berbeda.</p>
   </header>
   <div class="progress-row" id="progress-row" style="display:none;">
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="progress-label mono" id="progress-label">1</div>
-
   </div>
   <div class="card" id="card"></div>
 </div>
@@ -137,92 +136,167 @@
   </div>
 </div>
 <script>
-const QUIZ_N=10;
-const LEVELS={menengah:"Menengah",intermediate:"Intermediate",hard:"Hard"};
-const LEVEL=(()=>{
-  const q=(new URLSearchParams(location.search).get("level")||"").toLowerCase();
-  const p=location.pathname.toLowerCase().replace(/\/index\.html$/,"").replace(/\/$/,"").split("/").pop().replace(/\.html$/,"");
-  return LEVELS[q]?q:(LEVELS[p]?p:"menengah");
+const QUIZ_N = 25;
+const LEVELS = { menengah: "Menengah", intermediate: "Intermediate", hard: "Hard" };
+const LEVEL = (() => {
+  const q = (new URLSearchParams(location.search).get("level") || "").toLowerCase();
+  const p = location.pathname.toLowerCase().replace(/\/index\.html$/, "").replace(/\/$/, "").split("/").pop().replace(/\.html$/, "");
+  return LEVELS[q] ? q : (LEVELS[p] ? p : "menengah");
 })();
 
 /* ── BANK SOAL ── format: [topik, soal, jawabanBenar, salah1, salah2, salah3]
-   Tambah soal baru cukup dengan menambah baris di level yang diinginkan. */
-const QUESTION_BANK={
-menengah:[
-["Sistem ekskresi","Organ ekskresi yang menyaring darah dan membentuk urine adalah…","Ginjal","Hati","Lambung","Usus besar"],
-["Sistem peredaran darah","Bilik jantung yang memompa darah kaya oksigen ke seluruh tubuh adalah…","Bilik kiri","Bilik kanan","Serambi kiri","Serambi kanan"],
-["Sistem pencernaan","Enzim ptialin di rongga mulut mengubah amilum menjadi…","Maltosa","Asam amino","Asam lemak","Gliserol"],
-["Sistem pernapasan","Tempat pertukaran O₂ dan CO₂ di paru-paru terjadi pada…","Alveolus","Bronkus","Trakea","Laring"],
-["Sistem reproduksi","Pembuahan sel telur oleh sperma normalnya terjadi di…","Tuba fallopi","Uterus","Ovarium","Vagina"],
-["Sel hewan dan tumbuhan","Organel yang hanya dimiliki sel tumbuhan adalah…","Kloroplas","Mitokondria","Ribosom","Nukleus"],
-["Sel otot","Otot yang bekerja tidak sadar dan hanya terdapat pada jantung adalah…","Otot jantung","Otot polos","Otot lurik","Otot rangka"],
-["Sel darah","Hemoglobin pada sel darah merah berfungsi mengikat…","Oksigen","Antibodi","Kuman","Fibrin"],
-["Sel saraf","Bagian neuron yang menerima rangsang dari sel lain adalah…","Dendrit","Akson","Selubung mielin","Nodus Ranvier"],
-["Ciri makhluk hidup","Bertambahnya ukuran dan jumlah sel pada makhluk hidup disebut…","Pertumbuhan","Adaptasi","Ekskresi","Iritabilitas"],
-["Rantai makanan","Pada rantai makanan, yang berperan sebagai produsen adalah…","Tumbuhan hijau","Belalang","Ular","Elang"],
-["Ekosistem","Contoh hubungan mutualisme adalah…","Lebah dan bunga","Harimau dan rusa","Benalu dan pohon","Kutu dan anjing"],
-["Jaringan hewan dan tumbuhan","Jaringan tumbuhan yang mengangkut air dan mineral dari akar adalah…","Xilem","Floem","Epidermis","Parenkim"],
-["Mikroskop","Lensa mikroskop yang letaknya dekat dengan preparat disebut…","Lensa objektif","Lensa okuler","Diafragma","Kondensor"],
-["Besaran dan satuan","Satuan SI untuk massa adalah…","Kilogram","Gram","Newton","Ton"],
-["Pengukuran","Alat yang tepat untuk mengukur volume zat cair adalah…","Gelas ukur","Neraca","Jangka sorong","Stopwatch"],
-["Hukum Newton","Hukum I Newton dikenal juga sebagai hukum…","Kelembaman (inersia)","Aksi-reaksi","Percepatan","Gravitasi"],
-["Unsur, senyawa, campuran","Berikut yang termasuk senyawa adalah…","Air (H₂O)","Oksigen (O₂)","Udara","Besi (Fe)"],
-["Suhu dan konversi","Suhu 50 °C sama dengan…","122 °F","90 °F","82 °F","132 °F"],
-["Frekuensi","Sebuah bandul bergetar 50 kali dalam 10 sekon. Frekuensinya adalah…","5 Hz","0,2 Hz","50 Hz","500 Hz"],
-["Tekanan","Rumus tekanan yang benar adalah…","P = F / A","P = F × A","P = A / F","P = m / V"],
-["Hukum Archimedes","Benda akan terapung jika massa jenis benda … massa jenis zat cair.","Lebih kecil dari","Lebih besar dari","Sama dengan","Tidak berpengaruh terhadap"],
-["Pesawat sederhana","Contoh pesawat sederhana jenis tuas adalah…","Jungkat-jungkit","Sekrup","Kapak","Tanjakan jalan"],
-["Asam dan basa","Kertas lakmus merah berubah menjadi biru dalam larutan…","Basa","Asam","Netral","Gula"],
-["Klasifikasi makhluk hidup","Takson terkecil dalam klasifikasi makhluk hidup adalah…","Spesies","Genus","Famili","Ordo"],
-["Perubahan kimia dan fisika","Peristiwa berikut yang merupakan perubahan kimia adalah…","Kayu terbakar","Es mencair","Gula larut dalam air","Kertas digunting"],
-["Fotosintesis","Hasil fotosintesis adalah…","Glukosa dan oksigen","Karbon dioksida dan air","Glukosa dan karbon dioksida","Oksigen dan air"],
-["Daya","Satuan SI untuk daya adalah…","Watt","Joule","Newton","Pascal"],
-["Usaha","Gaya 20 N memindahkan benda sejauh 5 m searah gaya. Usaha yang dilakukan adalah…","100 J","25 J","4 J","15 J"],
-["Energi","Energi yang dimiliki benda karena geraknya disebut energi…","Kinetik","Potensial","Kimia","Listrik"],
-["Nama ilmiah","Nama ilmiah manusia adalah…","Homo sapiens","Felis catus","Canis lupus","Homo habilis"],
-["Zat aditif","Contoh zat aditif pengawet makanan adalah…","Natrium benzoat","Tartrazin","Monosodium glutamat","Sakarin"],
-["Atom, ion, molekul","Partikel penyusun atom yang bermuatan positif adalah…","Proton","Elektron","Neutron","Foton"]
+   Setiap level memiliki bank soal yang kaya, lalu diacak 25 soal per pengerjaan. */
+const QUESTION_BANK = {
+menengah: [
+  ["Sistem ekskresi","Organ ekskresi yang menyaring darah dan membentuk urine adalah…","Ginjal","Hati","Lambung","Usus besar"],
+  ["Sistem peredaran darah","Bilik jantung yang memompa darah kaya oksigen ke seluruh tubuh adalah…","Bilik kiri","Bilik kanan","Serambi kiri","Serambi kanan"],
+  ["Sistem pencernaan","Enzim ptialin di rongga mulut mengubah amilum menjadi…","Maltosa","Asam amino","Asam lemak","Gliserol"],
+  ["Sistem pernapasan","Tempat pertukaran O₂ dan CO₂ di paru-paru terjadi pada…","Alveolus","Bronkus","Trakea","Laring"],
+  ["Sistem reproduksi","Pembuahan sel telur oleh sperma normalnya terjadi di…","Tuba fallopi","Uterus","Ovarium","Vagina"],
+  ["Sel hewan dan tumbuhan","Organel yang hanya dimiliki sel tumbuhan adalah…","Kloroplas","Mitokondria","Ribosom","Nukleus"],
+  ["Sel otot","Otot yang bekerja tidak sadar dan hanya terdapat pada jantung adalah…","Otot jantung","Otot polos","Otot lurik","Otot rangka"],
+  ["Sel darah","Hemoglobin pada sel darah merah berfungsi mengikat…","Oksigen","Antibodi","Kuman","Fibrin"],
+  ["Sel saraf","Bagian neuron yang menerima rangsang dari sel lain adalah…","Dendrit","Akson","Selubung mielin","Nodus Ranvier"],
+  ["Ciri makhluk hidup","Bertambahnya ukuran dan jumlah sel pada makhluk hidup disebut…","Pertumbuhan","Adaptasi","Ekskresi","Iritabilitas"],
+  ["Rantai makanan","Pada rantai makanan, yang berperan sebagai produsen adalah…","Tumbuhan hijau","Belalang","Ular","Elang"],
+  ["Ekosistem","Contoh hubungan mutualisme adalah…","Lebah dan bunga","Harimau dan rusa","Benalu dan pohon","Kutu dan anjing"],
+  ["Jaringan hewan dan tumbuhan","Jaringan tumbuhan yang mengangkut air dan mineral dari akar adalah…","Xilem","Floem","Epidermis","Parenkim"],
+  ["Mikroskop","Lensa mikroskop yang letaknya dekat dengan preparat disebut…","Lensa objektif","Lensa okuler","Diafragma","Kondensor"],
+  ["Besaran dan satuan","Satuan SI untuk massa adalah…","Kilogram","Gram","Newton","Ton"],
+  ["Pengukuran","Alat yang tepat untuk mengukur volume zat cair adalah…","Gelas ukur","Neraca","Jangka sorong","Stopwatch"],
+  ["Hukum Newton","Hukum I Newton dikenal juga sebagai hukum…","Kelembaman (inersia)","Aksi-reaksi","Percepatan","Gravitasi"],
+  ["Unsur, senyawa, campuran","Berikut yang termasuk senyawa adalah…","Air (H₂O)","Oksigen (O₂)","Udara","Besi (Fe)"],
+  ["Suhu dan konversi","Suhu 50 °C sama dengan…","122 °F","90 °F","82 °F","132 °F"],
+  ["Frekuensi","Sebuah bandul bergetar 50 kali dalam 10 sekon. Frekuensinya adalah…","5 Hz","0,2 Hz","50 Hz","500 Hz"],
+  ["Tekanan","Rumus tekanan yang benar adalah…","P = F / A","P = F × A","P = A / F","P = m / V"],
+  ["Hukum Archimedes","Benda akan terapung jika massa jenis benda … massa jenis zat cair.","Lebih kecil dari","Lebih besar dari","Sama dengan","Tidak berpengaruh terhadap"],
+  ["Pesawat sederhana","Contoh pesawat sederhana jenis tuas adalah…","Jungkat-jungkit","Sekrup","Kapak","Tanjakan jalan"],
+  ["Asam dan basa","Kertas lakmus merah berubah menjadi biru dalam larutan…","Basa","Asam","Netral","Gula"],
+  ["Klasifikasi makhluk hidup","Takson terkecil dalam klasifikasi makhluk hidup adalah…","Spesies","Genus","Famili","Ordo"],
+  ["Perubahan kimia dan fisika","Peristiwa berikut yang merupakan perubahan kimia adalah…","Kayu terbakar","Es mencair","Gula larut dalam air","Kertas digunting"],
+  ["Fotosintesis","Hasil fotosintesis adalah…","Glukosa dan oksigen","Karbon dioksida dan air","Glukosa dan karbon dioksida","Oksigen dan air"],
+  ["Daya","Satuan SI untuk daya adalah…","Watt","Joule","Newton","Pascal"],
+  ["Usaha","Gaya 20 N memindahkan benda sejauh 5 m searah gaya. Usaha yang dilakukan adalah…","100 J","25 J","4 J","15 J"],
+  ["Energi","Energi yang dimiliki benda karena geraknya disebut energi…","Kinetik","Potensial","Kimia","Listrik"],
+  ["Nama ilmiah","Nama ilmiah manusia adalah…","Homo sapiens","Felis catus","Canis lupus","Homo habilis"],
+  ["Zat aditif","Contoh zat aditif pengawet makanan adalah…","Natrium benzoat","Tartrazin","Monosodium glutamat","Sakarin"],
+  ["Atom, ion, molekul","Partikel penyusun atom yang bermuatan positif adalah…","Proton","Elektron","Neutron","Foton"],
+  ["Tata surya","Pusat tata surya yang dikelilingi oleh planet-planet adalah…","Matahari","Bumi","Bulan","Bintang Polaris"],
+  ["Gerak lurus","Sebuah sepeda melaju menempuh jarak 60 meter dalam waktu 10 sekon dengan kelajuan konstan. Kelajuan sepeda tersebut adalah…","6 m/s","600 m/s","0,16 m/s","50 m/s"],
+  ["Listrik dinamis","Arus listrik secara konvensional mengalir dari kutub bermuatan…","Potensial tinggi ke potensial rendah","Potensial rendah ke potensial tinggi","Kutub netral ke kutub positif","Kutub negatif ke kutub tanah"],
+  ["Optik","Sifat bayangan yang selalu dibentuk pada cermin datar adalah…","Maya, tegak, sama besar","Nyata, terbalik, diperkecil","Maya, terbalik, diperbesar","Nyata, tegak, diperkecil"],
+  ["Kalor","Perpindahan kalor tanpa melalui zat perantara disebut…","Radiasi","Konduksi","Konveksi","Kondensasi"],
+  ["Getaran dan gelombang","Banyaknya getaran yang terjadi dalam satu sekon disebut…","Frekuensi","Periode","Amplitudo","Panjang gelombang"],
+  ["Sistem peredaran darah","Bagian darah yang berfungsi mengangkut sari-sari makanan dan hormon ke seluruh tubuh adalah…","Plasma darah","Eritrosit","Leukosit","Trombosit"]
 ],
-intermediate:[
-["Sistem ekskresi","Urine primer terbentuk melalui proses … yang terjadi di …","Filtrasi, glomerulus","Reabsorpsi, tubulus proksimal","Augmentasi, tubulus distal","Ekskresi, ureter"],
-["Sistem peredaran darah","Jalur peredaran darah kecil yang benar adalah…","Bilik kanan → arteri pulmonalis → paru-paru → vena pulmonalis → serambi kiri","Bilik kiri → aorta → seluruh tubuh → vena kava → serambi kanan","Bilik kanan → aorta → paru-paru → vena kava → serambi kiri","Serambi kiri → arteri pulmonalis → paru-paru → vena pulmonalis → bilik kanan"],
-["Sistem pernapasan","Saat inspirasi (menarik napas) yang terjadi adalah…","Diafragma berkontraksi, volume rongga dada membesar, tekanan udara turun","Diafragma relaksasi, volume rongga dada membesar","Otot antartulang rusuk relaksasi, tekanan udara naik","Diafragma berkontraksi, volume rongga dada mengecil"],
-["Sel darah","Sel darah putih yang berperan menghasilkan antibodi adalah…","Limfosit","Neutrofil","Monosit","Trombosit"],
-["Hukum Newton","Benda bermassa 4 kg diberi gaya resultan 20 N. Percepatannya adalah…","5 m/s²","80 m/s²","0,2 m/s²","24 m/s²"],
-["Tekanan","Gaya 200 N bekerja pada bidang seluas 0,5 m². Tekanannya adalah…","400 Pa","100 Pa","40 Pa","1.000 Pa"],
-["Hukum Archimedes","Balok bervolume 0,002 m³ tercelup seluruhnya di air (ρ = 1.000 kg/m³, g = 10 m/s²). Gaya apungnya adalah…","20 N","2 N","200 N","0,2 N"],
-["Pesawat sederhana","Sebuah tuas mengangkat beban 600 N dengan gaya 150 N. Keuntungan mekaniknya adalah…","4","0,25","450","750"],
-["Suhu dan konversi","Suhu 30 °C jika dinyatakan dalam Kelvin adalah…","303 K","243 K","273 K","330 K"],
-["Daya","Usaha 3.000 J dilakukan dalam waktu 60 sekon. Dayanya adalah…","50 W","500 W","0,02 W","180.000 W"]
+intermediate: [
+  ["Sistem ekskresi","Urine primer terbentuk melalui proses … yang terjadi di …","Filtrasi, glomerulus","Reabsorpsi, tubulus proksimal","Augmentasi, tubulus distal","Ekskresi, ureter"],
+  ["Sistem peredaran darah","Jalur peredaran darah kecil yang benar adalah…","Bilik kanan → arteri pulmonalis → paru-paru → vena pulmonalis → serambi kiri","Bilik kiri → aorta → seluruh tubuh → vena kava → serambi kanan","Bilik kanan → aorta → paru-paru → vena kava → serambi kiri","Serambi kiri → arteri pulmonalis → paru-paru → vena pulmonalis → bilik kanan"],
+  ["Sistem pernapasan","Saat inspirasi (menarik napas) yang terjadi adalah…","Diafragma berkontraksi, volume rongga dada membesar, tekanan udara turun","Diafragma relaksasi, volume rongga dada membesar","Otot antartulang rusuk relaksasi, tekanan udara naik","Diafragma berkontraksi, volume rongga dada mengecil"],
+  ["Sel darah","Sel darah putih yang berperan menghasilkan antibodi adalah…","Limfosit","Neutrofil","Monosit","Trombosit"],
+  ["Hukum Newton","Benda bermassa 4 kg diberi gaya resultan 20 N. Percepatannya adalah…","5 m/s²","80 m/s²","0,2 m/s²","24 m/s²"],
+  ["Tekanan","Gaya 200 N bekerja pada bidang seluas 0,5 m². Tekanannya adalah…","400 Pa","100 Pa","40 Pa","1.000 Pa"],
+  ["Hukum Archimedes","Balok bervolume 0,002 m³ tercelup seluruhnya di air (ρ = 1.000 kg/m³, g = 10 m/s²). Gaya apungnya adalah…","20 N","2 N","200 N","0,2 N"],
+  ["Pesawat sederhana","Sebuah tuas mengangkat beban 600 N dengan gaya 150 N. Keuntungan mekaniknya adalah…","4","0,25","450","750"],
+  ["Suhu dan konversi","Suhu 30 °C jika dinyatakan dalam Kelvin adalah…","303 K","243 K","273 K","330 K"],
+  ["Daya","Usaha 3.000 J dilakukan dalam waktu 60 sekon. Dayanya adalah…","50 W","500 W","0,02 W","180.000 W"],
+  ["Hereditas","Persilangan kacang ercis berbiji bulat (BB) dengan ercis berbiji kerut (bb) menghasilkan keturunan F1 yang semuanya berbiji bulat. Fenotipe genotipe Bb adalah…","Bulat heterozigot","Bulat homozigot","Kerut homozigot","Kerut heterozigot"],
+  ["Listrik dinamis","Sebuah kawat penghantar memiliki hambatan 20 Ω dan dialiri arus listrik sebesar 0,5 A. Beda potensial pada ujung-ujung kawat adalah…","10 V","40 V","0,025 V","19,5 V"],
+  ["Kalor","Air bermassa 2 kg dinaikkan suhunya dari 20 °C menjadi 50 °C (kalor jenis air = 4.200 J/kg°C). Kalor yang diperlukan adalah…","252.000 J","126.000 J","420.000 J","84.000 J"],
+  ["Optik","Benda diletakkan 15 cm di depan cermin cekung dengan jarak fokus 10 cm. Sifat bayangan yang terbentuk adalah…","Nyata, terbalik, diperbesar","Nyata, terbalik, diperkecil","Maya, tegak, diperbesar","Maya, tegak, diperkecil"],
+  ["Gelombang","Gelombang merambat dengan kecepatan 340 m/s dan frekuensi 170 Hz. Panjang gelombangnya adalah…","2 m","0,5 m","510 m","57.800 m"],
+  ["Sistem peredaran darah","Kelainan darah di mana darah sukar membeku saat terjadi luka disebut…","Hemofilia","Anemia","Leukemia","Talasemia"],
+  ["Sistem pencernaan","Enzim tripsin yang dihasilkan oleh pankreas berfungsi untuk merombak…","Protein menjadi peptida / asam amino","Amilum menjadi maltosa","Lemak menjadi asam lemak dan gliserol","Asam klorida menjadi garam"],
+  ["Sistem saraf","Bagian otak yang berfungsi sebagai pusat keseimbangan tubuh dan koordinasi gerak adalah…","Otak kecil (cerebellum)","Otak besar (cerebrum)","Sumsum tulang belakang","Batang otak"],
+  ["Sistem ekskresi","Proses penyerapan kembali zat-zat yang masih berguna pada pembentukan urine disebut…","Reabsorpsi","Filtrasi","Augmentasi","Sekresi"],
+  ["Gerak lurus","Mobil bergerak dari keadaan diam dengan percepatan tetap 3 m/s². Kecepatan mobil setelah 5 sekon adalah…","15 m/s","8 m/s","75 m/s","1,67 m/s"],
+  ["Pesawat sederhana","Sebuah katrol tetap digunakan untuk mengangkat beban seberat 400 N. Gaya kuasa yang diperlukan adalah…","400 N","200 N","800 N","100 N"],
+  ["Tekanan zat cair","Penyelam berada pada kedalaman 8 meter di bawah permukaan laut (ρ air laut = 1.025 kg/m³, g = 10 m/s²). Tekanan hidrostatis yang dialami penyelam adalah…","82.000 Pa","8.200 Pa","12.812,5 Pa","820.000 Pa"],
+  ["Getaran","Sebuah pegas melakukan 60 kali getaran dalam waktu 1 menit (60 detik). Periode getaran pegas tersebut adalah…","1 s","60 s","0,016 s","3.600 s"],
+  ["Listrik statis","Dua buah muatan masing-masing +2 μC dan +3 μC terpisah pada jarak tertentu. Interaksi yang terjadi antara kedua muatan adalah…","Tolak-menolak","Tarik-menarik","Saling menetralkan","Tidak saling memengaruhi"],
+  ["Sistem pernapasan","Kapasitas vital paru-paru merupakan gabungan dari…","Volume tidal, cadangan inspirasi, dan cadangan ekspirasi","Volume residu dan volume tidal","Volume residu dan kapasitas total","Volume tidal dan volume residu saja"],
+  ["Jaringan tumbuhan","Jaringan meristem apikal pada tumbuhan bertugas untuk pertumbuhan memanjang dan terletak di ujung…","Akar dan pucuk batang","Daun dan bunga","Floem dan xilem","Kulit batang gabus"],
+  ["Bioteknologi konvensional","Mikroorganisme yang digunakan dalam pembuatan tempe dari kedelai adalah…","Rhizopus oryzae","Saccharomyces cerevisiae","Lactobacillus bulgaricus","Acetobacter xylinum"],
+  ["Zat aditif & adiktif","Kandungan zat adiktif pada rokok yang menyebabkan efek ketergantungan adalah…","Nikotin","Tar","Karbon monoksida","Aseton"],
+  ["Bioteknologi pangan","Pembuatan yoghurt memanfaatkan fermentasi bakteri…","Lactobacillus bulgaricus","Rhizopus oligosporus","Neurospora crassa","Aspergillus wentii"],
+  ["Tata surya","Planet di tata surya kita yang paling besar ukurannya adalah…","Yupiter","Saturnus","Neptunus","Uranus"],
+  ["Optik","Sifat bayangan yang selalu dibentuk oleh cermin cembung adalah…","Maya, tegak, diperkecil","Nyata, terbalik, diperkecil","Maya, terbalik, diperbesar","Nyata, tegak, sama besar"],
+  ["Listrik dinamis","Tiga resistor dengan hambatan masing-masing 6 Ω, 6 Ω, dan 6 Ω dirangkai secara paralel. Hambatan pengganti rangkaian adalah…","2 Ω","18 Ω","3 Ω","0,5 Ω"],
+  ["Sistem peredaran darah","Komponen darah yang tidak berinti dan berfungsi utama dalam proses pembekuan darah adalah…","Trombosit (keping darah)","Eritrosit","Leukosit","Plasma darah"],
+  ["Usaha dan energi","Sebuah mobil mainan bermassa 0,5 kg melaju dengan kecepatan 4 m/s. Energi kinetik mobil mainan tersebut adalah…","4 J","2 J","8 J","1 J"],
+  ["Kemagnetan","Kutub utara sebuah magnet batang didekatkan ke kutub utara magnet batang lain. Interaksi yang akan terjadi adalah…","Saling tolak-menolak","Saling tarik-menarik","Keduanya berputar tanpa gaya","Menempel kuat"]
 ],
-hard:[
-["Rantai makanan","Produsen menyimpan energi 10.000 kJ. Dengan aturan 10%, energi yang diterima konsumen tingkat III adalah…","10 kJ","100 kJ","1.000 kJ","1 kJ"],
-["Hukum Newton","Lift bermassa 500 kg dipercepat ke atas 2 m/s² (g = 10 m/s²). Tegangan kabel lift adalah…","6.000 N","4.000 N","5.000 N","10.000 N"],
-["Hukum Archimedes","Berat benda di udara 30 N dan di dalam air 20 N (ρ air = 1.000 kg/m³, g = 10 m/s²). Volume benda adalah…","1 × 10⁻³ m³","1 × 10⁻² m³","1 × 10⁻⁴ m³","2 × 10⁻³ m³"],
-["Suhu dan konversi","Termometer X menunjuk 20 °X pada titik beku air dan 120 °X pada titik didih air. Suhu 60 °X sama dengan…","40 °C","60 °C","50 °C","30 °C"],
-["Frekuensi","Sebuah bandul melakukan 20 getaran dalam 10 sekon. Periode dan frekuensinya adalah…","T = 0,5 s; f = 2 Hz","T = 2 s; f = 0,5 Hz","T = 0,5 s; f = 20 Hz","T = 10 s; f = 0,1 Hz"],
-["Asam dan basa","Larutan HCl 0,001 M (asam kuat) memiliki pH sebesar…","3","11","1","0,001"],
-["Atom, ion, molekul","Atom Na (nomor atom 11) melepas 1 elektron menjadi Na⁺. Jumlah proton dan elektronnya adalah…","11 proton, 10 elektron","11 proton, 12 elektron","10 proton, 11 elektron","12 proton, 10 elektron"],
-["Pesawat sederhana","Bidang miring panjang 5 m dan tinggi 1 m digunakan mengangkat beban 500 N (tanpa gesekan). Gaya minimum yang diperlukan adalah…","100 N","250 N","500 N","2.500 N"],
-["Energi","Benda 2 kg jatuh bebas dari ketinggian 20 m (g = 10 m/s²). Energi kinetik sesaat sebelum menyentuh tanah adalah…","400 J","200 J","40 J","4.000 J"],
-["Pengukuran","Jangka sorong menunjukkan skala utama 2,3 cm dan skala nonius berimpit pada garis ke-6 (ketelitian 0,01 cm). Hasil pengukuran adalah…","2,36 cm","2,39 cm","2,30 cm","2,66 cm"]
-]};
+hard: [
+  ["Rantai makanan","Produsen menyimpan energi 10.000 kJ. Dengan aturan 10%, energi yang diterima konsumen tingkat III adalah…","10 kJ","100 kJ","1.000 kJ","1 kJ"],
+  ["Hukum Newton","Lift bermassa 500 kg dipercepat ke atas 2 m/s² (g = 10 m/s²). Tegangan kabel lift adalah…","6.000 N","4.000 N","5.000 N","10.000 N"],
+  ["Hukum Archimedes","Berat benda di udara 30 N dan di dalam air 20 N (ρ air = 1.000 kg/m³, g = 10 m/s²). Volume benda adalah…","1 × 10⁻³ m³","1 × 10⁻² m³","1 × 10⁻⁴ m³","2 × 10⁻³ m³"],
+  ["Suhu dan konversi","Termometer X menunjuk 20 °X pada titik beku air dan 120 °X pada titik didih air. Suhu 60 °X sama dengan…","40 °C","60 °C","50 °C","30 °C"],
+  ["Frekuensi","Sebuah bandul melakukan 20 getaran dalam 10 sekon. Periode dan frekuensinya adalah…","T = 0,5 s; f = 2 Hz","T = 2 s; f = 0,5 Hz","T = 0,5 s; f = 20 Hz","T = 10 s; f = 0,1 Hz"],
+  ["Asam dan basa","Larutan HCl 0,001 M (asam kuat) memiliki pH sebesar…","3","11","1","0,001"],
+  ["Atom, ion, molekul","Atom Na (nomor atom 11) melepas 1 elektron menjadi Na⁺. Jumlah proton dan elektronnya adalah…","11 proton, 10 elektron","11 proton, 12 elektron","10 proton, 11 elektron","12 proton, 10 elektron"],
+  ["Pesawat sederhana","Bidang miring panjang 5 m dan tinggi 1 m digunakan mengangkat beban 500 N (tanpa gesekan). Gaya minimum yang diperlukan adalah…","100 N","250 N","500 N","2.500 N"],
+  ["Energi","Benda 2 kg jatuh bebas dari ketinggian 20 m (g = 10 m/s²). Energi kinetik sesaat sebelum menyentuh tanah adalah…","400 J","200 J","40 J","4.000 J"],
+  ["Pengukuran","Jangka sorong menunjukkan skala utama 2,3 cm dan skala nonius berimpit pada garis ke-6 (ketelitian 0,01 cm). Hasil pengukuran adalah…","2,36 cm","2,39 cm","2,30 cm","2,66 cm"],
+  ["Hereditas","Persilangan tanaman berbiji bulat kuning (BbKk) dengan sesamanya (BbKk) menghasilkan keturunan dengan perbandingan fenotipe bulat kuning : bulat hijau : kerut kuning : kerut hijau sebesar…","9 : 3 : 3 : 1","1 : 2 : 1","3 : 1","9 : 3 : 4"],
+  ["Hukum Archimedes","Sebuah balok es terapung di air laut dengan 90% volumenya tercelup. Jika massa jenis air laut adalah 1.000 kg/m³, maka massa jenis balok es tersebut adalah…","900 kg/m³","1.100 kg/m³","100 kg/m³","800 kg/m³"],
+  ["Pemuaian panjang","Batang besi sepanjang 100 cm pada suhu 20 °C dipanaskan hingga 120 °C. Jika koefisien muai panjang besi α = 0,000012 /°C, pertambahan panjang batang adalah…","0,12 cm","1,2 cm","0,012 cm","12 cm"],
+  ["Energi mekanik","Sebuah kelapa bermassa 2 kg jatuh dari pohon berketinggian 15 m (g = 10 m/s²). Energi kinetik kelapa saat berada pada ketinggian 5 m dari tanah adalah…","200 J","100 J","300 J","50 J"],
+  ["Listrik dinamis","Sebuah baterai dengan GGL 12 V dan hambatan dalam 1 Ω dihubungkan ke lampu berhambatan 5 Ω. Kuat arus yang mengalir pada rangkaian adalah…","2 A","2,4 A","12 A","1,7 A"],
+  ["Listrik dinamis","Sebuah setrika listrik bertuliskan 220 V / 400 W digunakan selama 2 jam setiap hari. Energi listrik yang terpakai selama 1 hari adalah…","0,8 kWh","800 kWh","0,4 kWh","8 kWh"],
+  ["Gelombang bunyi","Garpu tala berfrekuensi 400 Hz menghasilkan resonansi pertama pada tabung udara saat panjang kolom udara 20 cm. Cepat rambat bunyi di udara saat itu adalah…","320 m/s","160 m/s","80 m/s","640 m/s"],
+  ["Optik","Benda setinggi 4 cm diletakkan 20 cm di depan lensa cembung dengan jarak fokus 10 cm. Tinggi bayangan yang terbentuk adalah…","4 cm","8 cm","2 cm","12 cm"],
+  ["Kalor","Air sebanyak 100 gram bersuhu 20 °C dicampur dengan 100 gram air mendidih bersuhu 100 °C dalam wadah terisolasi. Suhu akhir campuran adalah…","60 °C","50 °C","40 °C","80 °C"],
+  ["Tekanan zat cair","Sebuah pipa U diisi air (ρ = 1 g/cm³) dan minyak (ρ = 0,8 g/cm³). Jika tinggi kolom minyak 10 cm, selisih tinggi permukaan air pada pipa tersebut adalah…","8 cm","12,5 cm","10 cm","2 cm"],
+  ["Transformator","Sebuah transformator step-down memiliki 1.000 lilitan primer dan 200 lilitan sekunder. Jika tegangan primer 220 V, tegangan sekunder yang dihasilkan adalah…","44 V","1.100 V","22 V","88 V"],
+  ["Sistem ekskresi","Urine seseorang setelah diuji dengan reagen Biuret berubah menjadi berwarna ungu. Hal ini menandakan kerusakan pada bagian…","Glomerulus (Albuminuria)","Tubulus kontortus proksimal","Tubulus kolektivus","Kandung kemih"],
+  ["Bioteknologi modern","Teknik penggabungan dua sel dari jaringan berbeda untuk menghasilkan sel hibridoma pembuat antibodi monoklonal disebut…","Fusi sel","Kloning embrio","Rekombinasi DNA","Fermentasi asam"],
+  ["Genetika","Seorang wanita bergolongan darah A heterozigot (IᴬIᴼ) menikah dengan pria bergolongan darah B heterozigot (IᴮIᴼ). Kemungkinan golongan darah anak-anaknya adalah…","A, B, AB, dan O (masing-masing 25%)","Hanya AB 100%","Hanya A dan B","AB 50% dan O 50%"],
+  ["Mikrometer sekrup","Hasil pembacaan mikrometer sekrup menunjukkan skala utama 4,5 mm dan skala putar berimpit pada angka 38. Tebal benda yang terukur adalah…","4,88 mm","4,38 mm","4,538 mm","5,38 mm"],
+  ["GLBB","Sebuah mobil melaju dengan kelajuan 20 m/s tiba-tiba direm dan berhenti setelah menempuh jarak 40 m. Perlambatan mobil tersebut adalah…","5 m/s²","10 m/s²","2 m/s²","0,5 m/s²"],
+  ["Optik","Seberkas cahaya merambat miring dari udara (kerapatan optik rendah) masuk ke kaca (kerapatan optik tinggi). Berkas cahaya akan dibiaskan…","Mendekati garis normal","Menjauhi garis normal","Lurus tanpa pembiasan","Dipantulkan sempurna ke udara"],
+  ["Sistem peredaran darah","Seseorang bergolongan darah O dapat mendonorkan darahnya ke semua golongan darah karena eritrositnya…","Tidak memiliki aglutinogen (antigen) A maupun B","Tidak memiliki aglutinin (antibodi)","Memiliki aglutinogen A dan B","Memiliki dinding sel tebal"],
+  ["Gaya Lorentz","Kawat penghantar sepanjang 2 m berada dalam medan magnet 0,5 T dialiri arus listrik 4 A secara tegak lurus. Gaya Lorentz yang bekerja pada kawat adalah…","4 N","2 N","1 N","8 N"],
+  ["Larutan dan pH","Campuran 50 mL larutan NaOH 0,1 M dengan 50 mL larutan HCl 0,1 M menghasilkan larutan garam yang memiliki pH…","7 (Netral)","1","13","0"],
+  ["Gaya gravitasi","Dua benda bermassa m₁ dan m₂ terpisah sejauh R mengalami gaya gravitasi F. Jika jarak kedua benda dijadikan 2R, gaya gravitasi barunya adalah…","1/4 F","1/2 F","2 F","4 F"],
+  ["Ekosistem","Pada ekosistem perairan yang tercemar insektisida DDT, konsentrasi akumulasi racun tertinggi akan ditemukan pada…","Konsumen puncak (karnivora teratas)","Fitoplankton","Zooplankton","Ikan kecil herbivora"],
+  ["Fotosintesis","Pada percobaan Ingenhousz dengan tanaman Hydrilla, penambahan NaHCO₃ (soda kue) ke dalam air bertujuan untuk…","Meningkatkan kadar gas CO₂ dalam air","Mengurangi konsentrasi O₂","Menetralkan asam dalam air","Mempercepat pertumbuhan akar"],
+  ["Fisiologi tumbuhan","Faktor lingkungan yang dapat mempercepat laju transpirasi pada daun tumbuhan adalah…","Suhu tinggi, udara kering, dan angin bertiup","Kelembapan udara tinggi dan cuaca mendung","Intensitas cahaya redup dan malam hari","Kondisi tanah jenuh air dan udara dingin"],
+  ["Fisika inti","Suatu zat radioaktif memiliki waktu paruh 4 hari. Jika mula-mula massa zat 16 gram, massa yang tersisa setelah 12 hari adalah…","2 gram","4 gram","8 gram","1 gram"]
+]
+};
 
-let QUESTIONS=[];
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-/* Ambil 10 soal acak dari level aktif; usahakan topik tidak berulang, urutan soal & pilihan jawaban diacak */
-function pickQuestions(){
-  const pool=shuffle((QUESTION_BANK[LEVEL]||[]).slice());
-  const seen=new Set(),first=[],rest=[];
-  pool.forEach(x=>{if(seen.has(x[0]))rest.push(x);else{seen.add(x[0]);first.push(x);}});
-  return shuffle(first.concat(rest).slice(0,QUIZ_N)).map(([topic,q,right,...wrong])=>{
-    const options=shuffle([right,...wrong]);
-    return{type:"mcq",topic,q,options,answer:options.indexOf(right),explain:"Jawaban yang benar: <strong>"+right+"</strong>."};
+let QUESTIONS = [];
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* Ambil 25 soal acak dari level aktif; usahakan topik tidak berulang, urutan soal & pilihan jawaban diacak */
+function pickQuestions() {
+  const pool = shuffle((QUESTION_BANK[LEVEL] || []).slice());
+  const seen = new Set(), first = [], rest = [];
+  pool.forEach(x => {
+    if (seen.has(x[0])) rest.push(x);
+    else { seen.add(x[0]); first.push(x); }
+  });
+  return shuffle(first.concat(rest).slice(0, QUIZ_N)).map(([topic, q, right, ...wrong]) => {
+    const options = shuffle([right, ...wrong]);
+    return {
+      type: "mcq",
+      topic,
+      q,
+      options,
+      answer: options.indexOf(right),
+      explain: "Jawaban yang benar: <strong>" + right + "</strong>."
+    };
   });
 }
 
-let current=0,score=0,locked=false,studentName="",studentClass="";
-const recap=[];
+let current = 0, score = 0, locked = false, studentName = "", studentClass = "";
+const recap = [];
 
 /* ── Anti-Curang State ── */
 const MAX_VIOLATIONS = 3;
@@ -233,108 +307,96 @@ let quizDone = false;
 let isSuspended = false;
 let suspendTimer = null;
 
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-const card=document.getElementById("card");
-const progressRow=document.getElementById("progress-row");
-const progressFill=document.getElementById("progress-fill");
-const progressLabel=document.getElementById("progress-label");
-const introSub=document.getElementById("intro-sub");
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
 
-function renderStart(){
-  card.innerHTML=`<div>
+const card = document.getElementById("card");
+const progressRow = document.getElementById("progress-row");
+const progressFill = document.getElementById("progress-fill");
+const progressLabel = document.getElementById("progress-label");
+const introSub = document.getElementById("intro-sub");
+
+function renderStart() {
+  card.innerHTML = `<div>
     <p style="margin:0 0 24px;font-size:14px;color:var(--muted);line-height:1.65;">Isi data diri terlebih dahulu sebelum memulai.</p>
     <div class="form-group"><label for="name-input">Nama Lengkap</label><input type="text" id="name-input" placeholder="Masukkan nama Anda"></div>
     <div class="form-group"><label for="class-input">Kelas</label><input type="text" id="class-input" placeholder="Masukkan kelas Anda (contoh: 8 Maryam)"></div>
     <p style="margin:16px 0 20px;font-size:13.5px;color:var(--muted);line-height:1.65;">${QUIZ_N} soal pilihan ganda &middot; diacak dari bank soal &middot; level ${LEVELS[LEVEL]}.</p>
     <button class="btn-primary show" id="start-btn">Mulai kuis</button>
   </div>`;
-  document.getElementById("start-btn").addEventListener("click",()=>{
-    const n=document.getElementById("name-input"),c=document.getElementById("class-input");
-    if(!n.value.trim()||!c.value.trim()){alert("Mohon isi nama dan kelas terlebih dahulu.");return;}
-    studentName=n.value.trim();studentClass=c.value.trim();
-    QUESTIONS=pickQuestions();current=0;score=0;recap.length=0;
-    introSub.style.display="none";progressRow.style.display="flex";renderQuestion();
+
+  document.getElementById("start-btn").addEventListener("click", () => {
+    const n = document.getElementById("name-input"), c = document.getElementById("class-input");
+    if (!n.value.trim() || !c.value.trim()) {
+      alert("Mohon isi nama dan kelas terlebih dahulu.");
+      return;
+    }
+    studentName = n.value.trim();
+    studentClass = c.value.trim();
+    QUESTIONS = pickQuestions();
+    current = 0;
+    score = 0;
+    recap.length = 0;
+    introSub.style.display = "none";
+    progressRow.style.display = "flex";
+    renderQuestion();
   });
 }
 
-function renderQuestion(){
+function renderQuestion() {
   quizActive = true;
   quizDone = false;
-  locked=false;
-  const q=QUESTIONS[current];
-  progressFill.style.width=`${(current/QUESTIONS.length)*100}%`;
-  progressLabel.textContent=`${current+1}/${QUESTIONS.length}`;
-  if(q.type==="fill"){renderFillQuestion(q);return;}
-  let opts="";
-  if(q.type==="mcq"){
-    opts=`<div class="options">`+q.options.map((o,i)=>`<button class="opt-btn" data-i="${i}"><span class="k mono">${String.fromCharCode(65+i)}</span>${o}</button>`).join("")+`</div>`;
-  } else {
-    opts=`<div class="tf-row"><button class="opt-btn" data-i="true">Benar</button><button class="opt-btn" data-i="false">Salah</button></div>`;
-  }
-  const isLast=current===QUESTIONS.length-1;
-  card.innerHTML=`
-    <span class="tag">Pilihan Ganda${q.topic?" &middot; "+q.topic:""}</span>
-    <p class="question-text">${q.type==="mcq"?q.q:"Perhatikan pernyataan berikut:"}</p>
-    ${q.type==="tf"?`<div class="claim-box">${q.claim}</div>`:""}
+  locked = false;
+  const q = QUESTIONS[current];
+  progressFill.style.width = `${(current / QUESTIONS.length) * 100}%`;
+  progressLabel.textContent = `${current + 1}/${QUESTIONS.length}`;
+
+  const opts = `<div class="options">` + q.options.map((o, i) =>
+    `<button class="opt-btn" data-i="${i}"><span class="k mono">${String.fromCharCode(65 + i)}</span>${o}</button>`
+  ).join("") + `</div>`;
+
+  card.innerHTML = `<div>
+    <div style="display:flex;align-items:center;margin-bottom:20px;">
+      <span class="tag" style="margin-bottom:0;">${q.topic}</span>
+      <span class="cheat-shield">🔒 Anti-Curang Aktif</span>
+    </div>
+    <p class="question-text">${q.q}</p>
     ${opts}
     <div class="feedback" id="feedback"></div>
-    <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
-  card.querySelectorAll(".opt-btn").forEach(btn=>btn.addEventListener("click",()=>handleAnswer(btn,card.querySelectorAll(".opt-btn"),q)));
+    <div class="next-row"><button class="btn-primary" id="next-btn">${current < QUESTIONS.length - 1 ? "Soal berikutnya" : "Lihat hasil"}</button></div>
+  </div>`;
+
+  card.querySelectorAll(".opt-btn").forEach(btn => {
+    btn.addEventListener("click", () => handleMcq(btn, q));
+  });
 }
 
-function renderFillQuestion(q){
-  const wCh=Math.max(8,(q.accepted[0].length||8)+2);
-  const isLast=current===QUESTIONS.length-1;
-  card.innerHTML=`
-    <span class="tag">Isian: Lengkapi Kalimat</span>
-    <p class="question-text">${q.prompt}</p>
-    <div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…" style="width:${wCh}ch">${esc(q.after)}</div>
-    <div class="next-row check-row" style="justify-content:flex-start;"><button class="btn-primary show" id="check-btn">Periksa jawaban</button></div>
-    <div class="feedback" id="feedback"></div>
-    <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
-  const input=document.getElementById("blank-input");
-  input.focus();
-  input.addEventListener("input",()=>{input.style.width=Math.max(wCh,input.value.length+2)+"ch";});
-  input.addEventListener("keydown",(e)=>{if(e.key==="Enter"&&!locked)document.getElementById("check-btn").click();});
-  document.getElementById("check-btn").addEventListener("click",()=>{
-    if(locked)return;locked=true;
-    const norm=input.value.trim().toLowerCase().replace(/[.;]$/,"");
-    const ok=q.accepted.map(a=>a.toLowerCase().trim()).includes(norm);
-    input.disabled=true;
-    input.style.borderBottomColor=ok?"var(--good)":"var(--bad)";
-    document.getElementById("check-btn").classList.remove("show");
-    if(ok)score++;
-    recap.push({ok,text:q.prompt});
-    const fb=document.getElementById("feedback");
-    fb.classList.add("show",ok?"good":"bad");
-    fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}`;
-    document.getElementById("next-btn").classList.add("show");
-    document.getElementById("next-btn").addEventListener("click",()=>{current++;current<QUESTIONS.length?renderQuestion():renderResult();},{once:true});
-  },{once:true});
-}
-
-function handleAnswer(btn,allButtons,q){
-  if(locked)return;locked=true;
-  let ok;
-  if(q.type==="mcq"){
-    ok=parseInt(btn.dataset.i,10)===q.answer;
-    allButtons.forEach(b=>{if(parseInt(b.dataset.i,10)===q.answer)b.classList.add("correct");else if(b===btn)b.classList.add("incorrect");b.disabled=true;});
-  } else {
-    const chosen=btn.dataset.i==="true";ok=chosen===q.answer;
-    allButtons.forEach(b=>{if((b.dataset.i==="true")===q.answer)b.classList.add("correct");else if(b===btn)b.classList.add("incorrect");b.disabled=true;});
-  }
-  if(ok)score++;
-  recap.push({ok,text:q.type==="mcq"?q.q:q.claim});
-  const fb=document.getElementById("feedback");
-  fb.classList.add("show",ok?"good":"bad");
-  fb.innerHTML=`<strong>${ok?"Tepat.":"Belum tepat."}</strong> ${q.explain}`;
+function handleMcq(btn, q) {
+  if (locked) return;
+  locked = true;
+  const allButtons = card.querySelectorAll(".opt-btn");
+  const ok = parseInt(btn.dataset.i, 10) === q.answer;
+  allButtons.forEach(b => {
+    if (parseInt(b.dataset.i, 10) === q.answer) b.classList.add("correct");
+    else if (b === btn) b.classList.add("incorrect");
+    b.disabled = true;
+  });
+  if (ok) score++;
+  recap.push({ ok, text: q.q.slice(0, 60) + (q.q.length > 60 ? "…" : "") });
+  const fb = document.getElementById("feedback");
+  fb.className = "feedback show " + (ok ? "good" : "bad");
+  fb.innerHTML = `<strong>${ok ? "Tepat." : "Belum tepat."}</strong> ${q.explain}`;
   document.getElementById("next-btn").classList.add("show");
-  document.getElementById("next-btn").addEventListener("click",()=>{current++;current<QUESTIONS.length?renderQuestion():renderResult();},{once:true});
+  document.getElementById("next-btn").addEventListener("click", () => {
+    current++;
+    current < QUESTIONS.length ? renderQuestion() : renderResult();
+  }, { once: true });
 }
 
-function renderResult(){
-  progressFill.style.width="100%";
-  progressLabel.textContent=`${QUESTIONS.length}/${QUESTIONS.length}`;
+function renderResult() {
+  progressFill.style.width = "100%";
+  progressLabel.textContent = `${QUESTIONS.length}/${QUESTIONS.length}`;
 
   quizActive = false;
   quizDone = true;
@@ -346,14 +408,15 @@ function renderResult(){
   const ov = document.getElementById("cheat-overlay");
   if (ov) ov.classList.remove("show");
 
-  const total=QUESTIONS.length,pct=score/total;
-  let msg,sub;
-  if(pct>=0.9){msg="Luar biasa!";sub="Pemahaman materi IPA kamu sudah sangat matang dan mendalam.";}
-  else if(pct>=0.7){msg="Kerja bagus!";sub="Sebagian besar materi IPA sudah kamu kuasai dengan sangat baik.";}
-  else if(pct>=0.5){msg="Cukup baik.";sub="Sudah memahami konsep dasar IPA, tinjau kembali nomor-nomor yang meleset.";}
-  else{msg="Terus semangat belajar.";sub="Pelajari kembali materi IPA di buku catatan, lalu coba kuis ini lagi.";}
-  const recapHtml=recap.map(r=>`<div class="recap-item"><span class="mark ${r.ok?"ok":"no"}">${r.ok?"OK":"X"}</span><span>${r.text}</span></div>`).join("");
-  card.innerHTML=`
+  const total = QUESTIONS.length, pct = score / total;
+  let msg, sub;
+  if (pct >= 0.9) { msg = "Luar biasa!"; sub = "Pemahaman materi IPA kamu sudah sangat matang dan mendalam."; }
+  else if (pct >= 0.7) { msg = "Kerja bagus!"; sub = "Sebagian besar materi IPA sudah kamu kuasai dengan sangat baik."; }
+  else if (pct >= 0.5) { msg = "Cukup baik."; sub = "Sudah memahami konsep dasar IPA, tinjau kembali nomor-nomor yang meleset."; }
+  else { msg = "Terus semangat belajar."; sub = "Pelajari kembali materi IPA di buku catatan, lalu coba kuis ini lagi."; }
+
+  const recapHtml = recap.map(r => `<div class="recap-item"><span class="mark ${r.ok ? "ok" : "no"}">${r.ok ? "OK" : "X"}</span><span>${r.text}</span></div>`).join("");
+  card.innerHTML = `
     <div class="result">
       <div class="tag">Selesai</div>
       <div class="student-info">
@@ -378,7 +441,7 @@ function renderResult(){
     displaySupabaseSyncStatus(document.getElementById("sync-container"), {
       student_name: studentName,
       student_class: studentClass,
-      subject: "Ilmu Pengetahuan Alam (IPA) - "+LEVELS[LEVEL],
+      subject: "Ilmu Pengetahuan Alam (IPA) - " + LEVELS[LEVEL],
       score: score,
       total_questions: total,
       percentage: (score / total) * 100,
@@ -386,8 +449,8 @@ function renderResult(){
     });
   }
 
-  document.getElementById("restart-btn").addEventListener("click",()=>{
-    current=0;score=0;recap.length=0;studentName="";studentClass="";
+  document.getElementById("restart-btn").addEventListener("click", () => {
+    current = 0; score = 0; recap.length = 0; studentName = ""; studentClass = "";
     violations = 0;
     quizActive = false;
     quizDone = false;
@@ -396,8 +459,11 @@ function renderResult(){
       clearInterval(suspendTimer);
       suspendTimer = null;
     }
-    progressFill.style.width="0%";progressLabel.textContent=`1/${QUESTIONS.length}`;
-    introSub.style.display="block";progressRow.style.display="none";renderStart();
+    progressFill.style.width = "0%";
+    progressLabel.textContent = `1/${QUESTIONS.length}`;
+    introSub.style.display = "block";
+    progressRow.style.display = "none";
+    renderStart();
   });
 }
 
@@ -433,7 +499,6 @@ function triggerViolation(reason) {
   const countdown = document.getElementById("cheat-countdown");
   const warnCount = document.getElementById("cheat-warning-count");
 
-  // Jika pelanggaran melebihi batas 3 kali (pelanggaran ke-4), langsung akhiri kuis & kumpulkan seadanya
   if (violations > MAX_VIOLATIONS) {
     endQuizByCheat();
     return;
@@ -458,7 +523,6 @@ function triggerViolation(reason) {
   if (suspendTimer) clearInterval(suspendTimer);
 
   suspendTimer = setInterval(() => {
-    // Hanya hitung mundur jika tab kuis sedang dilihat siswa
     if (!document.hidden) {
       secs--;
       countdown.textContent = secs;
@@ -481,7 +545,6 @@ function endQuizByCheat() {
   const overlay = document.getElementById("cheat-overlay");
   if (overlay) overlay.classList.remove("show");
 
-  // Paksa render hasil dan simpan otomatis ke Supabase ("terkumpul seadanya")
   renderResult();
 
   const resultDiv = card.querySelector(".result");
@@ -493,14 +556,12 @@ function endQuizByCheat() {
   }
 }
 
-// Deteksi pindah tab — hanya pakai visibilitychange agar tidak double-count
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && quizActive && !quizDone) {
     triggerViolation("visibilitychange");
   }
 });
 
-// Anti-Copy & Anti-ContextMenu
 document.addEventListener("contextmenu", e => {
   if (quizActive && !quizDone) e.preventDefault();
 });
@@ -515,9 +576,9 @@ window.getQuizViolations = function() {
   return violations;
 };
 
-document.querySelector("h1.title").textContent="Uji Pemahaman IPA \u00b7 "+LEVELS[LEVEL];
-document.title="Uji Pemahaman IPA \u00b7 "+LEVELS[LEVEL];
-introSub.textContent="10 soal pilihan ganda yang diacak dari bank soal IPA SMP. Setiap siswa mendapat kombinasi soal yang berbeda.";
+document.querySelector("h1.title").textContent = "Uji Pemahaman IPA \u00b7 " + LEVELS[LEVEL];
+document.title = "Uji Pemahaman IPA \u00b7 " + LEVELS[LEVEL];
+introSub.textContent = "25 soal pilihan ganda yang diacak dari bank soal IPA SMP. Setiap siswa mendapat kombinasi soal yang berbeda.";
 renderStart();
 </script>
 </body>
