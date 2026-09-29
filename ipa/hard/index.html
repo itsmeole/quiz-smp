@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -112,7 +112,7 @@
   @media (max-width: 480px) { .wrap { padding: 36px 18px 72px; } .card { padding: 24px 20px; } .student-info { flex-direction: column; gap: 12px; } }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
 </style>
-<script src="../supabase-client.js"></script>
+<script src="../../supabase-client.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -145,67 +145,67 @@ const LEVEL=(()=>{
   return LEVELS[q]?q:(LEVELS[p]?p:"menengah");
 })();
 
-/* ── BANK SOAL ── format: [topik, soal, jawabanBenar, salah1, salah2, salah3]
+/* â”€â”€ BANK SOAL â”€â”€ format: [topik, soal, jawabanBenar, salah1, salah2, salah3]
    Tambah soal baru cukup dengan menambah baris di level yang diinginkan. */
 const QUESTION_BANK={
 menengah:[
-["Sistem ekskresi","Organ ekskresi yang menyaring darah dan membentuk urine adalah…","Ginjal","Hati","Lambung","Usus besar"],
-["Sistem peredaran darah","Bilik jantung yang memompa darah kaya oksigen ke seluruh tubuh adalah…","Bilik kiri","Bilik kanan","Serambi kiri","Serambi kanan"],
-["Sistem pencernaan","Enzim ptialin di rongga mulut mengubah amilum menjadi…","Maltosa","Asam amino","Asam lemak","Gliserol"],
-["Sistem pernapasan","Tempat pertukaran O₂ dan CO₂ di paru-paru terjadi pada…","Alveolus","Bronkus","Trakea","Laring"],
-["Sistem reproduksi","Pembuahan sel telur oleh sperma normalnya terjadi di…","Tuba fallopi","Uterus","Ovarium","Vagina"],
-["Sel hewan dan tumbuhan","Organel yang hanya dimiliki sel tumbuhan adalah…","Kloroplas","Mitokondria","Ribosom","Nukleus"],
-["Sel otot","Otot yang bekerja tidak sadar dan hanya terdapat pada jantung adalah…","Otot jantung","Otot polos","Otot lurik","Otot rangka"],
-["Sel darah","Hemoglobin pada sel darah merah berfungsi mengikat…","Oksigen","Antibodi","Kuman","Fibrin"],
-["Sel saraf","Bagian neuron yang menerima rangsang dari sel lain adalah…","Dendrit","Akson","Selubung mielin","Nodus Ranvier"],
-["Ciri makhluk hidup","Bertambahnya ukuran dan jumlah sel pada makhluk hidup disebut…","Pertumbuhan","Adaptasi","Ekskresi","Iritabilitas"],
-["Rantai makanan","Pada rantai makanan, yang berperan sebagai produsen adalah…","Tumbuhan hijau","Belalang","Ular","Elang"],
-["Ekosistem","Contoh hubungan mutualisme adalah…","Lebah dan bunga","Harimau dan rusa","Benalu dan pohon","Kutu dan anjing"],
-["Jaringan hewan dan tumbuhan","Jaringan tumbuhan yang mengangkut air dan mineral dari akar adalah…","Xilem","Floem","Epidermis","Parenkim"],
-["Mikroskop","Lensa mikroskop yang letaknya dekat dengan preparat disebut…","Lensa objektif","Lensa okuler","Diafragma","Kondensor"],
-["Besaran dan satuan","Satuan SI untuk massa adalah…","Kilogram","Gram","Newton","Ton"],
-["Pengukuran","Alat yang tepat untuk mengukur volume zat cair adalah…","Gelas ukur","Neraca","Jangka sorong","Stopwatch"],
-["Hukum Newton","Hukum I Newton dikenal juga sebagai hukum…","Kelembaman (inersia)","Aksi-reaksi","Percepatan","Gravitasi"],
-["Unsur, senyawa, campuran","Berikut yang termasuk senyawa adalah…","Air (H₂O)","Oksigen (O₂)","Udara","Besi (Fe)"],
-["Suhu dan konversi","Suhu 50 °C sama dengan…","122 °F","90 °F","82 °F","132 °F"],
-["Frekuensi","Sebuah bandul bergetar 50 kali dalam 10 sekon. Frekuensinya adalah…","5 Hz","0,2 Hz","50 Hz","500 Hz"],
-["Tekanan","Rumus tekanan yang benar adalah…","P = F / A","P = F × A","P = A / F","P = m / V"],
-["Hukum Archimedes","Benda akan terapung jika massa jenis benda … massa jenis zat cair.","Lebih kecil dari","Lebih besar dari","Sama dengan","Tidak berpengaruh terhadap"],
-["Pesawat sederhana","Contoh pesawat sederhana jenis tuas adalah…","Jungkat-jungkit","Sekrup","Kapak","Tanjakan jalan"],
-["Asam dan basa","Kertas lakmus merah berubah menjadi biru dalam larutan…","Basa","Asam","Netral","Gula"],
-["Klasifikasi makhluk hidup","Takson terkecil dalam klasifikasi makhluk hidup adalah…","Spesies","Genus","Famili","Ordo"],
-["Perubahan kimia dan fisika","Peristiwa berikut yang merupakan perubahan kimia adalah…","Kayu terbakar","Es mencair","Gula larut dalam air","Kertas digunting"],
-["Fotosintesis","Hasil fotosintesis adalah…","Glukosa dan oksigen","Karbon dioksida dan air","Glukosa dan karbon dioksida","Oksigen dan air"],
-["Daya","Satuan SI untuk daya adalah…","Watt","Joule","Newton","Pascal"],
-["Usaha","Gaya 20 N memindahkan benda sejauh 5 m searah gaya. Usaha yang dilakukan adalah…","100 J","25 J","4 J","15 J"],
-["Energi","Energi yang dimiliki benda karena geraknya disebut energi…","Kinetik","Potensial","Kimia","Listrik"],
-["Nama ilmiah","Nama ilmiah manusia adalah…","Homo sapiens","Felis catus","Canis lupus","Homo habilis"],
-["Zat aditif","Contoh zat aditif pengawet makanan adalah…","Natrium benzoat","Tartrazin","Monosodium glutamat","Sakarin"],
-["Atom, ion, molekul","Partikel penyusun atom yang bermuatan positif adalah…","Proton","Elektron","Neutron","Foton"]
+["Sistem ekskresi","Organ ekskresi yang menyaring darah dan membentuk urine adalahâ€¦","Ginjal","Hati","Lambung","Usus besar"],
+["Sistem peredaran darah","Bilik jantung yang memompa darah kaya oksigen ke seluruh tubuh adalahâ€¦","Bilik kiri","Bilik kanan","Serambi kiri","Serambi kanan"],
+["Sistem pencernaan","Enzim ptialin di rongga mulut mengubah amilum menjadiâ€¦","Maltosa","Asam amino","Asam lemak","Gliserol"],
+["Sistem pernapasan","Tempat pertukaran Oâ‚‚ dan COâ‚‚ di paru-paru terjadi padaâ€¦","Alveolus","Bronkus","Trakea","Laring"],
+["Sistem reproduksi","Pembuahan sel telur oleh sperma normalnya terjadi diâ€¦","Tuba fallopi","Uterus","Ovarium","Vagina"],
+["Sel hewan dan tumbuhan","Organel yang hanya dimiliki sel tumbuhan adalahâ€¦","Kloroplas","Mitokondria","Ribosom","Nukleus"],
+["Sel otot","Otot yang bekerja tidak sadar dan hanya terdapat pada jantung adalahâ€¦","Otot jantung","Otot polos","Otot lurik","Otot rangka"],
+["Sel darah","Hemoglobin pada sel darah merah berfungsi mengikatâ€¦","Oksigen","Antibodi","Kuman","Fibrin"],
+["Sel saraf","Bagian neuron yang menerima rangsang dari sel lain adalahâ€¦","Dendrit","Akson","Selubung mielin","Nodus Ranvier"],
+["Ciri makhluk hidup","Bertambahnya ukuran dan jumlah sel pada makhluk hidup disebutâ€¦","Pertumbuhan","Adaptasi","Ekskresi","Iritabilitas"],
+["Rantai makanan","Pada rantai makanan, yang berperan sebagai produsen adalahâ€¦","Tumbuhan hijau","Belalang","Ular","Elang"],
+["Ekosistem","Contoh hubungan mutualisme adalahâ€¦","Lebah dan bunga","Harimau dan rusa","Benalu dan pohon","Kutu dan anjing"],
+["Jaringan hewan dan tumbuhan","Jaringan tumbuhan yang mengangkut air dan mineral dari akar adalahâ€¦","Xilem","Floem","Epidermis","Parenkim"],
+["Mikroskop","Lensa mikroskop yang letaknya dekat dengan preparat disebutâ€¦","Lensa objektif","Lensa okuler","Diafragma","Kondensor"],
+["Besaran dan satuan","Satuan SI untuk massa adalahâ€¦","Kilogram","Gram","Newton","Ton"],
+["Pengukuran","Alat yang tepat untuk mengukur volume zat cair adalahâ€¦","Gelas ukur","Neraca","Jangka sorong","Stopwatch"],
+["Hukum Newton","Hukum I Newton dikenal juga sebagai hukumâ€¦","Kelembaman (inersia)","Aksi-reaksi","Percepatan","Gravitasi"],
+["Unsur, senyawa, campuran","Berikut yang termasuk senyawa adalahâ€¦","Air (Hâ‚‚O)","Oksigen (Oâ‚‚)","Udara","Besi (Fe)"],
+["Suhu dan konversi","Suhu 50 Â°C sama denganâ€¦","122 Â°F","90 Â°F","82 Â°F","132 Â°F"],
+["Frekuensi","Sebuah bandul bergetar 50 kali dalam 10 sekon. Frekuensinya adalahâ€¦","5 Hz","0,2 Hz","50 Hz","500 Hz"],
+["Tekanan","Rumus tekanan yang benar adalahâ€¦","P = F / A","P = F Ã— A","P = A / F","P = m / V"],
+["Hukum Archimedes","Benda akan terapung jika massa jenis benda â€¦ massa jenis zat cair.","Lebih kecil dari","Lebih besar dari","Sama dengan","Tidak berpengaruh terhadap"],
+["Pesawat sederhana","Contoh pesawat sederhana jenis tuas adalahâ€¦","Jungkat-jungkit","Sekrup","Kapak","Tanjakan jalan"],
+["Asam dan basa","Kertas lakmus merah berubah menjadi biru dalam larutanâ€¦","Basa","Asam","Netral","Gula"],
+["Klasifikasi makhluk hidup","Takson terkecil dalam klasifikasi makhluk hidup adalahâ€¦","Spesies","Genus","Famili","Ordo"],
+["Perubahan kimia dan fisika","Peristiwa berikut yang merupakan perubahan kimia adalahâ€¦","Kayu terbakar","Es mencair","Gula larut dalam air","Kertas digunting"],
+["Fotosintesis","Hasil fotosintesis adalahâ€¦","Glukosa dan oksigen","Karbon dioksida dan air","Glukosa dan karbon dioksida","Oksigen dan air"],
+["Daya","Satuan SI untuk daya adalahâ€¦","Watt","Joule","Newton","Pascal"],
+["Usaha","Gaya 20 N memindahkan benda sejauh 5 m searah gaya. Usaha yang dilakukan adalahâ€¦","100 J","25 J","4 J","15 J"],
+["Energi","Energi yang dimiliki benda karena geraknya disebut energiâ€¦","Kinetik","Potensial","Kimia","Listrik"],
+["Nama ilmiah","Nama ilmiah manusia adalahâ€¦","Homo sapiens","Felis catus","Canis lupus","Homo habilis"],
+["Zat aditif","Contoh zat aditif pengawet makanan adalahâ€¦","Natrium benzoat","Tartrazin","Monosodium glutamat","Sakarin"],
+["Atom, ion, molekul","Partikel penyusun atom yang bermuatan positif adalahâ€¦","Proton","Elektron","Neutron","Foton"]
 ],
 intermediate:[
-["Sistem ekskresi","Urine primer terbentuk melalui proses … yang terjadi di …","Filtrasi, glomerulus","Reabsorpsi, tubulus proksimal","Augmentasi, tubulus distal","Ekskresi, ureter"],
-["Sistem peredaran darah","Jalur peredaran darah kecil yang benar adalah…","Bilik kanan → arteri pulmonalis → paru-paru → vena pulmonalis → serambi kiri","Bilik kiri → aorta → seluruh tubuh → vena kava → serambi kanan","Bilik kanan → aorta → paru-paru → vena kava → serambi kiri","Serambi kiri → arteri pulmonalis → paru-paru → vena pulmonalis → bilik kanan"],
-["Sistem pernapasan","Saat inspirasi (menarik napas) yang terjadi adalah…","Diafragma berkontraksi, volume rongga dada membesar, tekanan udara turun","Diafragma relaksasi, volume rongga dada membesar","Otot antartulang rusuk relaksasi, tekanan udara naik","Diafragma berkontraksi, volume rongga dada mengecil"],
-["Sel darah","Sel darah putih yang berperan menghasilkan antibodi adalah…","Limfosit","Neutrofil","Monosit","Trombosit"],
-["Hukum Newton","Benda bermassa 4 kg diberi gaya resultan 20 N. Percepatannya adalah…","5 m/s²","80 m/s²","0,2 m/s²","24 m/s²"],
-["Tekanan","Gaya 200 N bekerja pada bidang seluas 0,5 m². Tekanannya adalah…","400 Pa","100 Pa","40 Pa","1.000 Pa"],
-["Hukum Archimedes","Balok bervolume 0,002 m³ tercelup seluruhnya di air (ρ = 1.000 kg/m³, g = 10 m/s²). Gaya apungnya adalah…","20 N","2 N","200 N","0,2 N"],
-["Pesawat sederhana","Sebuah tuas mengangkat beban 600 N dengan gaya 150 N. Keuntungan mekaniknya adalah…","4","0,25","450","750"],
-["Suhu dan konversi","Suhu 30 °C jika dinyatakan dalam Kelvin adalah…","303 K","243 K","273 K","330 K"],
-["Daya","Usaha 3.000 J dilakukan dalam waktu 60 sekon. Dayanya adalah…","50 W","500 W","0,02 W","180.000 W"]
+["Sistem ekskresi","Urine primer terbentuk melalui proses â€¦ yang terjadi di â€¦","Filtrasi, glomerulus","Reabsorpsi, tubulus proksimal","Augmentasi, tubulus distal","Ekskresi, ureter"],
+["Sistem peredaran darah","Jalur peredaran darah kecil yang benar adalahâ€¦","Bilik kanan â†’ arteri pulmonalis â†’ paru-paru â†’ vena pulmonalis â†’ serambi kiri","Bilik kiri â†’ aorta â†’ seluruh tubuh â†’ vena kava â†’ serambi kanan","Bilik kanan â†’ aorta â†’ paru-paru â†’ vena kava â†’ serambi kiri","Serambi kiri â†’ arteri pulmonalis â†’ paru-paru â†’ vena pulmonalis â†’ bilik kanan"],
+["Sistem pernapasan","Saat inspirasi (menarik napas) yang terjadi adalahâ€¦","Diafragma berkontraksi, volume rongga dada membesar, tekanan udara turun","Diafragma relaksasi, volume rongga dada membesar","Otot antartulang rusuk relaksasi, tekanan udara naik","Diafragma berkontraksi, volume rongga dada mengecil"],
+["Sel darah","Sel darah putih yang berperan menghasilkan antibodi adalahâ€¦","Limfosit","Neutrofil","Monosit","Trombosit"],
+["Hukum Newton","Benda bermassa 4 kg diberi gaya resultan 20 N. Percepatannya adalahâ€¦","5 m/sÂ²","80 m/sÂ²","0,2 m/sÂ²","24 m/sÂ²"],
+["Tekanan","Gaya 200 N bekerja pada bidang seluas 0,5 mÂ². Tekanannya adalahâ€¦","400 Pa","100 Pa","40 Pa","1.000 Pa"],
+["Hukum Archimedes","Balok bervolume 0,002 mÂ³ tercelup seluruhnya di air (Ï = 1.000 kg/mÂ³, g = 10 m/sÂ²). Gaya apungnya adalahâ€¦","20 N","2 N","200 N","0,2 N"],
+["Pesawat sederhana","Sebuah tuas mengangkat beban 600 N dengan gaya 150 N. Keuntungan mekaniknya adalahâ€¦","4","0,25","450","750"],
+["Suhu dan konversi","Suhu 30 Â°C jika dinyatakan dalam Kelvin adalahâ€¦","303 K","243 K","273 K","330 K"],
+["Daya","Usaha 3.000 J dilakukan dalam waktu 60 sekon. Dayanya adalahâ€¦","50 W","500 W","0,02 W","180.000 W"]
 ],
 hard:[
-["Rantai makanan","Produsen menyimpan energi 10.000 kJ. Dengan aturan 10%, energi yang diterima konsumen tingkat III adalah…","10 kJ","100 kJ","1.000 kJ","1 kJ"],
-["Hukum Newton","Lift bermassa 500 kg dipercepat ke atas 2 m/s² (g = 10 m/s²). Tegangan kabel lift adalah…","6.000 N","4.000 N","5.000 N","10.000 N"],
-["Hukum Archimedes","Berat benda di udara 30 N dan di dalam air 20 N (ρ air = 1.000 kg/m³, g = 10 m/s²). Volume benda adalah…","1 × 10⁻³ m³","1 × 10⁻² m³","1 × 10⁻⁴ m³","2 × 10⁻³ m³"],
-["Suhu dan konversi","Termometer X menunjuk 20 °X pada titik beku air dan 120 °X pada titik didih air. Suhu 60 °X sama dengan…","40 °C","60 °C","50 °C","30 °C"],
-["Frekuensi","Sebuah bandul melakukan 20 getaran dalam 10 sekon. Periode dan frekuensinya adalah…","T = 0,5 s; f = 2 Hz","T = 2 s; f = 0,5 Hz","T = 0,5 s; f = 20 Hz","T = 10 s; f = 0,1 Hz"],
-["Asam dan basa","Larutan HCl 0,001 M (asam kuat) memiliki pH sebesar…","3","11","1","0,001"],
-["Atom, ion, molekul","Atom Na (nomor atom 11) melepas 1 elektron menjadi Na⁺. Jumlah proton dan elektronnya adalah…","11 proton, 10 elektron","11 proton, 12 elektron","10 proton, 11 elektron","12 proton, 10 elektron"],
-["Pesawat sederhana","Bidang miring panjang 5 m dan tinggi 1 m digunakan mengangkat beban 500 N (tanpa gesekan). Gaya minimum yang diperlukan adalah…","100 N","250 N","500 N","2.500 N"],
-["Energi","Benda 2 kg jatuh bebas dari ketinggian 20 m (g = 10 m/s²). Energi kinetik sesaat sebelum menyentuh tanah adalah…","400 J","200 J","40 J","4.000 J"],
-["Pengukuran","Jangka sorong menunjukkan skala utama 2,3 cm dan skala nonius berimpit pada garis ke-6 (ketelitian 0,01 cm). Hasil pengukuran adalah…","2,36 cm","2,39 cm","2,30 cm","2,66 cm"]
+["Rantai makanan","Produsen menyimpan energi 10.000 kJ. Dengan aturan 10%, energi yang diterima konsumen tingkat III adalahâ€¦","10 kJ","100 kJ","1.000 kJ","1 kJ"],
+["Hukum Newton","Lift bermassa 500 kg dipercepat ke atas 2 m/sÂ² (g = 10 m/sÂ²). Tegangan kabel lift adalahâ€¦","6.000 N","4.000 N","5.000 N","10.000 N"],
+["Hukum Archimedes","Berat benda di udara 30 N dan di dalam air 20 N (Ï air = 1.000 kg/mÂ³, g = 10 m/sÂ²). Volume benda adalahâ€¦","1 Ã— 10â»Â³ mÂ³","1 Ã— 10â»Â² mÂ³","1 Ã— 10â»â´ mÂ³","2 Ã— 10â»Â³ mÂ³"],
+["Suhu dan konversi","Termometer X menunjuk 20 Â°X pada titik beku air dan 120 Â°X pada titik didih air. Suhu 60 Â°X sama denganâ€¦","40 Â°C","60 Â°C","50 Â°C","30 Â°C"],
+["Frekuensi","Sebuah bandul melakukan 20 getaran dalam 10 sekon. Periode dan frekuensinya adalahâ€¦","T = 0,5 s; f = 2 Hz","T = 2 s; f = 0,5 Hz","T = 0,5 s; f = 20 Hz","T = 10 s; f = 0,1 Hz"],
+["Asam dan basa","Larutan HCl 0,001 M (asam kuat) memiliki pH sebesarâ€¦","3","11","1","0,001"],
+["Atom, ion, molekul","Atom Na (nomor atom 11) melepas 1 elektron menjadi Naâº. Jumlah proton dan elektronnya adalahâ€¦","11 proton, 10 elektron","11 proton, 12 elektron","10 proton, 11 elektron","12 proton, 10 elektron"],
+["Pesawat sederhana","Bidang miring panjang 5 m dan tinggi 1 m digunakan mengangkat beban 500 N (tanpa gesekan). Gaya minimum yang diperlukan adalahâ€¦","100 N","250 N","500 N","2.500 N"],
+["Energi","Benda 2 kg jatuh bebas dari ketinggian 20 m (g = 10 m/sÂ²). Energi kinetik sesaat sebelum menyentuh tanah adalahâ€¦","400 J","200 J","40 J","4.000 J"],
+["Pengukuran","Jangka sorong menunjukkan skala utama 2,3 cm dan skala nonius berimpit pada garis ke-6 (ketelitian 0,01 cm). Hasil pengukuran adalahâ€¦","2,36 cm","2,39 cm","2,30 cm","2,66 cm"]
 ]};
 
 let QUESTIONS=[];
@@ -224,7 +224,7 @@ function pickQuestions(){
 let current=0,score=0,locked=false,studentName="",studentClass="";
 const recap=[];
 
-/* ── Anti-Curang State ── */
+/* â”€â”€ Anti-Curang State â”€â”€ */
 const MAX_VIOLATIONS = 3;
 const SUSPEND_SECS = 30;
 let violations = 0;
@@ -288,7 +288,7 @@ function renderFillQuestion(q){
   card.innerHTML=`
     <span class="tag">Isian: Lengkapi Kalimat</span>
     <p class="question-text">${q.prompt}</p>
-    <div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…" style="width:${wCh}ch">${esc(q.after)}</div>
+    <div class="sentence-panel">${esc(q.before)}<input type="text" id="blank-input" class="blank-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="â€¦" style="width:${wCh}ch">${esc(q.after)}</div>
     <div class="next-row check-row" style="justify-content:flex-start;"><button class="btn-primary show" id="check-btn">Periksa jawaban</button></div>
     <div class="feedback" id="feedback"></div>
     <div class="next-row"><button class="btn-primary" id="next-btn">${isLast?"Lihat hasil":"Lanjut"}</button></div>`;
@@ -362,7 +362,7 @@ function renderResult(){
       </div>
       <div style="text-align:center;">
         <div class="integrity-badge ${violations > 0 ? 'warn' : 'clean'}">
-          ${violations > 0 ? `⚠️ Catatan Integritas: Terdeteksi ${violations}× Berpindah Tab/Layar` : `✓ Integritas Ujian: Bersih (0 Pelanggaran Tab)`}
+          ${violations > 0 ? `âš ï¸ Catatan Integritas: Terdeteksi ${violations}Ã— Berpindah Tab/Layar` : `âœ“ Integritas Ujian: Bersih (0 Pelanggaran Tab)`}
         </div>
       </div>
       <div id="sync-container" style="text-align:center;"></div>
@@ -401,7 +401,7 @@ function renderResult(){
   });
 }
 
-/* ── Anti-Curang System ── */
+/* â”€â”€ Anti-Curang System â”€â”€ */
 function playWarningBeep() {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -488,12 +488,12 @@ function endQuizByCheat() {
   if (resultDiv) {
     const banner = document.createElement("div");
     banner.style.cssText = "background:var(--bad-soft);border:1px solid var(--bad);border-left:4px solid var(--bad);color:var(--bad);border-radius:8px;padding:14px 18px;font-size:14px;margin-bottom:20px;line-height:1.5;text-align:left;";
-    banner.innerHTML = `<strong>⚠️ Kuis Diakhiri Otomatis karena Melebihi Batas Toleransi Pelanggaran (Maks. 3 Kali)!</strong><br>Terdeteksi keluar tab/layar sebanyak ${violations} kali. Jawaban Anda telah otomatis dikumpulkan seadanya ke database. Nilai dihitung berdasarkan soal yang sudah dijawab.`;
+    banner.innerHTML = `<strong>âš ï¸ Kuis Diakhiri Otomatis karena Melebihi Batas Toleransi Pelanggaran (Maks. 3 Kali)!</strong><br>Terdeteksi keluar tab/layar sebanyak ${violations} kali. Jawaban Anda telah otomatis dikumpulkan seadanya ke database. Nilai dihitung berdasarkan soal yang sudah dijawab.`;
     resultDiv.prepend(banner);
   }
 }
 
-// Deteksi pindah tab — hanya pakai visibilitychange agar tidak double-count
+// Deteksi pindah tab â€” hanya pakai visibilitychange agar tidak double-count
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && quizActive && !quizDone) {
     triggerViolation("visibilitychange");
