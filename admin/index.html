@@ -193,26 +193,27 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 16px 20px;
+    padding: 12px 16px;
     margin-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
     box-shadow: var(--shadow-sm);
   }
 
   .search-wrapper {
-    flex: 1 1 260px;
+    flex: 1 1 180px;
+    min-width: 140px;
     position: relative;
   }
 
   .search-input {
     width: 100%;
-    padding: 9px 14px 9px 36px;
+    padding: 8px 12px 8px 34px;
     border-radius: 8px;
     border: 1px solid var(--line);
-    font-size: 13.5px;
+    font-size: 13px;
     font-family: inherit;
     background: #FAFAF8;
     color: var(--ink);
@@ -226,25 +227,27 @@
 
   .search-icon {
     position: absolute;
-    left: 12px;
+    left: 11px;
     top: 50%;
     transform: translateY(-50%);
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     color: var(--muted);
     pointer-events: none;
   }
 
   .select-filter {
-    padding: 9px 12px;
+    padding: 8px 10px;
     border-radius: 8px;
     border: 1px solid var(--line);
-    font-size: 13.5px;
+    font-size: 13px;
     font-family: inherit;
     background: #FAFAF8;
     color: var(--ink);
     outline: none;
     cursor: pointer;
+    flex: 0 0 auto;
+    max-width: 100%;
   }
   .select-filter:focus {
     border-color: var(--accent);
@@ -281,6 +284,16 @@
     letter-spacing: 0.04em;
     padding: 12px 18px;
     border-bottom: 1px solid var(--line);
+  }
+
+  table.data-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  table.data-table th.sortable:hover {
+    background: #EBE9DE;
+    color: var(--ink);
   }
 
   table.data-table td {
@@ -603,28 +616,33 @@
   <div class="toolbar-card">
     <div class="search-wrapper">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="search-input" class="search-input" placeholder="Cari nama siswa atau kelas...">
+      <input type="text" id="search-input" class="search-input" placeholder="Cari nama/kelas...">
     </div>
 
-    <select id="filter-subject" class="select-filter">
-      <option value="ALL">Semua Mata Pelajaran</option>
-      <option value="Informatika">Informatika &amp; Analisis Data</option>
-      <option value="IPA">Ilmu Pengetahuan Alam (IPA)</option>
-      <option value="ICT">Teknologi Informasi &amp; Komunikasi (ICT)</option>
+    <select id="filter-subject" class="select-filter" title="Filter Mata Pelajaran">
+      <option value="ALL">Semua Mapel</option>
+      <option value="Informatika">Informatika</option>
+      <option value="IPA">IPA</option>
+      <option value="ICT">ICT</option>
     </select>
 
-    <select id="filter-cheats" class="select-filter">
-      <option value="ALL">Semua Status Kejujuran</option>
-      <option value="CLEAN">Tanpa Pelanggaran (0)</option>
-      <option value="DIRTY">Terdeteksi Pelanggaran (>0)</option>
+    <select id="filter-score" class="select-filter" title="Urutkan Nilai Siswa">
+      <option value="ALL">Semua Nilai</option>
+      <option value="ASC">Nilai: Terkecil</option>
+      <option value="DESC">Nilai: Terbesar</option>
     </select>
 
-    <select id="sort-by" class="select-filter">
-      <option value="DATE_DESC">Waktu: Terbaru Dahulu</option>
-      <option value="DATE_ASC">Waktu: Terlama Dahulu</option>
-      <option value="SCORE_DESC">Nilai: Tertinggi ke Terendah</option>
-      <option value="SCORE_ASC">Nilai: Terendah ke Tertinggi</option>
-      <option value="NAME_ASC">Nama Siswa: A - Z</option>
+    <select id="filter-cheats" class="select-filter" title="Filter Status Kejujuran">
+      <option value="ALL">Semua Kejujuran</option>
+      <option value="CLEAN">Bersih (0)</option>
+      <option value="DIRTY">Pelanggaran (>0)</option>
+    </select>
+
+    <select id="sort-by" class="select-filter" title="Urutkan Data">
+      <option value="DATE_DESC">Waktu: Terbaru</option>
+      <option value="DATE_ASC">Waktu: Terlama</option>
+      <option value="NAME_ASC">Nama: A - Z</option>
+      <option value="NAME_DESC">Nama: Z - A</option>
     </select>
   </div>
 
@@ -640,7 +658,9 @@
             <th>Kelas</th>
             <th>Mata Pelajaran</th>
             <th>Skor Benar</th>
-            <th>Nilai Akhir</th>
+            <th class="sortable" onclick="toggleScoreSort()" title="Klik untuk mengurutkan nilai (terkecil/terbesar)">
+              Nilai Akhir <span id="th-score-icon" style="font-size:11px; margin-left:4px; opacity:0.65;">⇅</span>
+            </th>
             <th>Kejujuran (Anti-Curang)</th>
             <th style="text-align:right;">Aksi</th>
           </tr>
@@ -775,17 +795,12 @@ async function loadData() {
   renderView();
 }
 
-function renderView() {
+function getFilteredData() {
   const search = document.getElementById("search-input").value.trim().toLowerCase();
   const subjectFilter = document.getElementById("filter-subject").value;
   const cheatFilter = document.getElementById("filter-cheats").value;
-  const sortBy = document.getElementById("sort-by").value;
-  const stateContainer = document.getElementById("state-container");
-  const tableBody = document.getElementById("table-body");
-  const paginationBar = document.getElementById("pagination-bar");
 
-  // 1. Filtering
-  let filtered = RAW_DATA.filter(item => {
+  return RAW_DATA.filter(item => {
     const nameMatch = (item.student_name || "").toLowerCase().includes(search);
     const classMatch = (item.student_class || "").toLowerCase().includes(search);
     if (search && !nameMatch && !classMatch) return false;
@@ -802,14 +817,58 @@ function renderView() {
 
     return true;
   });
+}
+
+function toggleScoreSort() {
+  const el = document.getElementById("filter-score");
+  if (el.value === "DESC") {
+    el.value = "ASC";
+  } else if (el.value === "ASC") {
+    el.value = "ALL";
+  } else {
+    el.value = "DESC";
+  }
+  currentPage = 1;
+  renderView();
+}
+
+function renderView() {
+  const search = document.getElementById("search-input").value.trim().toLowerCase();
+  const subjectFilter = document.getElementById("filter-subject").value;
+  const cheatFilter = document.getElementById("filter-cheats").value;
+  const scoreFilter = document.getElementById("filter-score").value;
+  const sortBy = document.getElementById("sort-by").value;
+  const stateContainer = document.getElementById("state-container");
+  const tableBody = document.getElementById("table-body");
+  const paginationBar = document.getElementById("pagination-bar");
+
+  // Update table header sort icon
+  const thScoreIcon = document.getElementById("th-score-icon");
+  if (thScoreIcon) {
+    if (scoreFilter === "ASC") thScoreIcon.textContent = "▲";
+    else if (scoreFilter === "DESC") thScoreIcon.textContent = "▼";
+    else thScoreIcon.textContent = "⇅";
+  }
+
+  // 1. Filtering
+  let filtered = getFilteredData();
 
   // 2. Sorting
   filtered.sort((a, b) => {
+    if (scoreFilter === "ASC") {
+      const diff = (Number(a.percentage) || 0) - (Number(b.percentage) || 0);
+      if (diff !== 0) return diff;
+      return (Number(a.score) || 0) - (Number(b.score) || 0);
+    }
+    if (scoreFilter === "DESC") {
+      const diff = (Number(b.percentage) || 0) - (Number(a.percentage) || 0);
+      if (diff !== 0) return diff;
+      return (Number(b.score) || 0) - (Number(a.score) || 0);
+    }
     if (sortBy === "DATE_DESC") return new Date(b.created_at) - new Date(a.created_at);
     if (sortBy === "DATE_ASC") return new Date(a.created_at) - new Date(b.created_at);
-    if (sortBy === "SCORE_DESC") return Number(b.percentage) - Number(a.percentage);
-    if (sortBy === "SCORE_ASC") return Number(a.percentage) - Number(b.percentage);
     if (sortBy === "NAME_ASC") return (a.student_name || "").localeCompare(b.student_name || "");
+    if (sortBy === "NAME_DESC") return (b.student_name || "").localeCompare(a.student_name || "");
     return 0;
   });
 
@@ -925,26 +984,8 @@ function buildPageNumbers(current, total) {
 }
 
 function goToPage(page) {
-  const totalPages = Math.max(1, Math.ceil(
-    RAW_DATA.filter(item => {
-      // quick re-filter to get correct totalPages
-      const search = document.getElementById("search-input").value.trim().toLowerCase();
-      const subjectFilter = document.getElementById("filter-subject").value;
-      const cheatFilter = document.getElementById("filter-cheats").value;
-      const nameMatch = (item.student_name || "").toLowerCase().includes(search);
-      const classMatch = (item.student_class || "").toLowerCase().includes(search);
-      if (search && !nameMatch && !classMatch) return false;
-      if (subjectFilter !== "ALL") {
-        const subj = (item.subject || "").toLowerCase();
-        if (subjectFilter === "Informatika" && !subj.includes("informatika")) return false;
-        if (subjectFilter === "IPA" && !subj.includes("ipa")) return false;
-        if (subjectFilter === "ICT" && !subj.includes("ict")) return false;
-      }
-      if (cheatFilter === "CLEAN" && (Number(item.violations) || 0) > 0) return false;
-      if (cheatFilter === "DIRTY" && (Number(item.violations) || 0) === 0) return false;
-      return true;
-    }).length / pageSize
-  ));
+  const totalFiltered = getFilteredData().length;
+  const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
   if (page < 1 || page > totalPages) return;
   currentPage = page;
   renderView();
@@ -1043,8 +1084,13 @@ function exportToCSV() {
 // Event Listeners
 document.getElementById("search-input").addEventListener("input", () => { currentPage = 1; renderView(); });
 document.getElementById("filter-subject").addEventListener("change", () => { currentPage = 1; renderView(); });
+document.getElementById("filter-score").addEventListener("change", () => { currentPage = 1; renderView(); });
 document.getElementById("filter-cheats").addEventListener("change", () => { currentPage = 1; renderView(); });
-document.getElementById("sort-by").addEventListener("change", () => { currentPage = 1; renderView(); });
+document.getElementById("sort-by").addEventListener("change", () => {
+  document.getElementById("filter-score").value = "ALL";
+  currentPage = 1;
+  renderView();
+});
 document.getElementById("per-page-select").addEventListener("change", (e) => {
   pageSize = Number(e.target.value);
   currentPage = 1;
